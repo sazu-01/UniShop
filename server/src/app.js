@@ -7,6 +7,7 @@ import createHttpError from "http-errors";
 
 //import router files
 import userRouter from "./routers/userRouter.js";
+import { ErrorResponse } from "./helper/responseCode.js";
 
 //create an express application;
 const app = express();
@@ -35,9 +36,9 @@ app.use(function (req, res, next) {
 
 //server side error -> all error store on this
 app.use(function (err, req, res, next) {
-    return res.status(err.status || 500).json({
-        message: err.message,
-        success: false
+    return ErrorResponse(res,{
+        statusCode: err.status,
+        message: err.message
     })
 });
 

@@ -10,9 +10,13 @@ import User from "../models/userModel.js";
 //import helper pages
 import { SendEmail } from "../helper/nodeMailer.js";
 import { CreateJsonWebToken } from "../helper/jwt.js";
+import { SuccessResponse } from "../helper/responseCode.js";
 
 //import environment variables
 import { clientUrl, jwtPrivateKey } from "../hiddenEnv.js";
+
+//import services
+import { FindByID } from "../services/findById.js";
 
 
 
@@ -56,14 +60,16 @@ async function GetAllUsers(req, res, next) {
         const totalPages = Math.ceil(count / limitNum)
 
         //successfully back all the users from database
-        res.status(200).send({
+        return SuccessResponse(res,{
             message: "return all the users",
-            users,
-            pagination: {
-                totalPages,
-                currentPage: pageNum,
-                previousPage: pageNum - 1 ? pageNum - 1 : null,
-                nextPage: pageNum < totalPages ? pageNum + 1 : null
+            payload:{
+                users,
+                pagination: {
+                    totalPages,
+                    currentPage: pageNum,
+                    previousPage: pageNum - 1 ? pageNum - 1 : null,
+                    nextPage: pageNum < totalPages ? pageNum + 1 : null
+                }
             }
         })
 
@@ -82,8 +88,7 @@ const GetSingleUserByID = async (req, res, next) => {
         //set options to exclude password field
         const options = { password: 0 }
 
-        //find one user by id and exclude password field
-        const singleUser = await User.findById(id, options);
+        const singleUser = await FindByID(User,id,options)
 
         //if user not found, throw an error
         if (!singleUser) {
@@ -91,9 +96,9 @@ const GetSingleUserByID = async (req, res, next) => {
         }
 
         //send the response with the user
-        res.status(200).send({
+        return SuccessResponse(res,{
             message: "return a single user by id",
-            singleUser
+            payload:{singleUser}
         })
 
     } catch (error) {
@@ -145,9 +150,12 @@ const RegisterProcess = async (req, res, next) => {
         await SendEmail(emailData)
 
         // send a response with a message and the generated token
-        res.status(200).send({
-            message: "please go to your email and click on the given link to activate your email",
-            token
+        return SuccessResponse(res,{
+            message: `please go to your email and click on the 
+                      given link to activate your email`,
+            payload: {
+                token
+            }
         })
     } catch (error) {
         next(error)
@@ -173,7 +181,7 @@ const CompleteUserRegister = async (req, res, next) => {
         await User.create(decode);
 
         //send a success response
-        res.status(201).send({
+        return SuccessResponse(res,{
             message: "user registered successfully",
         })
 
@@ -200,12 +208,13 @@ const UpdateUserByID = async (req, res, next) => {
         const id = req.params.id;
 
         //update user by one field or all filed exclude password
-        const updateUser = await User.findByIdAndUpdate(id, { name, email, phone }, { new: true });
+        const updateUser = await User.findByIdAndUpdate(id, { name, email, phone },
+                            { new: true });
 
         //send a successful res
-        res.status(200).send({
+       return SuccessResponse(res,{
             message: "update user succesfully",
-            updateUser
+            payload: {updateUser}
         })
 
     } catch (error) {
@@ -220,7 +229,7 @@ const DeleteUserByID = async (req, res, next) => {
         const id = req.params.id;
 
         //find the user by id
-        const user = await User.findById(id);
+        const user = await FindByID(User,id);
 
         //if user doesn't exist or is an admin, return an error
         if (!user || user.isAdmin) {
@@ -233,9 +242,11 @@ const DeleteUserByID = async (req, res, next) => {
         const deletedUser = await user.deleteOne();
 
         //send successful response with the deleted user
-        res.status(200).send({
+        return SuccessResponse(res,{
             message: "delete user successfully",
-            deletedUser
+            payload: {
+                deletedUser
+            }
         })
 
     } catch (error) {
