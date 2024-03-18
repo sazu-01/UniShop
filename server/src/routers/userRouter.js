@@ -1,15 +1,20 @@
 
-//package module
+//imprt package modules
 import express from "express";
 
-//file module
-import { HandleAllUsers } from "../controller/userController.js";
+//import controller functions
+import { GetAllUsers, GetSingleUserByID, RegisterProcess, CompleteUserRegister, UpdateUserByID, DeleteUserByID } from "../controller/userController.js";
 
 //make an express router
-const userRouter = express.Router();
+const userRouter = new express.Router();
 
-//define route for all users
-userRouter.get("/api/users",HandleAllUsers);
+//define different routes for users
+userRouter.get("/all-user", GetAllUsers);
+userRouter.get("/:id", GetSingleUserByID);
+userRouter.post("/register-process", RegisterProcess);
+userRouter.post("/complete-register", CompleteUserRegister);
+userRouter.put("/:id", UpdateUserByID);
+userRouter.delete("/:id", DeleteUserByID);
 
 
-export default userRouter
+export default userRouter;
