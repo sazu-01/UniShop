@@ -18,5 +18,15 @@ const jwtPrivateKey = process.env.jwtPrivateKey || "asdka!`9dad*/868sd&asd455asd
 const smtpUsername = process.env.smtpUsername;
 const smtpPassword = process.env.smtpPassword;
 
+//set the default Image for user , if user don't upload image 
+const defaultImageForUser = process.env.defaultImage || "public/images/users/default.png";
+
+
 const clientUrl = process.env.clientUrl;
-export { serverPort, MongodbURL, jwtPrivateKey, smtpUsername, smtpPassword, clientUrl }    
+export { serverPort, MongodbURL, 
+    jwtPrivateKey, 
+     smtpUsername, 
+     smtpPassword, 
+     clientUrl,
+     defaultImageForUser,
+ }    

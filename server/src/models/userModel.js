@@ -1,13 +1,16 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
+import { defaultImageForUser } from "../hiddenEnv.js";
+
+
 
 const userSchema = new Schema({
     name: {
         type: String,
         trim: true,
         required: true,
-        maxLength: [40, 'name is too long'],
-        minLength: [3, 'name is too short'],
+        minLength:[3 , "name is too short"],
+        maxLength: [40 , "name is too long"]
     },
 
     email: {
@@ -22,9 +25,9 @@ const userSchema = new Schema({
             message: "Invalid email address formate"
         }
     },
+
     phone: {
         type: String,
-        maxLength: 10,
         required: [true, 'you have to give a phone number'],
         unique: [true, 'already have an account with this number'],
         trim: true,
@@ -32,9 +35,14 @@ const userSchema = new Schema({
 
     password: {
         type: String,
-        minLength: [4, 'password is too short'],
         required: true,
+        minLength: [4, 'password is too short'],
         set: (v) => bcrypt.hashSync(v, bcrypt.genSaltSync(12))
+    },
+
+    image: {
+        type: String,
+        default: defaultImageForUser
     },
 
     isAdmin: {

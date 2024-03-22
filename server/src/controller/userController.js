@@ -4,18 +4,19 @@
 import HttpError from "http-errors";
 import Jwt from "jsonwebtoken";
 
-//import model
+//import user model
 import User from "../models/userModel.js";
 
-//import helper pages
+//import helper functions
 import { SendEmail } from "../helper/nodeMailer.js";
 import { CreateJsonWebToken } from "../helper/jwt.js";
 import { SuccessResponse } from "../helper/responseCode.js";
+import { deleteImage } from "../helper/deleteImg.js";
 
 //import environment variables
 import { clientUrl, jwtPrivateKey } from "../hiddenEnv.js";
 
-//import services
+//import services function
 import { FindByID } from "../services/findById.js";
 
 
@@ -60,9 +61,9 @@ async function GetAllUsers(req, res, next) {
         const totalPages = Math.ceil(count / limitNum)
 
         //successfully back all the users from database
-        return SuccessResponse(res,{
+        return SuccessResponse(res, {
             message: "return all the users",
-            payload:{
+            payload: {
                 users,
                 pagination: {
                     totalPages,
@@ -88,7 +89,7 @@ const GetSingleUserByID = async (req, res, next) => {
         //set options to exclude password field
         const options = { password: 0 }
 
-        const singleUser = await FindByID(User,id,options)
+        const singleUser = await FindByID(User, id, options)
 
         //if user not found, throw an error
         if (!singleUser) {
@@ -96,9 +97,9 @@ const GetSingleUserByID = async (req, res, next) => {
         }
 
         //send the response with the user
-        return SuccessResponse(res,{
+        return SuccessResponse(res, {
             message: "return a single user by id",
-            payload:{singleUser}
+            payload: { singleUser }
         })
 
     } catch (error) {
@@ -108,6 +109,7 @@ const GetSingleUserByID = async (req, res, next) => {
 
 
 const RegisterProcess = async (req, res, next) => {
+
     try {
         //destructure name email phone and password from req.body
         const { name, email, phone, password } = req.body;
@@ -129,14 +131,19 @@ const RegisterProcess = async (req, res, next) => {
             throw HttpError(409, "user already exist with this number");
         }
 
-        //create a newuser object and save the provided details
-        const newUser = { name, email, phone, password };
+        //create a newuser instance
+        const newUser = new User({ name, email, phone, password });
+
+        //check if the user validate or not validate the user
+        await newUser.validate();
 
         //create a json web token for the new user
-        const token = CreateJsonWebToken(newUser, jwtPrivateKey, "10m");
+        const token = CreateJsonWebToken({ name, email, phone, password }, 
+        jwtPrivateKey, "10m");
 
         //prepare an email
         const emailData = {
+            name,
             email,
             subject: "Activation Email From UniShop",
             html: `
@@ -146,11 +153,16 @@ const RegisterProcess = async (req, res, next) => {
             activate account</a>`
         }
 
-        //send the email
-        await SendEmail(emailData)
+        //send verification email
+        try {
+            /* await SendEmail(emailData)*/
+        } catch (error) {
+            console.log(error.message);
+
+        }
 
         // send a response with a message and the generated token
-        return SuccessResponse(res,{
+        return SuccessResponse(res, {
             message: `please go to your email and click on the 
                       given link to activate your email`,
             payload: {
@@ -181,7 +193,7 @@ const CompleteUserRegister = async (req, res, next) => {
         await User.create(decode);
 
         //send a success response
-        return SuccessResponse(res,{
+        return SuccessResponse(res, {
             message: "user registered successfully",
         })
 
@@ -209,12 +221,12 @@ const UpdateUserByID = async (req, res, next) => {
 
         //update user by one field or all filed exclude password
         const updateUser = await User.findByIdAndUpdate(id, { name, email, phone },
-                            { new: true });
+            { new: true });
 
         //send a successful res
-       return SuccessResponse(res,{
+        return SuccessResponse(res, {
             message: "update user succesfully",
-            payload: {updateUser}
+            payload: { updateUser }
         })
 
     } catch (error) {
@@ -225,11 +237,17 @@ const UpdateUserByID = async (req, res, next) => {
 
 const DeleteUserByID = async (req, res, next) => {
     try {
+        //get the default image for user
+        const defaultImageForUser = User.image;
+
+        //send the default image of user
+        deleteImage(defaultImageForUser);
+
         //get the id from request params
         const id = req.params.id;
 
         //find the user by id
-        const user = await FindByID(User,id);
+        const user = await FindByID(User, id);
 
         //if user doesn't exist or is an admin, return an error
         if (!user || user.isAdmin) {
@@ -242,7 +260,7 @@ const DeleteUserByID = async (req, res, next) => {
         const deletedUser = await user.deleteOne();
 
         //send successful response with the deleted user
-        return SuccessResponse(res,{
+        return SuccessResponse(res, {
             message: "delete user successfully",
             payload: {
                 deletedUser

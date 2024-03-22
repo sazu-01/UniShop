@@ -18,6 +18,7 @@ const transporter = nodemailer.createTransport({
 const SendEmail = async (emailData) => {
     try {
         const { email, name, subject, html } = emailData;
+
         await transporter.sendMail({
             from: smtpUsername,
             to: email,
@@ -25,7 +26,8 @@ const SendEmail = async (emailData) => {
             html: html
         })
     } catch (error) {
-        console.error("Error in SendEmail Function");
+         console.error("Error in SendEmail Function");
+         throw error;
     }
 
 }

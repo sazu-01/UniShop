@@ -14,8 +14,6 @@ const CreateJsonWebToken = (payload,jwtPrivateKey,expiresIn) => {
 
     const options = {expiresIn:expiresIn};
 
-    console.log(payload);
-
     const jsonwebtoken = jwt.sign(payload,jwtPrivateKey,options);
 
     return jsonwebtoken;
