@@ -5,11 +5,13 @@ import express from "express";
 import morgan from "morgan";
 import createHttpError from "http-errors";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser"
 
 
 //import router files
 import userRouter from "./routers/userRouter.js";
 import { ErrorResponse } from "./helper/responseCode.js";
+import authRouter from "./routers/authRouter.js";
 
 //create an express application;
 const app = express();
@@ -18,11 +20,11 @@ const app = express();
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser())
 
-//set user router
-app.use("/api/users", userRouter);
-app.use("/api/users", userRouter);
-
+//routers
+app.use("/api/users", userRouter); //user routers
+app.use("/api/auth",authRouter); //auth routers
 
 
 //home route

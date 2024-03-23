@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import { defaultImageForUser } from "../hiddenEnv.js";
 
 
-
 const userSchema = new Schema({
     name: {
         type: String,
