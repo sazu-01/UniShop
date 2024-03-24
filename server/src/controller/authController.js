@@ -41,7 +41,7 @@ const LoginController = async (req, res, next) => {
         }
 
         //create a jwt access key
-        const accessJwToken = CreateJsonWebToken({email},jwtAccessKey,"10m");
+        const accessJwToken = CreateJsonWebToken({user},jwtAccessKey,"15m");
 
         //set a cookie
         res.cookie("accessToken",accessJwToken,{
@@ -54,7 +54,7 @@ const LoginController = async (req, res, next) => {
         //if all is well send success response
         return SuccessResponse(res, {
             statusCode: 200,
-            message: "user returned succesfully",
+            message: "user login succesfully",
             payload: {
                 user
             }
