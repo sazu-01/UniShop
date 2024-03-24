@@ -234,6 +234,60 @@ const UpdateUserByID = async (req, res, next) => {
     }
 }
 
+const BannedUserByID = async (req, res, next) => {
+    try {
+        const userId = req.params.id;
+        await FindByID(User, userId);
+        const updates = {isBanned: true};
+        const updateOptions = {new:true, runValidators:true, context:"query"};
+        
+        const updateUser = await User.findByIdAndUpdate(
+            userId,
+            updates,
+            updateOptions,
+        ).select("-password");
+
+        if(!updateUser){
+            throw HttpError(400, "use is not banned");
+        }
+
+        return SuccessResponse(res,{
+            statusCode: 200,
+            message: "user is banned"
+        })
+        
+    } catch (error) {
+        next(error)
+    }
+}
+
+const UnBannedUserByID = async (req, res , next) => {
+    try {
+        const userId = req.params.id;
+        await FindByID(User, userId);
+        const updates = {isBanned: false};
+        const updateOptions = {new:true, runValidators:true, context:"query"};
+        
+        const updateUser = await User.findByIdAndUpdate(
+            userId,
+            updates,
+            updateOptions,
+        ).select("-password");
+
+        if(!updateUser){
+            throw HttpError(400, "use is not unbanned");
+        }
+
+        return SuccessResponse(res,{
+            statusCode: 200,
+            message: "user is unbanned"
+        })
+        
+    } catch (error) {
+        next(error)
+    }
+}
+
 
 const DeleteUserByID = async (req, res, next) => {
     try {
@@ -280,5 +334,7 @@ export {
     RegisterProcess,
     CompleteUserRegister,
     UpdateUserByID,
+    BannedUserByID,
+    UnBannedUserByID,
     DeleteUserByID
 }
