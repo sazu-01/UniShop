@@ -11,66 +11,34 @@ import User from "../models/userModel.js";
 import { SendEmail } from "../helper/nodeMailer.js";
 import { CreateJsonWebToken } from "../helper/jwt.js";
 import { SuccessResponse } from "../helper/responseCode.js";
-import { deleteImage } from "../helper/deleteImg.js";
 
 //import environment variables
 import { clientUrl, jwtPrivateKey } from "../hiddenEnv.js";
 
 //import services function
-import { FindByID } from "../services/findById.js";
+import { FindOneService } from "../services/findOne.js";
+import { FindUsersService } from "../services/findUsers.js"
+import { deleteOneService } from "../services/deleteOne.js";
+import { banOrUnbanService } from "../services/banUnban.js";
 
 
-
-async function GetAllUsers(req, res, next) {
+const  GetAllUsers = async (req, res, next) => {
 
     try {
 
         //destructure the search page and limit from the parameters
         const { limit = 10, page = 1, search = "" } = req.query;
 
-        //convert page and limit to numbers
-        const pageNum = Number(page);
-        const limitNum = Number(limit);
-
-        //define the search regex pattern
-        const searchPattern = `.*${search}.*`;
-
-        // Define the filter for the database query
-        const filter = {
-            isAdmin: { $ne: true },
-            $or: [
-                { name: { $regex: new RegExp(searchPattern, "i") } },
-                { email: { $regex: new RegExp(searchPattern, "i") } },
-                { password: { $regex: new RegExp(searchPattern, "i") } }
-            ]
-        };
-
-        //set password to false
-        const options = { password: 0 };
-
-        //get all the users from database
-        const users = await User.find(filter, options).limit(limitNum).skip((pageNum - 1) * limitNum);
-
-        //countDocuments for all the filter user
-        const count = await User.find(filter).countDocuments();
-
-        //if no user found , throw an error 
-        if (!users) throw HttpError(404, "no user found");
-
-        //calculate the totalNumbers of page
-        const totalPages = Math.ceil(count / limitNum)
+        //destructure the value from the result of the FindUsersService function
+        const {users,pagination} = await FindUsersService({limit,page,search},User);
 
         //successfully back all the users from database
         return SuccessResponse(res, {
+            statusCode: 200,
             message: "return all the users",
             payload: {
                 users,
-                pagination: {
-                    totalPages,
-                    currentPage: pageNum,
-                    previousPage: pageNum - 1 ? pageNum - 1 : null,
-                    nextPage: pageNum < totalPages ? pageNum + 1 : null
-                }
+                pagination,
             }
         })
 
@@ -89,7 +57,8 @@ const GetSingleUserByID = async (req, res, next) => {
         //set options to exclude password field
         const options = { password: 0 }
 
-        const singleUser = await FindByID(User, id, options)
+        //get singleUser value fron FindOneSevice function
+        const singleUser = await FindOneService(User, id, options)
 
         //if user not found, throw an error
         if (!singleUser) {
@@ -210,6 +179,7 @@ const CompleteUserRegister = async (req, res, next) => {
     }
 }
 
+
 const UpdateUserByID = async (req, res, next) => {
     try {
 
@@ -234,23 +204,19 @@ const UpdateUserByID = async (req, res, next) => {
     }
 }
 
+
 const BannedUserByID = async (req, res, next) => {
     try {
+        //get the id from req params
         const userId = req.params.id;
-        await FindByID(User, userId);
-        const updates = {isBanned: true};
-        const updateOptions = {new:true, runValidators:true, context:"query"};
-        
-        const updateUser = await User.findByIdAndUpdate(
-            userId,
-            updates,
-            updateOptions,
-        ).select("-password");
 
-        if(!updateUser){
-            throw HttpError(400, "use is not banned");
-        }
+        //define the updates object to set the isBanned field to true
+        const updates = {isBanned:true};
 
+        //call the banOrUnbanService to update the user's banned status
+        const bannedUser = await banOrUnbanService(User, userId, updates)
+
+        //return success response
         return SuccessResponse(res,{
             statusCode: 200,
             message: "user is banned"
@@ -261,23 +227,19 @@ const BannedUserByID = async (req, res, next) => {
     }
 }
 
+
 const UnBannedUserByID = async (req, res , next) => {
     try {
+        //get the id from req params
         const userId = req.params.id;
-        await FindByID(User, userId);
-        const updates = {isBanned: false};
-        const updateOptions = {new:true, runValidators:true, context:"query"};
-        
-        const updateUser = await User.findByIdAndUpdate(
-            userId,
-            updates,
-            updateOptions,
-        ).select("-password");
 
-        if(!updateUser){
-            throw HttpError(400, "use is not unbanned");
-        }
+        //define the updates object to set the isBanned field to true
+        const updates = {isBanned:false};
 
+        //call the banOrUnbanService to update the user's banned status
+        const bannedUser = await banOrUnbanService(User, userId, updates)
+
+        //return success response
         return SuccessResponse(res,{
             statusCode: 200,
             message: "user is unbanned"
@@ -291,27 +253,12 @@ const UnBannedUserByID = async (req, res , next) => {
 
 const DeleteUserByID = async (req, res, next) => {
     try {
-        //get the default image for user
-        const defaultImageForUser = User.image;
-
-        //send the default image of user
-        deleteImage(defaultImageForUser);
 
         //get the id from request params
         const id = req.params.id;
 
-        //find the user by id
-        const user = await FindByID(User, id);
-
-        //if user doesn't exist or is an admin, return an error
-        if (!user || user.isAdmin) {
-            return res.status(400).send({
-                message: "user not found or is an admin"
-            });
-        }
-
-        // delete the non-admin user
-        const deletedUser = await user.deleteOne();
+        //get the deleted userfrom the deleteOneService function 
+        const deletedUser = await deleteOneService(id,User);
 
         //send successful response with the deleted user
         return SuccessResponse(res, {

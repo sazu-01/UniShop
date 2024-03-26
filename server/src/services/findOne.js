@@ -5,7 +5,7 @@ import HttpError from "http-errors"
 import mongoose from "mongoose";
 
 
-const FindByID = async (Model,id,options) => {
+export const FindOneService = async (Model,id,options) => {
      try {
          //find the item by its ID in the given Model
         const item = await Model.findById(id,options)
@@ -28,5 +28,3 @@ const FindByID = async (Model,id,options) => {
 
 
 }
-
-export {FindByID}
