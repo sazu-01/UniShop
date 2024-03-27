@@ -14,7 +14,7 @@ import {
     CompleteUserRegister, 
     UpdateUserByID,
     BannedUserByID,
-    UnBannedUserByID, 
+    UnBannedUserByID,
     DeleteUserByID 
 } from "../controller/userController.js";
 

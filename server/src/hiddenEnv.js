@@ -12,11 +12,10 @@ const serverPort = process.env.SERVER_PORT;
 const MongodbURL = process.env.MongodbURL
 
 //retrive the secret jwt Private Key
-const jwtPrivateKey = process.env.jwtPrivateKey || "asdka!`9dad*/868sd&asd455asd";
+const jwtPrivateKey = process.env.jwtPrivateKey;
 
 //retrive the secret jwt access key 
-
-const jwtAccessKey = process.env.jwtAccessKey || "dasda*/-asda-s/da`677ads"
+const jwtAccessKey = process.env.jwtAccessKey;
 
 //retrive smtp username and password
 const smtpUsername = process.env.smtpUsername;
@@ -25,8 +24,12 @@ const smtpPassword = process.env.smtpPassword;
 //set the default Image for user , if user don't upload image 
 const defaultImageForUser = process.env.defaultImage || "public/images/users/default.png";
 
+//retrive resetPasswordKey from env
+const resetPasswordKey = process.env.jwtResetPasswordKey;
 
 const clientUrl = process.env.clientUrl;
+
+
 export { serverPort, MongodbURL, 
      jwtPrivateKey, 
      jwtAccessKey,
@@ -34,4 +37,5 @@ export { serverPort, MongodbURL,
      smtpPassword, 
      clientUrl,
      defaultImageForUser,
+     resetPasswordKey
  }    

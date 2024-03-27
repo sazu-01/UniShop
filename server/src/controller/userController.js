@@ -16,13 +16,16 @@ import { SuccessResponse } from "../helper/responseCode.js";
 import { clientUrl, jwtPrivateKey } from "../hiddenEnv.js";
 
 //import services function
-import { FindOneService } from "../services/findOne.js";
-import { FindUsersService } from "../services/findUsers.js"
-import { deleteOneService } from "../services/deleteOne.js";
-import { banOrUnbanService } from "../services/banUnban.js";
+import { 
+         FindUsersService,
+         FindOneService, 
+         deleteOneService,
+         banOrUnbanService,
+
+ } from "../services/userServices.js";
 
 
-const  GetAllUsers = async (req, res, next) => {
+const GetAllUsers = async (req, res, next) => {
 
     try {
 
@@ -30,7 +33,7 @@ const  GetAllUsers = async (req, res, next) => {
         const { limit = 10, page = 1, search = "" } = req.query;
 
         //destructure the value from the result of the FindUsersService function
-        const {users,pagination} = await FindUsersService({limit,page,search},Users);
+        const { users, pagination } = await FindUsersService({ limit, page, search }, Users);
 
         //successfully back all the users from database
         return SuccessResponse(res, {
@@ -107,8 +110,8 @@ const RegisterProcess = async (req, res, next) => {
         await newUser.validate();
 
         //create a json web token for the new user
-        const token = CreateJsonWebToken({ name, email, phone, password }, 
-        jwtPrivateKey, "10m");
+        const token = CreateJsonWebToken({ name, email, phone, password },
+            jwtPrivateKey, "10m");
 
         //prepare an email
         const emailData = {
@@ -205,48 +208,46 @@ const UpdateUserByID = async (req, res, next) => {
 }
 
 
-
-
 const BannedUserByID = async (req, res, next) => {
     try {
         //get the id from req params
         const userId = req.params.id;
 
         //define the updates object to set the isBanned field to true
-        const updates = {isBanned:true};
+        const updates = { isBanned: true };
 
         //call the banOrUnbanService to update the user's banned status
         const bannedUser = await banOrUnbanService(Users, userId, updates)
 
         //return success response
-        return SuccessResponse(res,{
+        return SuccessResponse(res, {
             statusCode: 200,
             message: "user is banned"
         })
-        
+
     } catch (error) {
         next(error)
     }
 }
 
 
-const UnBannedUserByID = async (req, res , next) => {
+const UnBannedUserByID = async (req, res, next) => {
     try {
         //get the id from req params
         const userId = req.params.id;
 
         //define the updates object to set the isBanned field to true
-        const updates = {isBanned:false};
+        const updates = { isBanned: false };
 
         //call the banOrUnbanService to update the user's banned status
         const bannedUser = await banOrUnbanService(Users, userId, updates)
 
         //return success response
-        return SuccessResponse(res,{
+        return SuccessResponse(res, {
             statusCode: 200,
             message: "user is unbanned"
         })
-        
+
     } catch (error) {
         next(error)
     }
@@ -260,7 +261,7 @@ const DeleteUserByID = async (req, res, next) => {
         const id = req.params.id;
 
         //get the deleted userfrom the deleteOneService function 
-        const deletedUser = await deleteOneService(id,Users);
+        const deletedUser = await deleteOneService(id, Users);
 
         //send successful response with the deleted user
         return SuccessResponse(res, {
