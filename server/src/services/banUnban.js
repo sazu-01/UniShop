@@ -6,11 +6,11 @@ import HttpError from "http-errors";
 //import helper function
 import { FindOneService } from "./findOne.js";
 
-export const banOrUnbanService = async (User , userId , updates) => {
+export const banOrUnbanService = async (Users , userId , updates) => {
    try {
 
     //find a user with id
-    await FindOneService(User, userId);
+    await FindOneService(Users, userId);
 
     // Options for the update operation
     const updateOptions = {new:true, 
@@ -18,7 +18,7 @@ export const banOrUnbanService = async (User , userId , updates) => {
       context:"query"};
     
     //find and update the user document withouth password field
-    const updateUser = await User.findByIdAndUpdate(
+    const updateUser = await Users.findByIdAndUpdate(
         userId,
         updates,
         updateOptions,

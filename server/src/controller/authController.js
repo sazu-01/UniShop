@@ -4,7 +4,7 @@ import HttpError from "http-errors";
 import bcrypt from "bcryptjs";
 
 //model
-import User from "../models/userModel.js";
+import Users from "../models/userModel.js";
 
 //import helper functions
 import { CreateJsonWebToken } from "../helper/jwt.js";
@@ -20,7 +20,7 @@ const LoginController = async (req, res, next) => {
         const { email, password } = req.body;
 
         //check the user is exist or not
-        const user = await User.findOne({email});
+        const user = await Users.findOne({email});
 
         //if user does not exist 
         if (!user) {

@@ -5,7 +5,7 @@ import HttpError from "http-errors";
 import Jwt from "jsonwebtoken";
 
 //import user model
-import User from "../models/userModel.js";
+import Users from "../models/userModel.js";
 
 //import helper functions
 import { SendEmail } from "../helper/nodeMailer.js";
@@ -30,7 +30,7 @@ const  GetAllUsers = async (req, res, next) => {
         const { limit = 10, page = 1, search = "" } = req.query;
 
         //destructure the value from the result of the FindUsersService function
-        const {users,pagination} = await FindUsersService({limit,page,search},User);
+        const {users,pagination} = await FindUsersService({limit,page,search},Users);
 
         //successfully back all the users from database
         return SuccessResponse(res, {
@@ -58,7 +58,7 @@ const GetSingleUserByID = async (req, res, next) => {
         const options = { password: 0 }
 
         //get singleUser value fron FindOneSevice function
-        const singleUser = await FindOneService(User, id, options)
+        const singleUser = await FindOneService(Users, id, options)
 
         //if user not found, throw an error
         if (!singleUser) {
@@ -89,19 +89,19 @@ const RegisterProcess = async (req, res, next) => {
         }
 
         //check if a user with the provided email already exists
-        const existingUserViaEmail = await User.exists({ email: email });
+        const existingUserViaEmail = await Users.exists({ email: email });
         if (existingUserViaEmail) {
             throw HttpError(409, "User with this email already exist. please login")
         }
 
         //check if a user with the provided phone number already exist
-        const existingUserViaPhone = await User.exists({ phone: phone });
+        const existingUserViaPhone = await Users.exists({ phone: phone });
         if (existingUserViaPhone) {
             throw HttpError(409, "user already exist with this number");
         }
 
         //create a newuser instance
-        const newUser = new User({ name, email, phone, password });
+        const newUser = new Users({ name, email, phone, password });
 
         //check if the user validate or not validate the user
         await newUser.validate();
@@ -159,7 +159,7 @@ const CompleteUserRegister = async (req, res, next) => {
         if (!decode) throw HttpError(404, "user information not found");
 
         //create a new user document in the database using the decoded user information
-        await User.create(decode);
+        await Users.create(decode);
 
         //send a success response
         return SuccessResponse(res, {
@@ -190,7 +190,7 @@ const UpdateUserByID = async (req, res, next) => {
         const id = req.params.id;
 
         //update user by one field or all filed exclude password
-        const updateUser = await User.findByIdAndUpdate(id, { name, email, phone },
+        const updateUser = await Users.findByIdAndUpdate(id, { name, email, phone },
             { new: true });
 
         //send a successful res
@@ -205,6 +205,8 @@ const UpdateUserByID = async (req, res, next) => {
 }
 
 
+
+
 const BannedUserByID = async (req, res, next) => {
     try {
         //get the id from req params
@@ -214,7 +216,7 @@ const BannedUserByID = async (req, res, next) => {
         const updates = {isBanned:true};
 
         //call the banOrUnbanService to update the user's banned status
-        const bannedUser = await banOrUnbanService(User, userId, updates)
+        const bannedUser = await banOrUnbanService(Users, userId, updates)
 
         //return success response
         return SuccessResponse(res,{
@@ -237,7 +239,7 @@ const UnBannedUserByID = async (req, res , next) => {
         const updates = {isBanned:false};
 
         //call the banOrUnbanService to update the user's banned status
-        const bannedUser = await banOrUnbanService(User, userId, updates)
+        const bannedUser = await banOrUnbanService(Users, userId, updates)
 
         //return success response
         return SuccessResponse(res,{
@@ -258,7 +260,7 @@ const DeleteUserByID = async (req, res, next) => {
         const id = req.params.id;
 
         //get the deleted userfrom the deleteOneService function 
-        const deletedUser = await deleteOneService(id,User);
+        const deletedUser = await deleteOneService(id,Users);
 
         //send successful response with the deleted user
         return SuccessResponse(res, {

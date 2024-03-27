@@ -2,7 +2,7 @@
 
 //import package modules
 import HttpError from "http-errors";
-import jwt, { decode } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 //environment variables
 import { jwtAccessKey } from "../hiddenEnv.js";

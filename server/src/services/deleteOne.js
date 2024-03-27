@@ -20,7 +20,7 @@ export const deleteOneService = async (id, Model) => {
       const item = await FindOneService(Model, id);
 
       //if user doesn't exist or is an admin, return an error
-      if (item.modelName === "Users" || !item || item.isAdmin) {
+      if (!item || item.isAdmin) {
          throw HttpError(400, `${Model.modelName} can not be deleted`);
       }
 
