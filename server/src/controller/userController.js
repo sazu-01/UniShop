@@ -4,7 +4,7 @@
 import HttpError from "http-errors";
 import Jwt from "jsonwebtoken";
 
-//import user model
+//import users model
 import Users from "../models/userModel.js";
 
 //import helper functions
@@ -13,16 +13,22 @@ import { CreateJsonWebToken } from "../helper/jwt.js";
 import { SuccessResponse } from "../helper/responseCode.js";
 
 //import environment variables
-import { clientUrl, jwtPrivateKey } from "../hiddenEnv.js";
+import { 
+    clientUrl, 
+    jwtPrivateKey,
+    resetPasswordKey, 
+} from "../hiddenEnv.js";
 
 //import services function
-import { 
-         FindUsersService,
-         FindOneService, 
-         deleteOneService,
-         banOrUnbanService,
+import {
+    FindUsersService,
+    FindOneService,
+    deleteOneService,
+    banOrUnbanService,
+    ForgetPassowrdService,
+    ResetPasswordService,
 
- } from "../services/userServices.js";
+} from "../services/userServices.js";
 
 
 const GetAllUsers = async (req, res, next) => {
@@ -68,7 +74,7 @@ const GetSingleUserByID = async (req, res, next) => {
             throw HttpError(404, "User with this id does not exist");
         }
 
-        //send the response with the user
+        //return the response with the user
         return SuccessResponse(res, {
             message: "return a single user by id",
             payload: { singleUser }
@@ -183,6 +189,45 @@ const CompleteUserRegister = async (req, res, next) => {
 }
 
 
+const ForgetPasswordController = async (req, res, next) => {
+    try {
+        //get the email from req body
+        const { email } = req.body;
+
+        //call the ForgetPassowrdService function with the Users model and the email
+        const token = await ForgetPassowrdService(Users,email);
+
+        //return the response
+        return SuccessResponse(res, {
+            statusCode: 200,
+            message: `please go to your ${email} email 
+            to reset password`,
+            payload: {token}
+        })
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+const ResetPasswordCntroller = async (req, res, next) => {
+    try {
+        //extract the token and password from the request body
+        const {token , password} = req.body;
+
+        //call the ResetPasswordService function with the token and password
+        ResetPasswordService(token,password);
+
+        return SuccessResponse(res,{
+            statusCode: 200,
+            message: "password reset successfull",
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+
 const UpdateUserByID = async (req, res, next) => {
     try {
 
@@ -283,6 +328,8 @@ export {
     GetSingleUserByID,
     RegisterProcess,
     CompleteUserRegister,
+    ForgetPasswordController,
+    ResetPasswordCntroller,
     UpdateUserByID,
     BannedUserByID,
     UnBannedUserByID,

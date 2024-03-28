@@ -27,10 +27,13 @@ const defaultImageForUser = process.env.defaultImage || "public/images/users/def
 //retrive resetPasswordKey from env
 const resetPasswordKey = process.env.jwtResetPasswordKey;
 
+//client url
 const clientUrl = process.env.clientUrl;
 
 
-export { serverPort, MongodbURL, 
+export { 
+     serverPort, 
+     MongodbURL, 
      jwtPrivateKey, 
      jwtAccessKey,
      smtpUsername, 

@@ -15,7 +15,9 @@ import {
     UpdateUserByID,
     BannedUserByID,
     UnBannedUserByID,
-    DeleteUserByID 
+    DeleteUserByID, 
+    ForgetPasswordController,
+    ResetPasswordCntroller
 } from "../controller/userController.js";
 
 //import authentication middleware
@@ -26,13 +28,15 @@ const userRouter = new express.Router();
 
 //define different routes for users
 userRouter.get("/all-user", IsLoggedIn , IsAdmin , GetAllUsers);
-userRouter.get("/:id",IsLoggedIn, IsAdmin , GetSingleUserByID);
+userRouter.get("single-user/:id",IsLoggedIn, IsAdmin , GetSingleUserByID);
 userRouter.post("/register-process",upload.single("image"), IsLoggedOut, RegisterProcess);
 userRouter.post("/complete-register",IsLoggedOut, CompleteUserRegister);
-userRouter.put("/:id",IsLoggedIn, IsAdmin, UpdateUserByID);
+userRouter.post("/forget-password",ForgetPasswordController);
+userRouter.put("/reset-password",ResetPasswordCntroller);
+userRouter.put("/update-user/:id",IsLoggedIn, IsAdmin, UpdateUserByID);
 userRouter.put("/ban-user/:id",IsLoggedIn, IsAdmin, BannedUserByID);
 userRouter.put("/unban-user/:id",IsLoggedIn, IsAdmin, UnBannedUserByID);
-userRouter.delete("/:id",IsLoggedIn, IsAdmin, DeleteUserByID);
+userRouter.delete("/delete-user/:id",IsLoggedIn, IsAdmin, DeleteUserByID);
 
 
 export default userRouter;
