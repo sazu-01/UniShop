@@ -10,7 +10,7 @@ import cookieParser from "cookie-parser"
 
 //import router files
 import userRouter from "./routers/userRouter.js";
-import { ErrorResponse } from "./helper/responseCode.js";
+import { ErrorResponse } from "./helpers/responseCode.js";
 import authRouter from "./routers/authRouter.js";
 
 //create an express application;

@@ -6,9 +6,9 @@ import mongoose from "mongoose";
 import Jwt from "jsonwebtoken";
 
 //import helper functions
-import { deleteImage } from "../helper/deleteImg.js";
-import { CreateJsonWebToken } from "../helper/jwt.js";
-import { SendEmail } from "../helper/nodeMailer.js";
+import { deleteImage } from "../helpers/deleteImg.js";
+import { CreateJsonWebToken } from "../helpers/jwt.js";
+import { SendEmail } from "../helpers/nodeMailer.js";
 
 //model
 import Users from "../models/userModel.js";

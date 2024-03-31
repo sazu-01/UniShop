@@ -8,8 +8,8 @@ import Jwt, { decode } from "jsonwebtoken";
 import Users from "../models/userModel.js";
 
 //import helper functions
-import { CreateJsonWebToken } from "../helper/jwt.js";
-import { SuccessResponse } from "../helper/responseCode.js";
+import { CreateJsonWebToken } from "../helpers/jwt.js";
+import { SuccessResponse } from "../helpers/responseCode.js";
 
 //environment variables
 import { jwtAccessKey, jwtRefreshKey } from "../hiddenEnv.js";

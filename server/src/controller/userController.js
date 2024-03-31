@@ -8,9 +8,9 @@ import Jwt from "jsonwebtoken";
 import Users from "../models/userModel.js";
 
 //import helper functions
-import { SendEmail } from "../helper/nodeMailer.js";
-import { CreateJsonWebToken } from "../helper/jwt.js";
-import { SuccessResponse } from "../helper/responseCode.js";
+import { SendEmail } from "../helpers/nodeMailer.js";
+import { CreateJsonWebToken } from "../helpers/jwt.js";
+import { SuccessResponse } from "../helpers/responseCode.js";
 
 //import environment variables
 import { 
