@@ -8,7 +8,6 @@ import Jwt from "jsonwebtoken";
 import Users from "../models/userModel.js";
 
 //import helper functions
-import { SendEmail } from "../helpers/nodeMailer.js";
 import { CreateJsonWebToken } from "../helpers/jwt.js";
 import { SuccessResponse } from "../helpers/responseCode.js";
 
@@ -16,7 +15,6 @@ import { SuccessResponse } from "../helpers/responseCode.js";
 import { 
     clientUrl, 
     jwtPrivateKey,
-    resetPasswordKey, 
 } from "../hiddenEnv.js";
 
 //import services function
@@ -29,6 +27,7 @@ import {
     ResetPasswordService,
 
 } from "../services/userServices.js";
+import ProcessEmail from "../helpers/ProcessEmail.js";
 
 
 const GetAllUsers = async (req, res, next) => {
@@ -119,7 +118,7 @@ const RegisterProcess = async (req, res, next) => {
         const token = CreateJsonWebToken({ name, email, phone, password },
             jwtPrivateKey, "10m");
 
-        //prepare an email
+        //prepare an email data
         const emailData = {
             name,
             email,
@@ -131,13 +130,9 @@ const RegisterProcess = async (req, res, next) => {
             activate account</a>`
         }
 
-        //send verification email
-        try {
-            /* await SendEmail(emailData)*/
-        } catch (error) {
-            console.log(error.message);
 
-        }
+        //Process of Email
+        ProcessEmail(emailData);
 
         // send a response with a message and the generated token
         return SuccessResponse(res, {

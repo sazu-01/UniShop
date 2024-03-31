@@ -2,7 +2,7 @@
 //import package modules
 import HttpError from "http-errors";
 import bcrypt from "bcryptjs";
-import Jwt, { decode } from "jsonwebtoken";
+import Jwt from "jsonwebtoken";
 
 //model
 import Users from "../models/userModel.js";
@@ -13,6 +13,7 @@ import { SuccessResponse } from "../helpers/responseCode.js";
 
 //environment variables
 import { jwtAccessKey, jwtRefreshKey } from "../hiddenEnv.js";
+import { SetAccessTokenCookie, SetRefreshTokenCookie } from "../helpers/setCookie.js";
 
 
 const LoginController = async (req, res, next) => {
@@ -45,22 +46,13 @@ const LoginController = async (req, res, next) => {
         const accessToken = CreateJsonWebToken({ user }, jwtAccessKey, "1m");
 
         //set accessToken to cookie
-        res.cookie("accessToken", accessToken, {
-            maxAge: 1 * 60 * 1000, //1 minutes
-            httpOnly: true,
-            secure: true,
-            sameSite: false
-        });
+        SetAccessTokenCookie(res,accessToken);
 
         //create a refresh token 
         const refreshToken = CreateJsonWebToken({ user }, jwtRefreshKey, "7d");
 
         //set refreshToken to cookie
-        res.cookie("refreshToken", refreshToken, {
-            maxAge: 7 * 24 * 60 * 60 * 1000, //7 days
-            httpOnly: true,
-            sameSite: "none",
-        });
+        SetRefreshTokenCookie(res,refreshToken);
 
         //if all is well send success response
         return SuccessResponse(res, {
@@ -105,18 +97,12 @@ const HandleRefreshToken = async (req, res, next) => {
 
           const id = decodedToken.user._id;
           const user = await Users.findById(id);
-          console.log(user);
+ 
         //create a jwt access key
         const accessToken = CreateJsonWebToken({user}, jwtAccessKey, "1m");
 
         //set accessToken to cookie
-        res.cookie("accessToken", accessToken, {
-            maxAge: 1 * 60 * 1000, //1 minutes
-            httpOnly: true,
-            secure: true,
-            sameSite: false
-        });
-
+        SetAccessTokenCookie(res,accessToken);
 
         return SuccessResponse(res, {
             statusCode: 200,

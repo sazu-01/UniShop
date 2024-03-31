@@ -16,6 +16,7 @@ import Users from "../models/userModel.js";
 
 //env varaiable
 import { resetPasswordKey, clientUrl } from "../hiddenEnv.js";
+import ProcessEmail from "../helpers/ProcessEmail.js";
 
 
 export const FindUsersService = async ({ limit, page, search }, Users) => {
@@ -160,7 +161,7 @@ export const ForgetPassowrdService = async (Users, email) => {
     if (!user) throw HttpError(404, "email is not verified, please register");
 
     //create jsonwebtoken for resetpassword controller
-    const token = CreateJsonWebToken({ email }, resetPasswordKey, "10m");
+    const token = CreateJsonWebToken({ email }, resetPasswordKey, "7m");
 
     //prepare an email
     const emailData = {
@@ -174,11 +175,8 @@ export const ForgetPassowrdService = async (Users, email) => {
     }
 
     //send verification email
-    try {
-      //  await SendEmail(emailData);
-    } catch (error) {
-      throw error;
-    }
+    ProcessEmail(emailData);
+
     return token
 
   } catch (error) {
