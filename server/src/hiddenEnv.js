@@ -27,6 +27,9 @@ const defaultImageForUser = process.env.defaultImage || "public/images/users/def
 //retrive resetPasswordKey from env
 const resetPasswordKey = process.env.jwtResetPasswordKey;
 
+//retrive refresh JWT Key from env 
+const jwtRefreshKey = process.env.jwtRefreshKey;
+
 //client url
 const clientUrl = process.env.clientUrl;
 
@@ -40,5 +43,6 @@ export {
      smtpPassword, 
      clientUrl,
      defaultImageForUser,
-     resetPasswordKey
+     resetPasswordKey,
+     jwtRefreshKey
  }    

@@ -28,7 +28,7 @@ const userRouter = new express.Router();
 
 //define different routes for users
 userRouter.get("/all-user", IsLoggedIn , IsAdmin , GetAllUsers);
-userRouter.get("single-user/:id",IsLoggedIn, IsAdmin , GetSingleUserByID);
+userRouter.get("/single-user/:id",IsLoggedIn, IsAdmin , GetSingleUserByID);
 userRouter.post("/register-process",upload.single("image"), IsLoggedOut, RegisterProcess);
 userRouter.post("/complete-register",IsLoggedOut, CompleteUserRegister);
 userRouter.post("/forget-password",ForgetPasswordController);

@@ -2,6 +2,7 @@
 //import package modules
 import HttpError from "http-errors";
 import bcrypt from "bcryptjs";
+import Jwt, { decode } from "jsonwebtoken";
 
 //model
 import Users from "../models/userModel.js";
@@ -11,7 +12,7 @@ import { CreateJsonWebToken } from "../helper/jwt.js";
 import { SuccessResponse } from "../helper/responseCode.js";
 
 //environment variables
-import { jwtAccessKey } from "../hiddenEnv.js";
+import { jwtAccessKey, jwtRefreshKey } from "../hiddenEnv.js";
 
 
 const LoginController = async (req, res, next) => {
@@ -20,7 +21,7 @@ const LoginController = async (req, res, next) => {
         const { email, password } = req.body;
 
         //check the user is exist or not
-        const user = await Users.findOne({email});
+        const user = await Users.findOne({ email });
 
         //if user does not exist 
         if (!user) {
@@ -41,26 +42,31 @@ const LoginController = async (req, res, next) => {
         }
 
         //create a jwt access key
-        const accessJwToken = CreateJsonWebToken({user},jwtAccessKey,"15m");
+        const accessToken = CreateJsonWebToken({ user }, jwtAccessKey, "1m");
 
-        //set a cookie
-        res.cookie("accessToken",accessJwToken,{
-            maxAge : 15 * 60 * 1000, //15 minutes
+        //set accessToken to cookie
+        res.cookie("accessToken", accessToken, {
+            maxAge: 1 * 60 * 1000, //1 minutes
             httpOnly: true,
             secure: true,
             sameSite: false
-        })
+        });
+
+        //create a refresh token 
+        const refreshToken = CreateJsonWebToken({ user }, jwtRefreshKey, "7d");
+
+        //set refreshToken to cookie
+        res.cookie("refreshToken", refreshToken, {
+            maxAge: 7 * 24 * 60 * 60 * 1000, //7 days
+            httpOnly: true,
+            sameSite: "none",
+        });
 
         //if all is well send success response
         return SuccessResponse(res, {
             statusCode: 200,
-            message: "user login succesfully",
-            payload: {
-                user
-            }
+            message: "user is login succesfully",
         })
-
-
 
     } catch (error) {
         next(error)
@@ -68,19 +74,80 @@ const LoginController = async (req, res, next) => {
 }
 
 
-const LogoutController = async (req , res , next) => {
-   try {
-      //clear the cookie
-      res.clearCookie("accessToken");
+const LogoutController = async (req, res, next) => {
+    try {
+        //clear the access token cookie
+        res.clearCookie("accessToken");
 
-      //return successful response
-      return SuccessResponse(res,{
-        statusCode: 200,
-        message: "user logged out successfully"
-      })
-   } catch (error) {
-     next(error)
-   }
+        //clear the refresh token cookie
+        res.clearCookie("refreshToken");
+
+        //return successful response
+        return SuccessResponse(res, {
+            statusCode: 200,
+            message: "user logged out successfully"
+        })
+    } catch (error) {
+        next(error)
+    }
 }
 
-export { LoginController , LogoutController}
+const HandleRefreshToken = async (req, res, next) => {
+    try {
+        //get the refresh token from req cookie
+        const oldRefreshToken = req.cookies.refreshToken;
+
+        //verify the refresh token
+        const decodedToken = Jwt.verify(oldRefreshToken, jwtRefreshKey);
+
+        //if decoded token is null or empty
+        if (!decodedToken) throw HttpError(404, "Invalid Refresh key, please login again");
+
+          const id = decodedToken.user._id;
+          const user = await Users.findById(id);
+          console.log(user);
+        //create a jwt access key
+        const accessToken = CreateJsonWebToken({user}, jwtAccessKey, "1m");
+
+        //set accessToken to cookie
+        res.cookie("accessToken", accessToken, {
+            maxAge: 1 * 60 * 1000, //1 minutes
+            httpOnly: true,
+            secure: true,
+            sameSite: false
+        });
+
+
+        return SuccessResponse(res, {
+            statusCode: 200,
+            message: "new access token generated",
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+const HandleProtectedRoute = async (req, res, next) => {
+  try {
+    //get the acccess token from req cookies
+     const accessToken = req.cookies.accessToken;
+
+     //verify the access token 
+     const decodedToken = Jwt.verify(accessToken,jwtAccessKey);
+
+     //if decodedToken is emty throw an error
+     if(!decodedToken) throw HttpError(401, "Invalid Access Token, please login again");
+
+     return SuccessResponse(res,{
+        statusCode: 200,
+        message: "protected resource access successful"
+     })
+
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+
+export { LoginController, LogoutController, HandleRefreshToken, HandleProtectedRoute }
