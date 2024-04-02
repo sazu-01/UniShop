@@ -30,6 +30,9 @@ const userSchema = new Schema({
         required: [true, 'you have to give a phone number'],
         unique: [true, 'already have an account with this number'],
         trim: true,
+        minLength:[9 , "number is too short"],
+        maxLength: [16 , "number is too long"]
+
     },
 
     password: {

@@ -91,11 +91,6 @@ const RegisterProcess = async (req, res, next) => {
         //destructure name email phone and password from req.body
         const { name, email, phone, password } = req.body;
 
-        //check if any of the field are missing
-        if (!name || !email || !phone || !password) {
-            throw HttpError(404, "please fill up all the fields")
-        }
-
         //check if a user with the provided email already exists
         const existingUserViaEmail = await Users.exists({ email: email });
         if (existingUserViaEmail) {
@@ -107,12 +102,6 @@ const RegisterProcess = async (req, res, next) => {
         if (existingUserViaPhone) {
             throw HttpError(409, "user already exist with this number");
         }
-
-        //create a newuser instance
-        const newUser = new Users({ name, email, phone, password });
-
-        //check if the user validate or not validate the user
-        await newUser.validate();
 
         //create a json web token for the new user
         const token = CreateJsonWebToken({ name, email, phone, password },
@@ -188,6 +177,9 @@ const ForgetPasswordController = async (req, res, next) => {
     try {
         //get the email from req body
         const { email } = req.body;
+        
+        //if email is not given
+        if(!email) throw HttpError("please input email");
 
         //call the ForgetPassowrdService function with the Users model and the email
         const token = await ForgetPassowrdService(Users,email);
