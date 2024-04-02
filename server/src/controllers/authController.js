@@ -57,7 +57,7 @@ const LoginController = async (req, res, next) => {
         //if all is well send success response
         return SuccessResponse(res, {
             statusCode: 200,
-            message: "user is login succesfully",
+            message: "user login succesfully",
         })
 
     } catch (error) {

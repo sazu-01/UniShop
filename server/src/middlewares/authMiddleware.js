@@ -39,16 +39,18 @@ const IsLoggedIn = (req , res , next) => {
 
 const IsLoggedOut = (req , res , next) => {
     try {
-        
         //check the accessToken
         const accessJwToken = req.cookies.accessToken;
 
         //if find access Token and this is valid throw an error
         if(accessJwToken){
             try {
+                 //verify the access token using jwt.verify() method
                 const decoded = jwt.verify(accessJwToken,jwtAccessKey);
+
+                 //if the token is valid, it means the user is already logged in
                 if(decoded){
-                    throw HttpError(400 , "user is already login");
+                    throw HttpError(403 , "user is already login");
                 }
             } catch (error) {
                 throw error;
@@ -65,6 +67,7 @@ const IsLoggedOut = (req , res , next) => {
 
 const IsAdmin = (req , res , next) => {
    try {
+       //if user is not an admin throw an error
        if(!req.user.isAdmin){
          throw HttpError(401 , "invalid accees , you have to be a admin for accessing this route")
        }

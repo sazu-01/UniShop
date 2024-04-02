@@ -1,7 +1,8 @@
-//module
+
+//helpers
 import nodemailer from "nodemailer";
 
-//file module
+//env varaible
 import { smtpUsername, smtpPassword } from "../hiddenEnv.js"
 
 const transporter = nodemailer.createTransport({

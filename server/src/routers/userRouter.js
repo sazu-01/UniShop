@@ -1,9 +1,9 @@
 "use strict";
 
-//imprt package modules
+//import package
 import express from "express";
 
-//middlewares
+//import middlewares
 import upload from "../middlewares/uploadImage.js";
 
 //import controller functions
@@ -18,7 +18,7 @@ import {
     DeleteUserByID, 
     ForgetPasswordController,
     ResetPasswordCntroller
-} from "../controller/userController.js";
+} from "../controllers/userController.js";
 
 //import authentication middleware
 import { IsAdmin, IsLoggedIn, IsLoggedOut } from "../middlewares/authMiddleware.js";
@@ -45,7 +45,7 @@ userRouter.post("/forget-password",ForgetPasswordController);
 
 userRouter.put("/reset-password",ResetPasswordCntroller);
 
-userRouter.put("/update-user/:id",IsLoggedIn, IsAdmin, UpdateUserByID);
+userRouter.put("/update-user/:id",IsLoggedIn, UpdateUserByID);
 
 userRouter.put("/ban-user/:id",IsLoggedIn, IsAdmin, BannedUserByID);
 

@@ -1,15 +1,16 @@
 "use strict";
 
-//import package modules
+//import packages
 import HttpError from "http-errors";
 import Jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 //import users model
 import Users from "../models/userModel.js";
 
 //import helper functions
 import { CreateJsonWebToken } from "../helpers/jwt.js";
-import { SuccessResponse } from "../helpers/responseCode.js";
+import { ErrorResponse, SuccessResponse } from "../helpers/responseCode.js";
 
 //import environment variables
 import { 
@@ -25,9 +26,9 @@ import {
     banOrUnbanService,
     ForgetPassowrdService,
     ResetPasswordService,
-
 } from "../services/userServices.js";
 import ProcessEmail from "../helpers/ProcessEmail.js";
+
 
 
 const GetAllUsers = async (req, res, next) => {
@@ -94,13 +95,13 @@ const RegisterProcess = async (req, res, next) => {
         //check if a user with the provided email already exists
         const existingUserViaEmail = await Users.exists({ email: email });
         if (existingUserViaEmail) {
-            throw HttpError(409, "User with this email already exist. please login")
+        throw HttpError(422, "User with this email already exist. please login")
         }
 
         //check if a user with the provided phone number already exist
         const existingUserViaPhone = await Users.exists({ phone: phone });
         if (existingUserViaPhone) {
-            throw HttpError(409, "user already exist with this number");
+        throw HttpError(422, "already have a user with this number try another number");
         }
 
         //create a json web token for the new user
@@ -187,8 +188,7 @@ const ForgetPasswordController = async (req, res, next) => {
         //return the response
         return SuccessResponse(res, {
             statusCode: 200,
-            message: `please go to your ${email} email 
-            to reset password`,
+            message: `please go to your ${email} email to reset password`,
             payload: {token}
         })
 
@@ -205,6 +205,7 @@ const ResetPasswordCntroller = async (req, res, next) => {
         //call the ResetPasswordService function with the token and password
         ResetPasswordService(token,password);
 
+        //return the response
         return SuccessResponse(res,{
             statusCode: 200,
             message: "password reset successfull",
@@ -235,7 +236,14 @@ const UpdateUserByID = async (req, res, next) => {
         })
 
     } catch (error) {
-        next(error)
+        if(error instanceof mongoose.Error){
+           ErrorResponse(res,{
+            statusCode: 400,
+            message: "invalid id"
+           })
+        }else{
+           next(error)
+        }
     }
 }
 
@@ -254,7 +262,8 @@ const BannedUserByID = async (req, res, next) => {
         //return success response
         return SuccessResponse(res, {
             statusCode: 200,
-            message: "user is banned"
+            message: "user is banned",
+            payload: {bannedUser}
         })
 
     } catch (error) {
@@ -272,12 +281,13 @@ const UnBannedUserByID = async (req, res, next) => {
         const updates = { isBanned: false };
 
         //call the banOrUnbanService to update the user's banned status
-        const bannedUser = await banOrUnbanService(Users, userId, updates)
+        const unbannedUser = await banOrUnbanService(Users, userId, updates)
 
         //return success response
         return SuccessResponse(res, {
             statusCode: 200,
-            message: "user is unbanned"
+            message: "user is unbanned",
+            payload: {unbannedUser}
         })
 
     } catch (error) {

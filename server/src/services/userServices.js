@@ -9,6 +9,7 @@ import Jwt from "jsonwebtoken";
 import { deleteImage } from "../helpers/deleteImg.js";
 import { CreateJsonWebToken } from "../helpers/jwt.js";
 import { SendEmail } from "../helpers/nodeMailer.js";
+import ProcessEmail from "../helpers/ProcessEmail.js";
 
 //model
 import Users from "../models/userModel.js";
@@ -16,7 +17,7 @@ import Users from "../models/userModel.js";
 
 //env varaiable
 import { resetPasswordKey, clientUrl } from "../hiddenEnv.js";
-import ProcessEmail from "../helpers/ProcessEmail.js";
+
 
 
 export const FindUsersService = async ({ limit, page, search }, Users) => {
@@ -80,7 +81,7 @@ export const FindOneService = async (Users, id, options) => {
       throw HttpError(404, "user does not exist with this id");
     }
 
-    //return the item
+    //return the user
     return user;
 
   } catch (error) {
@@ -106,13 +107,14 @@ export const deleteOneService = async (id, Users) => {
     //find the user by id
     const user = await FindOneService(Users, id);
 
-    //if user doesn't exist or is an admin, return an error
-    if (!user || user.isAdmin) {
-      throw HttpError(400, "user can not be deleted");
-    }
+    //if user doesn't exist
+    if (!user) throw HttpError(400, "user is not found");
+
+    //if user an admin
+    if (user.isAdmin) throw HttpError(400, "user is an admin , admin can't be delete")
 
     // delete the non-admin user
-    const deletedUser = await user.deleteOne();
+    await user.deleteOne();
 
     //return the deleted user
     return user;
@@ -145,8 +147,11 @@ export const banOrUnbanService = async (Users, userId, updates) => {
 
     //if the update operation didn't find a user, throw an error
     if (!updateUser) {
-      throw HttpError(400, "use is not banned");
+      throw HttpError(404, "use is not banned");
     }
+
+    return updateUser;
+    
   } catch (error) {
     throw error
   }
@@ -188,9 +193,9 @@ export const ResetPasswordService = async (token, password) => {
   try {
     //verify the provided token using the resetPasswordKey
     const decoded = Jwt.verify(token, resetPasswordKey);
-    
+
     //if the token is invalid or expired, throw a 400 bad request error
-    if (!decoded) throw HttpError(400, "token is invalid or expired");
+    if (!decoded) throw HttpError(403, "token is invalid or expired");
 
     const filter = { email: decoded.email };
     const update = { password: password };

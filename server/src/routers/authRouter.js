@@ -9,7 +9,7 @@ import {
     LogoutController, 
     HandleRefreshToken,
     HandleProtectedRoute } 
-from "../controller/authController.js";
+from "../controllers/authController.js";
 
 //import middleware functions
 import { IsLoggedIn, IsLoggedOut } from "../middlewares/authMiddleware.js";
