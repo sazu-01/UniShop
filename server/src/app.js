@@ -7,11 +7,13 @@ import createHttpError from "http-errors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser"
 
+//helpers function
+import { ErrorResponse } from "./helpers/responseCode.js";
 
 //import router files
 import userRouter from "./routers/userRouter.js";
-import { ErrorResponse } from "./helpers/responseCode.js";
 import authRouter from "./routers/authRouter.js";
+import categoryRouter from "./routers/categoryRouter.js";
 
 //create an express application;
 const app = express();
@@ -23,8 +25,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser())
 
 //routers
-app.use("/api/users", userRouter); //user routers
-app.use("/api/auth",authRouter); //auth routers
+app.use("/api/users", userRouter);
+app.use("/api/auth",authRouter); 
+app.use("/api/categories",categoryRouter);
 
 
 //home route
