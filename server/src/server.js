@@ -4,6 +4,8 @@
 //import files
 import app from "./app.js"
 import ConnectDatabase from "./config/DB.js";
+
+//env variables
 import {serverPort} from "./hiddenEnv.js";
 
 

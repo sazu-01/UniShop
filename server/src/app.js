@@ -1,6 +1,6 @@
 "use strict";
 
-//import package modules
+//packages
 import express from "express";
 import morgan from "morgan";
 import createHttpError from "http-errors";

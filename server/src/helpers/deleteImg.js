@@ -3,13 +3,15 @@
 //import package
 import fs from "fs";
 
- const deleteImage = async (defaultImageForUser) => {
+ const deleteImage = async (deleteFile) => {
     try {
-      //check if the file exists and user has access to it
-      await fs.access(defaultImageForUser);
 
+      //check if the file exists and user has access to it
+      await fs.promises.access(deleteFile);
+    
       //if the file exists and user has access, delete it
-      await fs.unlink(defaultImageForUser);
+      await fs.promises.unlink(deleteFile);
+
     } catch (error) {
       throw error;
     }

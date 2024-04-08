@@ -14,7 +14,7 @@ import HttpError from "http-errors";
 const CreateCategoryController = async (req, res, next) => {
     try {
         const { name } = req.body;
-
+        
         //create a new category using the Category model and provided data
         const newCategory = await Category.create({
             name: name,
