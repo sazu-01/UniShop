@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import Jwt from "jsonwebtoken";
 
 //helper functions
-import { deleteImage } from "../helpers/deleteImg.js";
+import DeleteFile from "../helpers/deleteFile.js";
 import { CreateJsonWebToken } from "../helpers/jwt.js";
 import { SendEmail } from "../helpers/nodeMailer.js";
 import ProcessEmail from "../helpers/ProcessEmail.js";
@@ -109,7 +109,7 @@ export const deleteOneService = async (id, Users) => {
 
     //access and delete user image if the image not default
     const userImage = user.image;
-    if (userImage !== defaultImageForUser) deleteImage(userImage);
+    if (userImage !== defaultImageForUser) DeleteFile(userImage);
 
     // delete the non-admin user
     await user.deleteOne();
@@ -219,7 +219,7 @@ export const UpdateUserService = async ({ name, phone, address, image, id }) => 
     
     //if the current image is not the default image, delete it
     if(userCurrentImage !== defaultImageForUser) {
-      deleteImage(userCurrentImage)
+      DeleteFile(userCurrentImage)
     }
 
    //check if each field has a new value and update the updates object accordingly

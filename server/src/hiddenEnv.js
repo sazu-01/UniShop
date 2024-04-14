@@ -20,8 +20,10 @@ const jwtAccessKey = process.env.jwtAccessKey;
 const smtpUsername = process.env.smtpUsername;
 const smtpPassword = process.env.smtpPassword;
 
-//set the default Image for user , if user don't upload image
+//set the default Image for user and product , if user don't upload image
 const defaultImageForUser = "public/images/users/default.png";
+
+const defaultImageForProduct = "public/images/products/default.jpg";
 
 //retrive resetPasswordKey from env
 const resetPasswordKey = process.env.jwtResetPasswordKey;
@@ -41,6 +43,7 @@ export {
   smtpPassword,
   clientUrl,
   defaultImageForUser,
+  defaultImageForProduct,
   resetPasswordKey,
   jwtRefreshKey,
 };

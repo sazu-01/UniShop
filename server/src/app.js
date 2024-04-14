@@ -14,6 +14,7 @@ import { ErrorResponse } from "./helpers/responseCode.js";
 import userRouter from "./routers/userRouter.js";
 import authRouter from "./routers/authRouter.js";
 import categoryRouter from "./routers/categoryRouter.js";
+import productRouter from "./routers/productRouter.js";
 
 //create an express application;
 const app = express();
@@ -28,6 +29,7 @@ app.use(cookieParser())
 app.use("/api/users", userRouter);
 app.use("/api/auth",authRouter); 
 app.use("/api/categories",categoryRouter);
+app.use("/api/products",productRouter);
 
 
 //home route

@@ -5,18 +5,29 @@ import multer from "multer";
 
 const userImageUploadDirectory = "public/images/users";
 
+const productImageUploadDirectory = "public/images/products";
+
 const maxImageSize = 2097152;
 
 const allowedFileTypes = ["image/jpg", "image/jpeg", "image/png"];
 
 const userStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, userImageUploadDirectory)
+        cb(null, userImageUploadDirectory);
     },
 
     filename: function (req, file, cb) {
         cb(null, Date.now() + "-" + file.originalname);
     }
+});
+
+const productStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, productImageUploadDirectory);
+    },
+    filename : function(req, file, cb) {
+        cb(null, Date.now() + "-" + file.originalname);
+    }   
 })
 
 
@@ -30,11 +41,17 @@ const fileFilter = (req, file, cb) => {
 const uploadUserImg = multer({
     storage: userStorage,
     limits: { fileSize: maxImageSize },
-    fileFilter: fileFilter
+    fileFilter: fileFilter,
+});
+
+const uploadProductImg = multer({
+    storage: productStorage,
+    limits: {fileSize: maxImageSize},
+    fileFilter: fileFilter,
 });
 
 
 export {
     uploadUserImg,
-
+    uploadProductImg
 }

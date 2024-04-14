@@ -3,7 +3,7 @@
 //import package
 import fs from "fs";
 
- const deleteImage = async (deleteFile) => {
+ const DeleteFile = async (deleteFile) => {
     try {
 
       //check if the file exists and user has access to it
@@ -17,4 +17,4 @@ import fs from "fs";
     }
  }
 
- export {deleteImage};
+ export default DeleteFile;
