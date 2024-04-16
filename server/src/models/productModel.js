@@ -2,8 +2,8 @@
 
 import { Schema, model } from "mongoose";
 
-
-const productSchema = new Schema({
+const productSchema = new Schema(
+  {
     title: {
       type: String,
       minLength: [10, "title is too short"],
@@ -15,10 +15,13 @@ const productSchema = new Schema({
       lowercase: true,
       required: [true, "slug must be provided"],
     },
-    image: {
-      type: String,
-      required: [true, "image must be provided"],
-    },
+    images: [
+      {
+        type: String,
+        required: [true, "image must be provided"],
+      },
+    ],
+
     description: {
       type: String,
       minLength: [10, "title is too short"],
@@ -48,7 +51,6 @@ const productSchema = new Schema({
     summary: {
       type: String,
     },
-  
   },
   { timestamps: true }
 );
@@ -56,4 +58,3 @@ const productSchema = new Schema({
 const Product = model("Product", productSchema);
 
 export default Product;
-

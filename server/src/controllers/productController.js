@@ -20,14 +20,14 @@ const CreateProductController = async (req, res, next) => {
     const { title, description, category, quantity, brand, price, summary } =
       req.body;
 
-    //checking if an image is uploaded with the request
-    const image = req.file?.path;
+    //checking if images are uploaded with the request
+    const images = req.files?.map((file)=> file.path);
 
     //creating an object with product data
     const productData = {
       title,
       slug: slugify(title),
-      image,
+      images,
       description,
       category,
       quantity,

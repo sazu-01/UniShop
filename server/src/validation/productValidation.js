@@ -13,8 +13,8 @@ export const validateProduct = [
     .withMessage("min length of product title is 10 and max 100"),
 
     body('image').custom((value, { req }) => {
-      const image = req.file;
-      if (!image) {
+      const images = req.files?.map((file) => file.path);
+      if (!images) {
         throw HttpError(404, 'image is required');
       }
       return true; 

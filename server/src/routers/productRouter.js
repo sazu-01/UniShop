@@ -24,7 +24,7 @@ import { uploadProductImg } from "../middlewares/uploadFile.js";
 const productRouter = express.Router();
 
 productRouter.post("/create-product",IsLoggedIn,IsAdmin,
-uploadProductImg.single("image"),validateProduct,RunValidation,CreateProductController);
+uploadProductImg.array("images"),validateProduct,RunValidation,CreateProductController);
 
 productRouter.get("/all-product", GetAllProducts);
 
