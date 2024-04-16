@@ -1,9 +1,7 @@
 "use strict";
 
+import { Schema, model } from "mongoose";
 
- import { Schema, model } from "mongoose";
-
-import { defaultImageForProduct } from "../hiddenEnv.js";
 
 const productSchema = new Schema({
     title: {

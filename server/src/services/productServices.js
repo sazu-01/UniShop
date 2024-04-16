@@ -1,19 +1,35 @@
 "use strict";
 
+//packages
+import slugify from "slugify";
+import cloudinary from "../config/cloudinary.js";
+import HttpError from "http-errors";
+
 //model
 import Products from "../models/productModel.js";
-import DeleteFile from "../helpers/deleteFile.js";
-import slugify from "slugify";
+
+//helper function
+
+import {
+  deleteFileFromCloudinary,
+  publicIdWithouthExtensionFromUrl,
+} from "../helpers/cloudinaryHelper.js";
 
 export const CreateProductService = async (productData) => {
   try {
-    const { title } = productData;
+    let { title, image } = productData;
 
     //check if the product is already exist
     const checkTitle = await Products.exists({ title });
 
     //if exist then throw a error
     if (checkTitle) throw HttpError(409, "duplicate product");
+
+    //upload an image file to Cloudinary
+    const response = await cloudinary.uploader.upload(image, {
+      folder: "unishop/images/products",
+    });
+    productData.image = response.secure_url;
 
     //create a new product
     const product = await Products.create(productData);
@@ -68,7 +84,7 @@ export const GetProductService = async (slug) => {
 
 export const UpdateProductService = async (updateObj) => {
   try {
-    const {
+    let {
       title,
       description,
       category,
@@ -84,6 +100,28 @@ export const UpdateProductService = async (updateObj) => {
     let options = { new: true };
     let filter = { slug };
 
+    //get the current product data
+    const product = await GetProductService(slug);
+
+    //get the current image of product
+    const currentProductImage = product.image;
+
+    //if user input image
+    if (image) {
+      //first delete current image
+      const publicId = await publicIdWithouthExtensionFromUrl(
+        currentProductImage
+      );
+
+      deleteFileFromCloudinary("unishop/images/products", publicId);
+
+      //second upload the new image
+      const response = await cloudinary.uploader.upload(image, {
+        folder: "unishop/images/products",
+      });
+      image = response.secure_url;
+    }
+
     //update the title and slug if the title is provided
     if (title) {
       update.title = title;
@@ -91,13 +129,13 @@ export const UpdateProductService = async (updateObj) => {
     }
     // Properties to update directly
     const propertiesToUpdate = {
-      image,
       description,
       category,
       quantity,
       brand,
       price,
       summary,
+      image,
     };
 
     // Update properties directly
@@ -105,13 +143,6 @@ export const UpdateProductService = async (updateObj) => {
       if (propertiesToUpdate[prop] !== undefined) {
         update[prop] = propertiesToUpdate[prop];
       }
-    }
-    //get the current product data
-    const product = await GetProductService(slug);
-    //delete the old image if a new image is provided
-    if (image) {
-      DeleteFile(product.image);
-      update.image = image;
     }
 
     //update the product and return the updated document
@@ -132,8 +163,14 @@ export const DeleteProductService = async (slug) => {
     //get the current product data
     const product = await GetProductService(slug);
 
-    //delete the product image
-    DeleteFile(product.image);
+    //get current product image
+    const currentProductImage = product.image;
+
+    //receive public Id and delete the product image from cloudinary
+    const publicId = await publicIdWithouthExtensionFromUrl(
+      currentProductImage
+    );
+    deleteFileFromCloudinary("unishop/images/products", publicId);
 
     //delete product data by slug
     const deletedProduct = await Products.findOneAndDelete({ slug });

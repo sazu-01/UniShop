@@ -29,6 +29,7 @@ import {
   UpdateUserService,
 } from "../services/userServices.js";
 
+
 const GetAllUsers = async (req, res, next) => {
   try {
     //destructure the search page and limit from the parameters
@@ -85,8 +86,8 @@ const RegisterProcess = async (req, res, next) => {
     //destructure name email phone and password from req.body
     const { name, email, phone, password, address } = req.body;
 
-    //get the image from req file or set the default image
-    const image = req.file ? req.file.path : defaultImageForUser;
+    //get the default Image For User
+    const image = defaultImageForUser;
 
     //check if a user with the provided email already exists
     const existingUserViaEmail = await Users.exists({ email: email });
@@ -149,7 +150,7 @@ const CompleteUserRegister = async (req, res, next) => {
     const decode = Jwt.verify(token, jwtPrivateKey);
 
     //if the token is invalid or expired throw and error
-    if (!decode) throw HttpError(404, "user information not found");
+    if (!decode) throw HttpError(404, "unable to verify user");
 
     //create a new user document in the database using the decoded user information
     await Users.create(decode);
@@ -220,8 +221,8 @@ const UpdateUserByID = async (req, res, next) => {
     const { name, phone, address } = req.body;
     const image = req.file?.path;
 
-    //if all the fileds are empty throw an error
-    if (!name || phone || address || image) {
+    //if any fileds are not inputted throw an error
+    if (!name && !phone && !address && !image) {
       throw HttpError(404, "please input data");
     }
     //get the id from request params

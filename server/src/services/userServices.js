@@ -6,10 +6,13 @@ import mongoose from "mongoose";
 import Jwt from "jsonwebtoken";
 
 //helper functions
-import DeleteFile from "../helpers/deleteFile.js";
 import { CreateJsonWebToken } from "../helpers/jwt.js";
 import { SendEmail } from "../helpers/nodeMailer.js";
 import ProcessEmail from "../helpers/ProcessEmail.js";
+import {
+  deleteFileFromCloudinary,
+  publicIdWithouthExtensionFromUrl,
+} from "../helpers/cloudinaryHelper.js";
 
 //model
 import Users from "../models/userModel.js";
@@ -20,8 +23,7 @@ import {
   clientUrl,
   defaultImageForUser,
 } from "../hiddenEnv.js";
-
-
+import cloudinary from "../config/cloudinary.js";
 
 export const FindUsersService = async ({ limit, page, search }, Users) => {
   try {
@@ -107,9 +109,14 @@ export const deleteOneService = async (id, Users) => {
     if (user.isAdmin)
       throw HttpError(400, "user is an admin , admin can't be delete");
 
-    //access and delete user image if the image not default
-    const userImage = user.image;
-    if (userImage !== defaultImageForUser) DeleteFile(userImage);
+    //access current image of user 
+    const userCurrentImage = user.image;
+
+    // delete user image if the image not default
+    if (userCurrentImage !== defaultImageForUser) {
+      const publicId = await publicIdWithouthExtensionFromUrl(userCurrentImage);
+      deleteFileFromCloudinary("unishop/images/users", publicId);
+    }
 
     // delete the non-admin user
     await user.deleteOne();
@@ -210,32 +217,56 @@ export const ResetPasswordService = async (token, password) => {
   }
 };
 
-export const UpdateUserService = async ({ name, phone, address, image, id }) => {
+export const UpdateUserService = async ({
+  name,
+  phone,
+  address,
+  image,
+  id,
+}) => {
   try {
+    const options = { password: 0 };
 
     //find the user and get the current image
     const user = await FindOneService(Users, id, options);
     const userCurrentImage = user.image;
-    
-    //if the current image is not the default image, delete it
-    if(userCurrentImage !== defaultImageForUser) {
-      DeleteFile(userCurrentImage)
-    }
 
-   //check if each field has a new value and update the updates object accordingly
+    //check if each field has a new value and update the updates object accordingly
     const updates = {};
     if (name) updates.name = name;
     if (phone) updates.phone = phone;
     if (address) updates.address = address;
     if (image) updates.image = image;
 
-    const options = { password: 0 };
+    //if the current image is default image, then just upload the new one
+    if (userCurrentImage === defaultImageForUser) {
+      //upload new image on cloudinary
+      const response = await cloudinary.uploader.upload(image, {
+        folder: "unishop/images/users",
+      });
+      updates.image = response.secure_url;
+    }
+
+    /*if the current image is not default image, then delete current image and 
+    upload the new one*/
+    if (userCurrentImage !== defaultImageForUser) {
+      //delete current iamge which on cloudinary
+      const publicId = await publicIdWithouthExtensionFromUrl(userCurrentImage);
+      deleteFileFromCloudinary("unishop/images/users", publicId);
+
+      //upload new image on cloudinary
+      const response = await cloudinary.uploader.upload(image, {
+        folder: "unishop/images/users",
+      });
+      updates.image = response.secure_url;
+    }
 
     //update user by one field or all filed exclude password
-    const updateUser = await Users.findByIdAndUpdate(id, updates, {new: true,});
+    const updateUser = await Users.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
 
     return updateUser;
-
   } catch (error) {
     throw error;
   }

@@ -3,18 +3,11 @@
 //packages
 import multer from "multer";
 
-const userImageUploadDirectory = "public/images/users";
-
-const productImageUploadDirectory = "public/images/products";
-
-const maxImageSize = 2097152;
+const maxImageSize = 3145728;
 
 const allowedFileTypes = ["image/jpg", "image/jpeg", "image/png"];
 
 const userStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, userImageUploadDirectory);
-    },
 
     filename: function (req, file, cb) {
         cb(null, Date.now() + "-" + file.originalname);
@@ -22,9 +15,7 @@ const userStorage = multer.diskStorage({
 });
 
 const productStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, productImageUploadDirectory);
-    },
+
     filename : function(req, file, cb) {
         cb(null, Date.now() + "-" + file.originalname);
     }   

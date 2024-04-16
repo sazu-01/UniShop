@@ -21,15 +21,21 @@ const smtpUsername = process.env.smtpUsername;
 const smtpPassword = process.env.smtpPassword;
 
 //set the default Image for user and product , if user don't upload image
-const defaultImageForUser = "public/images/users/default.png";
+const defaultImageForUser = `https://res.cloudinary.com/ddpiqdmkl/image/upload/v1713249700/unishop/images/users/dunpcpomdz7ghqypnquk.jpg`;
 
-const defaultImageForProduct = "public/images/products/default.jpg";
 
 //retrive resetPasswordKey from env
 const resetPasswordKey = process.env.jwtResetPasswordKey;
 
 //retrive refresh JWT Key from env
 const jwtRefreshKey = process.env.jwtRefreshKey;
+
+//retrive cloudinary keys from env
+const cloudeName = process.env.CLOUDE_NAME;
+
+const cloudeApiKey = process.env.CLOUDE_API_KEY;
+
+const cloudeApiSecret = process.env.CLOUDE_API_SECRET;
 
 //client url
 const clientUrl = process.env.clientUrl;
@@ -43,7 +49,9 @@ export {
   smtpPassword,
   clientUrl,
   defaultImageForUser,
-  defaultImageForProduct,
   resetPasswordKey,
   jwtRefreshKey,
+  cloudeName,
+  cloudeApiKey,
+  cloudeApiSecret,
 };
