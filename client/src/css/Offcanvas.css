@@ -1,0 +1,56 @@
+
+.offcanvas-body div{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.offcanvas-body div a{
+  margin: 8px 1px;
+}
+
+#offcanvas{
+  display: none;
+  @media (max-width: 990px) {
+    display: block;
+  }
+}
+
+.offcanvas-start {
+  background: #000;
+}
+
+.offcanvas-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.offcanvas-header .offcanvas-title {
+  color: #fff;
+  text-decoration: none;
+  font-size: 2.1rem;
+  @media (max-width: 768px) {
+    font-size: 2.1rem !important;
+  }
+}
+
+.offcanvas-title::after {
+  content: ".";
+  color: var(--home-main-color);
+  font-size: 2.1rem;
+  font-weight: 900;
+  margin-left: 2px;
+}
+
+.offcanvas-header .btn-close{
+  font-size: 2.5rem;
+  color: var(--home-main-color);
+  opacity: 1;
+  cursor: pointer;
+  &:hover{
+  color: var(--home-main-color);
+  }
+}
+
+.toggle {
+  cursor: pointer;
+}
