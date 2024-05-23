@@ -2,6 +2,7 @@
 //layouts
 import HomeHeader from "../layouts/HomeHeader";
 import HomeCover from "../layouts/HomeCover";
+import Demos from "../layouts/Demos";
 
 
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
         <>
             <HomeHeader />
             <HomeCover />
+            <Demos />
             
         </>
     )
