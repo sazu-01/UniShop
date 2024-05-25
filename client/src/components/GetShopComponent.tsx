@@ -18,8 +18,6 @@ export default function getShopComponent(shopName: any) {
             return <ElectronicsShop />;
         case "furniture-shop":
             return <FurnitureShop />;
-        case "electronics-shop":
-            return <ElectronicsShop />;
         case "pet-shop":
             return <PetShop />;
         case "grocery-shop":

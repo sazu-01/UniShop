@@ -19,6 +19,7 @@ body {
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --home-main-color : #CA7430;
+  --fashion-shop-main-color:#010101;
 }
 
 h1 {
@@ -40,11 +41,13 @@ h2 {
 ::-webkit-scrollbar-thumb {
   background-color: #888;
 }
+
 h4,
 button,
 p,
 a,
 ul,
+span,
 li {
   font-size: 1.6rem;
 }

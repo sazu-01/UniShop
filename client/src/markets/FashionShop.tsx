@@ -1,10 +1,15 @@
 
 
-import React from 'react'
+//layout
+import TopHeader from "../layouts/TopHeader"
 
 const FashionShop = () => {
+
+
   return (
-    <div>FashionShop</div>
+    <>
+   <TopHeader bgColor="#010101" color="#fff"  />
+    </>
   )
 }
 
