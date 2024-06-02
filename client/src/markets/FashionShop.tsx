@@ -1,16 +1,12 @@
-
 //layout
-import TopHeader from "../layouts/TopHeader"
+import TopHeader from "../layouts/TopHeader";
 
 const FashionShop = () => {
-
-
   return (
     <>
-   <TopHeader bgColor="#010101" color="#fff"  />
-
+      <TopHeader bgColor="#010101" color="#fff" />
     </>
-  )
-}
+  );
+};
 
-export default FashionShop
+export default FashionShop;
