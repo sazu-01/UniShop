@@ -1,62 +1,109 @@
+.topheader {
+  width: 100%;
+}
 
-.topheader{
+.topheader_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 40px;
+  margin: 0rem 7rem;
+}
+
+/*left part start*/
+
+.topheader_left {
+  display: flex;
+}
+
+.topheader_left div {
+  padding-right: 1.6rem;
+}
+
+.topheader_left div span {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.topheader_contact_item {
+  display: flex;
+  align-items: center;
+}
+
+.topheader_icon {
+  font-size: 1.8rem;
+}
+
+/*left part end*/
+
+/* right part start*/
+
+.topheader_right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.topheader_right a {
+  font-size: 1.3rem;
+  text-decoration: none;
+  font-weight: 600;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.topheader_right a:first-child {
+  padding-right: 1.6rem;
+}
+
+/* right part end*/
+
+/*responsive logo start*/
+
+.responsive_logo {
+  display: none;
+}
+
+.responsive_logo a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: 600;
+  top: -0.6rem;
+  height: 46px;
+  position: relative;
+}
+
+.responsive_logo a::after {
+  content: ".";
+  font-size: 3rem;
+  color: var(--home-main-color);
+  position: relative;
+}
+
+/*responsive logo end*/
+
+/*responcive part start*/
+
+@media (max-width: 990px) {
+  .topheader_content {
+    margin: 0rem 2rem;
+  }
+}
+@media (max-width: 768px) {
+  .topheader_left {
+    display: none;
+  }
+
+  .responsive_logo {
     display: flex;
-    align-items: center;
-    height: 35px;
-    max-width: 100%;
-    width: 100%;
+  }
 }
 
-.topheader .container {
-    display: flex;
-    justify-content: space-between;
-    padding: 0px;
-
-}
-
-/*left part*/
-
-.topheader_left{
-    display: flex;
-}
-
-.topheader_left div{
-    padding-right: 1.6rem;
-}
-
-.topheader_left div span{
-    font-size: 1.3rem;
-    font-weight:500;
-}
-
-.topheader_contact_item{
-    display: flex;
-    align-items: center;
-}
-
-.topheader_icon{
-    font-size: 1.8rem;
-}
-
-
-/*right part*/
-.topheader_right a{
-    font-size: 1.3rem;
-    text-decoration: none;
-    padding-right: 1.6rem;
-    font-weight:600;
-    &:hover{
-        text-decoration: underline;
- 
-    }
-}
-
-
-@media (max-width:768px){
-    .topheader .container {
-        justify-content:flex-end;
-    }
-    .topheader_left{
-        display: none;
-    }
+@media (min-width: 1400px) {
+  .topheader_content {
+    max-width: 1366px;
+    margin: 0px auto;
+  }
 }
