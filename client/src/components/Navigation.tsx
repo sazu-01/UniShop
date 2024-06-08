@@ -1,6 +1,6 @@
 
 
-const Navigation = [
+export const Navigation = [
     {
         icon : "",
         title : "Fashion",
