@@ -51,6 +51,8 @@
   }
 }
 
-.toggle {
+.home-header-offcavas-toggle{
   cursor: pointer;
+  color: var(--home-main-color);
+  font-size: 2.2rem;
 }

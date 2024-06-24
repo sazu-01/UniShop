@@ -1,12 +1,13 @@
+
 //packages
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //icons
-import { UserIcon } from "../components/SVG";
-import { CartIcon } from "../components/SVG";
-import { HeartIcon } from "../components/SVG";
-import { SearchIcon } from "../components/SVG";
-import { IoIosArrowDown } from "react-icons/io";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons/faMagnifyingGlass";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { MdOutlineShoppingBag } from "react-icons/md";
 
 
 //css
@@ -14,47 +15,45 @@ import "../css/MiddleHeader.css";
 
 const MiddleHeader = () => {
   return (
-    <>
-      <div className="middle_header">
-        <div className="middle_header_content">
+      <div className="middle-header">
+        <div className="middle-header-content">
 
-          <div className="middle_header_logo">
+
+          <div className="middle-header-logo">
             <Link to={`/`}>unishop</Link>
           </div>
 
-          <div className="middle_header_search_wrapper">
-            <input type="text" className="" placeholder="Search Products Like Mouse Keyboard" />
-            <button><SearchIcon /></button>
-            <div className="search_categories">
-                <p>All Categories <span><IoIosArrowDown /></span></p>
-            </div>
+          <div className="middle-header-search-wrapper">
+            <input type="text" className="" placeholder="search phone, watch, shirt..." />
+            <button><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
           </div>
 
-          <div className="middle_header_icons">
+          <div className="middle-header-icons">
 
             <Link to={`/`}>
-              <div className="middle_header_user">
-                <UserIcon />
+
+              <div className="middle-header-user">
+              <FontAwesomeIcon icon={faUser}  style={{fontSize:"2rem",color:"#000"}} />
               </div>
             </Link>
 
             <Link to={`/`} >
-              <div className="middle_header_notification">
-                <HeartIcon />
+              <div className="middle-header-notification">
+              <FontAwesomeIcon icon={faHeart} style={{fontSize:"2rem",color:"#000"}} />
               </div>
 
             </Link>
 
             <Link to={`/`}>
-              <div className="middle_header_cart">
-                <CartIcon />
-              </div>
+              <div className="middle-header-cart">
+                <MdOutlineShoppingBag  style={{fontSize:"2.3rem",color:"#000"}}  />
+                </div> 
             </Link>
           </div>
 
         </div>
       </div>
-    </>
+    
   );
 };
 

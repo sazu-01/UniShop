@@ -2,72 +2,72 @@
 
 export const Navigation = [
     {
-        icon : "",
+        icon : "PiDressDuotone",
         title : "Fashion",
-        href : "/fashion",
+        href : "fashion",
         categorise : ["men" , "women" , "kid", "old" , "new arrival"]
     },
     {
-        icon : "",
+        icon : "FaLaptop",
         title : "Electronics",
-        href : "/electronics",
+        href : "electronics",
         categorise : ["mobile" , "laptop", "smart watch" , "monitor" , "play station 5",]
     },
 
     {
-        icon : "",
+        icon : "RiSofaLine",
         title : "Furniture",
-        href : "/furniture",
+        href : "furniture",
         categorise : ["sofa" , "chair" , "living room", "table" , "new arrival"]
     },
 
     {
-        icon : "",
+        icon : "GiTomato",
         title : "Grocery",
-        href : "/grocery",
+        href : "grocery",
         categorise : ["meat" , "fish" , "vegetables", "fruits",  "egg" ,]
     },
 
     {
-        icon : "",
+        icon : "AiOutlineMedicineBox",
         title : "Medicine",
-        href : "/medicine",
+        href : "medicine",
         categorise : ["health care" , "supplement" , "herbal", "baby & mom care" , "veterinary"]
     },
     {
-        icon : "",
+        icon : "IoLogoOctocat",
         title : "Pets",
-        href : "/pets",
+        href : "pets",
         categorise : ["food" , "dog collar" , "toys", "navbar 1" , "navbar 2"]
     },
     {
-        icon : "",
+        icon : "PiNotebookBold",
         title : "Book",
-        href : "/book",
+        href : "book",
         categorise : ["" , "" , "" , "" , ""]
     },
     {
-        icon : "",
-        title : "Demo Navbar",
-        href : "/demo-navbar-1",
+        icon : "BiFileBlank",
+        title : "Demo Link",
+        href : "demo-link-1",
         categorise : ["" , "" , "", "" , ""]
     },
     {
-        icon : "",
-        title : "Demo Navbar 2",
-        href : "/demo-navbar-2",
+        icon : "BiFileBlank",
+        title : "Demo Link 2",
+        href : "demo-link-2",
         categorise : ["" , "" , "", "" , ""]
     },
     {
-        icon : "",
-        title : "Demo Navbar 3",
-        href : "/demo-navbar-3",
+        icon : "BiFileBlank",
+        title : "Demo Link 3",
+        href : "demo-link-3",
         categorise : ["" , "" , "", "" , ""]
     },
     {
-        icon : "",
-        title : "Demo Navbar 4",
-        href : "/demo-navbar-4",
+        icon : "BiFileBlank",
+        title : "Demo Link 4",
+        href : "demo-link-4",
         categorise : ["" , "" , "", "" , ""]
     },
 

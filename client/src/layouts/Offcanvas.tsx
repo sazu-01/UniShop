@@ -9,13 +9,17 @@ import "../css/Offcanvas.css";
 
 //component
 import HomeHeaderMenu from "../components/HomeHeaderMenu";
-import { HamburgerMenu } from "../components/SVG";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const Offcanvas = () => {
   return (
-    <>
+    
       <div id="offcanvas" data-bs-toggle="offcanvas">
-        <HamburgerMenu />
+        <RxHamburgerMenu  
+        className="home-header-offcavas-toggle"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasWithBothOptions"
+      aria-controls="offcanvasWithBothOptions"/>
 
         <div
           className="offcanvas offcanvas-start"
@@ -43,7 +47,7 @@ const Offcanvas = () => {
           </div>
         </div>
       </div>
-    </>
+    
   );
 };
 
