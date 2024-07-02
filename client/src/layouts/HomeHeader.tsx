@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import HomeHeaderMenu from "../components/HomeHeaderMenu";
 
 //layouts
-import Offcanvas from "./Offcanvas";
+import OffcanvasFun from "./Offcanvas";
 
 //css
 import "../css/HomeHeader.css"
@@ -48,7 +48,7 @@ const HomeHeader = () => {
               <Link to={`/`}>unishop</Link>
             </div>
             <HomeHeaderMenu />
-            <Offcanvas />
+            <OffcanvasFun />
           </div>
         </div>
       </section>
