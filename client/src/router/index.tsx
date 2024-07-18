@@ -8,6 +8,9 @@ import GetShopComponent from "../components/GetShopComponent"
 
 //home page
 import Home from "../pages/Home";
+import Register from "../auth/Register";
+import ActivateEmail from "../auth/ActivateEmail";
+import Login from "../auth/Login";
 
 export const router = createBrowserRouter([
     {            
@@ -17,6 +20,18 @@ export const router = createBrowserRouter([
           {
             path: "/",
             element: <Home />,
+          },
+          {
+            path: "/register",
+            element : <Register />
+          },
+          {
+            path: "/login",
+            element: <Login />
+          },
+          {
+            path : `/api/users/activate/:token`,
+            element : <ActivateEmail/>,
           },
           //markets route
           ...homePages.names.map((homePage) => ({

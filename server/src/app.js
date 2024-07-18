@@ -5,7 +5,8 @@ import express from "express";
 import morgan from "morgan";
 import createHttpError from "http-errors";
 import bodyParser from "body-parser";
-import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
 //helpers function
 import { ErrorResponse } from "./helpers/responseCode.js";
@@ -23,7 +24,8 @@ const app = express();
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser())
+app.use(cookieParser());
+app.use(cors());
 
 //routers
 app.use("/api/users", userRouter);

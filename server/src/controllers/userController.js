@@ -118,7 +118,7 @@ const RegisterProcess = async (req, res, next) => {
       html: `
             <h2>Hello ${name}</h2>
             <p>please click on the following link to activate your email</p>
-            <a href="${clientUrl}/api/users/activate/${token}" target="blank">
+            <a href="${clientUrl}api/users/activate/${token}" target="blank">
             activate account</a>`,
     };
 
