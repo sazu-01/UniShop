@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import variableReducer from './feauters/variable';
+import variableReducer from './features/variable';
 
 export const store = configureStore({
   reducer: {

@@ -12,7 +12,7 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 
 
-import { CloseModalFun, ShowModalFun } from '../feauters/variable';
+import { CloseModalFun, ShowModalFun } from '../features/variable';
 import { useDispatch , useSelector} from 'react-redux';
 import { RootState } from '../store';
 
