@@ -1,37 +1,19 @@
 
+//packages
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+//utilities
 import { api } from "../utili/axiosConfig";
 
-//define user interface
-export interface User {
-  _id: string,
-  name: string,
-  email: string,
-  phone: number,
-  image: string,
-  address: string,
-  isAdmin: boolean,
-  isBanned: boolean
-}
+//types
+import { authState , User , loginCredentilas } from "../types/authSliceProps";
 
-//define auth state interface
-export interface authState {
-  user: User | null,
-  isLoading: boolean,
-  error: null | string,
-}
 
 //define state for authslice
 export const initialState: authState = {
   user: null,
   isLoading: false,
   error: null
-}
-
-//define login credentials interface
-export interface loginCredentilas {
-  email: string,
-  password: string
 }
 
 //async thunk for login

@@ -1,11 +1,11 @@
 
 //markets
-import FashionShop from "../markets/FashionShop";
-import MedicineShop from "../markets/MedicineShop";
-import ElectronicsShop from "../markets/ElectronicsShop";
-import FurnitureShop from "../markets/FurnitureShop";
-import PetShop from "../markets/PetShop";
-import GroceryShop from "../markets/GroceryShop";
+import FashionShop from "../pages/markets/FashionShop";
+import MedicineShop from "../pages/markets/MedicineShop";
+import ElectronicsShop from "../pages/markets/ElectronicsShop";
+import FurnitureShop from "../pages/markets/FurnitureShop";
+import PetShop from "../pages/markets/PetShop";
+import GroceryShop from "../pages/markets/GroceryShop";
 
 
 export default function getShopComponent(shopName: any) {

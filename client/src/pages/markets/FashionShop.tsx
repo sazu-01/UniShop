@@ -1,8 +1,8 @@
 //layout
-import TopHeader from "../layouts/TopHeader";
-import MiddleHeader from "../layouts/MiddleHeader";
-import BottomHeader from "../layouts/BottomHeader";
-import FashionCover from "../layouts/FashionCover";
+import TopHeader from "../../layouts/TopHeader";
+import MiddleHeader from "../../layouts/MiddleHeader";
+import BottomHeader from "../../layouts/BottomHeader";
+import FashionCover from "../../layouts/FashionCover";
 
 
 const FashionShop = () => {
