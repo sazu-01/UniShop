@@ -7,8 +7,9 @@ import express from "express";
 import { 
     LoginController, 
     LogoutController, 
-    HandleRefreshToken,
-    HandleProtectedRoute } 
+    GetCurrentUserController,
+    HandleRefreshToken
+ } 
 from "../controllers/authController.js";
 
 //import middleware functions
@@ -24,7 +25,6 @@ const authRouter = express.Router();
 
 authRouter.post("/login",validateUserLogin, RunValidation, IsLoggedOut, LoginController);
 authRouter.post("/logout", IsLoggedIn, LogoutController);
+authRouter.get('/current-user', GetCurrentUserController);
 authRouter.get("/refresh-token", HandleRefreshToken);
-authRouter.get("/protected-route",HandleProtectedRoute);
-
 export default authRouter;

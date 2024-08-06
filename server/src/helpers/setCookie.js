@@ -1,19 +1,21 @@
 
 
 export const SetAccessTokenCookie = (res, accessToken) => {
+    const isProduction = process.env.NODE_ENV === "production";
     return res.cookie("accessToken", accessToken, {
-        maxAge: 10 * 60 * 1000, //10 minutes
+        maxAge: 15 * 60 * 1000, //15 minutes
         httpOnly: true,
-        //secure: true,
-        sameSite: false
+        secure: true,
+        sameSite: isProduction ? "none" : "lax"
     });
 }
 
 export const SetRefreshTokenCookie = (res, refreshToken) => {
+    const isProduction = process.env.NODE_ENV === "production";
     return res.cookie("refreshToken", refreshToken, {
-        maxAge: 7 * 24 * 60 * 60 * 1000, //7 days
+        maxAge: 10 * 24 * 60 * 60 * 1000, //10 days
         httpOnly: true,
-        //secure: true,
-        sameSite: "none",
+        secure: true,
+        sameSite: isProduction ? "none" : "lax",
     });
 }
