@@ -3,6 +3,7 @@ import TopHeader from "../../layouts/TopHeader";
 import MiddleHeader from "../../layouts/MiddleHeader";
 import BottomHeader from "../../layouts/BottomHeader";
 import FashionCover from "../../layouts/FashionCover";
+import FashionProducts from "../../components/FashionProducts";
 
 
 const FashionShop = () => {
@@ -13,6 +14,7 @@ const FashionShop = () => {
       <MiddleHeader />
       <BottomHeader />
       <FashionCover />
+      <FashionProducts />
     </>
   );
 };
