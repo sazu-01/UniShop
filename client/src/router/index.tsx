@@ -6,11 +6,12 @@ import Root from "../Root";
 import { homePages } from "../components/DemosArray";
 import GetShopComponent from "../components/GetShopComponent"
 
-//home page
+//pages
 import Home from "../pages/Home";
 import Register from "../auth/Register";
 import ActivateEmail from "../auth/ActivateEmail";
 import Login from "../auth/Login";
+import SingleProduct from "../pages/SingleProduct";
 
 export const router = createBrowserRouter([
     {            
@@ -38,6 +39,11 @@ export const router = createBrowserRouter([
             path: homePage,
             element: GetShopComponent(homePage),
           })),
+
+          {
+            path : "/product/:slug",
+            element : <SingleProduct />
+          }
           
         ]
     
