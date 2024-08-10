@@ -8,10 +8,13 @@ import GetShopComponent from "../components/GetShopComponent"
 
 //pages
 import Home from "../pages/Home";
-import Register from "../auth/Register";
-import ActivateEmail from "../auth/ActivateEmail";
-import Login from "../auth/Login";
+import Register from "../pages/auth/Register";
+import ActivateEmail from "../pages/auth/ActivateEmail";
+import Login from "../pages/auth/Login";
 import SingleProduct from "../pages/SingleProduct";
+
+//layout
+import Header from "../layouts/Header";
 
 export const router = createBrowserRouter([
     {            
@@ -23,27 +26,33 @@ export const router = createBrowserRouter([
             element: <Home />,
           },
           {
-            path: "/register",
-            element : <Register />
-          },
-          {
-            path: "/login",
-            element: <Login />
-          },
-          {
-            path : `/api/users/activate/:token`,
-            element : <ActivateEmail/>,
-          },
-          //markets route
-          ...homePages.names.map((homePage) => ({
-            path: homePage,
-            element: GetShopComponent(homePage),
-          })),
-
-          {
-            path : "/product/:slug",
-            element : <SingleProduct />
+            element : <Header />,
+            children : [
+              {
+                path: "/register",
+                element : <Register />
+              },
+              {
+                path: "/login",
+                element: <Login />
+              },
+              {
+                path : `/api/users/activate/:token`,
+                element : <ActivateEmail/>,
+              },
+              //markets route
+              ...homePages.names.map((homePage) => ({
+                path: homePage,
+                element: GetShopComponent(homePage),
+              })),
+    
+              {
+                path : "/product/:slug",
+                element : <SingleProduct />
+              }
+            ]
           }
+          
           
         ]
     
