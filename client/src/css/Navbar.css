@@ -11,7 +11,7 @@
   padding: 0rem 1.6rem;
   width: 26rem;
   height: 4rem;
-  border-radius: 0.5rem;
+  border-radius: 0.3rem;
   cursor: pointer;
 }
 
@@ -50,10 +50,10 @@
   z-index: -1;
   max-width: 26rem;
   background-color: #ffffff;
-  box-shadow: rgba(43, 52, 69, 0.1) 0px 4px 16px;
+  box-shadow: rgba(43, 52, 69, 0.3) 0px 4px 16px;
   position: relative;
   left: 0rem;
-  top: 1rem;
+  top: 0.8rem;
   transition: opacity 0.2s ease-in;
 }
 
@@ -62,11 +62,13 @@
   z-index: 10;
   max-width: 26rem;
   background-color: #ffffff;
-  box-shadow: rgba(43, 52, 69, 0.1) 0px 4px 16px;
+  box-shadow: rgba(43, 52, 69, 0.3) 0px 4px 16px;
   position: relative;
   left: 0rem;
-  top: 1rem;
+  top: 0.8rem;
   transition: opacity 0.2s ease-in;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
 }
 
 .menubar-wrapper li {

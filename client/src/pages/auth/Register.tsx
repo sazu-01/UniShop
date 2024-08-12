@@ -8,17 +8,20 @@ import axios from 'axios';
 import { FaRegEye,FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
-//component
-import TopHeader from '../layouts/TopHeader';
+//action
+import { ShowModalFun } from '../../features/variableSlice';
 
+//hook
+import { useAppDispatch } from '../../app/hook';
 
 //css
-import "../css/Register.css";
+import "../../css/Register.css";
 import { FormEvent, useState } from 'react';
-import MiddleHeader from '../layouts/MiddleHeader';
-import BottomHedaer from '../layouts/BottomHeader';
+
 
 const Register = () => {
+
+    const dispatch = useAppDispatch();
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -39,11 +42,9 @@ const Register = () => {
         }
     }
 
+    
     return (
         <>
-        {/* <TopHeader color="#fff" bgColor="#000" />
-        <MiddleHeader />
-        <BottomHedaer /> */}
             <div id="register">
                 <div className="register-content">
                
@@ -133,7 +134,7 @@ const Register = () => {
 
                     <p className="mt-4 fw-semibold">
                         have an account?&nbsp;
-                        <Link to="/fashion-shop/" >Login</Link>
+                        <Link to="/fashion-shop/" onClick={()=>dispatch(ShowModalFun())} >Login</Link>
                     </p>
                 </form>
                 </div>

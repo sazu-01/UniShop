@@ -5,6 +5,8 @@
 }
 
 .user{
+    width:45px;
+    height:45px;
     position: relative;
     padding: 0.8rem;
     border-radius: 50%;
@@ -12,7 +14,7 @@
     z-index: 1;
     margin-left: 1.5rem;
     cursor: pointer;
-
+    border: none;
 }
 
 .modal{

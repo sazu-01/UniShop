@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { router } from './router';
 
 //actions
-import {loadAccessToken } from './features/authSlice';
+import {getCurrentUser, loadAccessToken } from './features/authSlice';
 import { getProduct } from './features/productSlice';
 
 //types
@@ -26,10 +26,13 @@ function App() {
 
 
   /*dispatch the loadAccessToken if user null & 
-  dispatch getProduct once whenever reload the application*/
+  dispatch getProduct once whenever reload the application
+  dispatch current user once whenever reload the application
+  */
   useEffect(()=>{
     if(user===null) dispatch(loadAccessToken());
     dispatch(getProduct());
+    dispatch(getCurrentUser());
   },[]);
 
 

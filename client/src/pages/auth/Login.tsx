@@ -10,14 +10,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 //redux actions
-import { CloseModalFun, ShowModalFun } from '../features/variableSlice';
-import { login } from '../features/authSlice';
+import { CloseModalFun, ShowModalFun } from '../../features/variableSlice';
+// import { login } from '../features/authSlice';
+import { login } from '../../features/authSlice';
 
 //import custom hooks
-import { useAppDispatch , useAppSelector} from '../app/hook';
+import { useAppDispatch , useAppSelector} from '../../app/hook';
 
 //css
-import "../css/Login.css";
+import "../../css/Login.css"
 
 
 
@@ -50,11 +51,11 @@ const Login = () => {
   return (
     <>
      {/*user icon to open login modal*/}
-      <Link to={``} onClick={handleShow} className="user">
+      <button onClick={handleShow} className="user">
         <span>
           <FontAwesomeIcon icon={faUser} style={{ fontSize: "1.7rem", color: "#000" }} />
         </span>
-      </Link>
+      </button>
 
       {/*login modal*/}
       <Modal show={show} onHide={handleClose} centered >

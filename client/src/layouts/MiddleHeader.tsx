@@ -3,7 +3,7 @@
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-//auth 
+//auth page
 import Login from "../pages/auth/Login";
 
 //icons
@@ -12,14 +12,19 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { MdOutlineShoppingBag } from "react-icons/md";
 
+//hook
+import { useAppSelector } from "../app/hook";
 
 //css
 import "../css/MiddleHeader.css";
 
 
+
 const MiddleHeader = () => {
 
-  const isLoggedin = true;
+  //get the user from auth slice
+  const { user } = useAppSelector((state) => state.auth);
+
   return (
     <div className="middle-header">
       <div className="middle-header-content">
@@ -35,12 +40,10 @@ const MiddleHeader = () => {
         </div>
 
         <div className="middle-header-icons">
-          {isLoggedin ? <Login /> : <Link to={'/register'}>
 
-            <div className="middle-header-user">
+          {user !== null ? <Link to={`/user/dashboard`}> <div className="middle-header-user">
             <FontAwesomeIcon icon={faUser} style={{ fontSize: "1.7rem", color: "#000" }} />
-            </div>
-          </Link>}
+          </div></Link> :  <Login />}
 
 
           <Link to={`/`} >
