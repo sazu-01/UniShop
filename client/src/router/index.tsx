@@ -13,6 +13,7 @@ import ActivateEmail from "../pages/auth/ActivateEmail";
 import Login from "../pages/auth/Login";
 import SingleProduct from "../pages/SingleProduct";
 import UserDashboard from "../pages/dashboards/UserDashboard";
+import Cart from "../pages/checkout/Cart";
 
 //layout
 import Header from "../layouts/Header";
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
               {
                 path : "/product/:slug",
                 element : <SingleProduct />
+              },
+              {
+                path : "/checkout/cart",
+                element : <Cart />
               }
             ]
           }

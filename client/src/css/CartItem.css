@@ -1,0 +1,108 @@
+
+
+#cart-item{
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    border-radius: 1rem;
+    background-color: #fff;
+    box-shadow: rgba(43, 52, 69, 0.3) 0px 4px 16px;
+    margin-bottom: 1.5rem;
+    @media (max-width:425px) {
+        flex-wrap: wrap;
+    }
+}
+
+#cart-item img{
+    width: 14rem;
+    height: 14rem;
+    @media (max-width:425px) {
+        min-width: 100%;
+        height: auto;
+    }
+}
+
+#cart-item .product-details{
+    display: flex;
+    width: 100%;
+    min-width: 0rem;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem;
+}
+
+#cart-item .product-details .title{
+  text-decoration: none;
+  color: rgb(43, 52, 69);
+  font-weight: 500;
+  font-size: 2rem;
+}
+
+#cart-item .product-details .title div{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#cart-item .product-details .delete-item{
+    cursor: unset;
+    box-shadow: none;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+#cart-item .product-details .delete-item .delete-item-btn{
+    border: none;
+    outline: none;
+    line-height: 1;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: 600;
+    color: inherit;
+    background-color: transparent;
+    transition: 150ms ease-in-out;
+    padding: 0.4rem;
+    margin-left: 1.2rem;
+    &:hover{
+       background-color:  rgb(245, 245, 245);
+    }
+}
+
+#cart-item .product-details .cart-quantity-price{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.product-details .cart-quantity-price .price{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.product-details .cart-quantity-price .quantity{
+    display: flex;  
+    flex-direction: row;
+    align-items: center;
+}
+
+.product-details .cart-quantity-price .quantity button{
+  display: flex;
+  width: unset;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  line-height: 1;
+  font-weight: 600;
+  background: transparent;
+  border: 1px solid rgb(0, 0, 0);
+}
+
+.product-details .cart-quantity-price .quantity div{
+    margin : 0rem 0.5rem ;
+    font-weight: 600;
+    font-size: 1.6rem;
+}

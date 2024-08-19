@@ -3,7 +3,7 @@
 export interface ProductType {
     _id : string,
     title : string,
-    slug : string,
+    slug : string | undefined,
     images : string[],
     description : string,
     category : string,
