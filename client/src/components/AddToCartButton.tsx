@@ -7,7 +7,7 @@ import { useAppDispatch } from "../app/hook";
 
 //action
 import { AddToCart } from "../features/cartSlice";
-import { cartItem } from "../types/cartSliceType";
+import { cartItem } from "../types/SliceTypes";
 
 
 

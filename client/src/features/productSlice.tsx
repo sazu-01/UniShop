@@ -6,7 +6,7 @@ import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../utili/axiosConfig";
 
 //types
-import { Products, ProductType } from "../types/productSlicetypes";
+import { Products, ProductType } from "../types/SliceTypes";
 
 const initialState : Products = {
    isLoading : false,

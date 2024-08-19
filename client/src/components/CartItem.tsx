@@ -15,7 +15,7 @@ import { IoClose, IoAdd } from "react-icons/io5";
 import { AiOutlineMinus } from "react-icons/ai";
 
 //types
-import { cartItem } from '../types/cartSliceType';
+import { cartItem } from '../types/SliceTypes';
 
 
 const CartItem: React.FC<{ product: cartItem }> = ({ product }) => {

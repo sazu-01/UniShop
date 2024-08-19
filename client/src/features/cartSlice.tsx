@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 //type
-import { stateType } from "../types/cartSliceType";
+import { stateType } from "../types/SliceTypes";
 
 const initialState : stateType = {
     cart : localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")!) : [],

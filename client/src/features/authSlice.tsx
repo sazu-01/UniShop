@@ -6,7 +6,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../utili/axiosConfig";
 
 //types
-import { authState , User , loginCredentilas } from "../types/authSliceProps";
+import { authState , User , loginCredentilas } from "../types/SliceTypes";
 
 
 //define state for authslice

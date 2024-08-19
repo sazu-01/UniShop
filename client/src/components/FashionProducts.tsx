@@ -6,7 +6,7 @@ import Slider from "react-slick";
 import { useAppSelector } from '../app/hook';
 
 //type
-import { ProductType } from '../types/productSlicetypes';
+import { ProductType } from '../types/SliceTypes';
 
 //css
 import "slick-carousel/slick/slick-theme.css";
