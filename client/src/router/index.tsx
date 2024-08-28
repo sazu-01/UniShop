@@ -14,6 +14,7 @@ import Login from "../pages/auth/Login";
 import SingleProduct from "../pages/SingleProduct";
 import UserDashboard from "../pages/dashboards/UserDashboard";
 import Cart from "../pages/checkout/Cart";
+import Shipping from "../pages/checkout/Shipping";
 
 //layout
 import Header from "../layouts/Header";
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
               {
                 path : "/checkout/cart",
                 element : <Cart />
+              },
+              {
+                path : "/checkout/shipping",
+                element : <Shipping />
               }
             ]
           }

@@ -1,0 +1,93 @@
+
+.shipping-page{
+    width: 100%;
+    background-color:#FEFEFE;
+}
+
+.shipping-page-inner{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2rem 6.8rem;
+    justify-content: space-between;
+}
+
+.shipping-address{
+    max-width: 100%;
+    min-width: 30rem;
+    flex: 1;
+}
+
+
+
+#shipping-form{
+    box-shadow: rgba(43, 52, 69, 0.3) 0px 2px 16px;
+    padding: 1.5rem;
+}
+
+#shipping-form div{
+    margin: 0.5rem;
+}
+
+#shipping-form div input, 
+#shipping-form div select{
+    width: 100%;
+    padding: 1rem;
+    height: 4rem;
+    font-size: 1.4rem;
+    outline: none;
+    border: 1px solid rgb(218, 225, 231);
+    
+}
+
+#shipping-form div textarea {
+    width: 100%;
+    height: 10rem;
+    padding: 1rem;
+    border: 1px solid rgb(218, 225, 231);
+    outline: none;
+}
+
+#shipping-form div > label, 
+#shipping-form div > div {
+    display: block;
+    font-size: 1.6rem;
+    outline: none;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+}
+
+.d-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.d-flex > div {
+    flex: 1 1 300px;
+}
+
+
+@media (max-width: 990px) {
+    .shipping-page-inner {
+        margin: 2rem 2rem;
+    }
+}
+
+@media (max-width: 784px) {
+    .shipping-page-inner {
+        margin: 2rem 1rem;
+    }
+    
+    #shipping-form div input,
+    #shipping-form div select,
+    #shipping-form div textarea {
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width:1367px) {
+    .shipping-page-inner{
+        width: 1366px;
+        margin: 2rem auto;
+    }
+}
+ 

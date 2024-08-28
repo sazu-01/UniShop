@@ -42,14 +42,17 @@ const SingleProduct = () => {
         }
     }
 
+    useEffect(()=>{
+      getSingleProduct();
+    },[])
+
     //fetch the product data when component mount
     useEffect(() => {
-        getSingleProduct();
         if (SingleProduct) {
             let isProductInCart = cart.some((item) => item._id === SingleProduct._id)
             setProductInCart(isProductInCart);
         }
-    }, [SingleProduct, cart])
+    }, [SingleProduct,cart])
 
     //show loading state while fetching data
     if (!SingleProduct) {
