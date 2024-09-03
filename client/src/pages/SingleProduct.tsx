@@ -1,3 +1,4 @@
+
 //packages
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -8,6 +9,7 @@ import { api } from "../utili/axiosConfig";
 //component
 import Images from "../components/Images";
 import AddToCart from "../components/AddToCartButton";
+import Quantity from "../components/Quantity";
 
 //icons
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
@@ -17,19 +19,25 @@ import "../css/SingleProduct.css";
 
 //types
 import { singleProductType } from "../types/productTypes";
+
+//hooks
 import { useAppSelector } from "../app/hook";
 
 const SingleProduct = () => {
 
+    const { slug } = useParams();
 
     //state to store single product data
     const [SingleProduct, setSingleProduct] = useState<singleProductType | null>(null);
 
+    //state to store boolean result of current singleproduct in cart or not 
     const [productInCart, setProductInCart] = useState(false);
 
-    const { cart } = useAppSelector((state) => state.cart);
+    //get productQuantity of user select 
+    const {productQuantity} = useAppSelector((state)=> state.productQuantity);
 
-    const { slug } = useParams();
+    //get the cart object from slices
+    const { cart } = useAppSelector((state) => state.cart);
 
     //function to fetch single product data from api 
     const getSingleProduct = async () => {
@@ -41,10 +49,12 @@ const SingleProduct = () => {
             console.log(error.response?.data?.message);
         }
     }
-
+    
+    //fetch the getSingleProduct function whenever reload the page 
     useEffect(()=>{
       getSingleProduct();
     },[])
+
 
     //fetch the product data when component mount
     useEffect(() => {
@@ -80,11 +90,11 @@ const SingleProduct = () => {
                             <AiFillStar /><AiFillStar /><AiFillStar /><AiFillStar /><AiOutlineStar />
                         </div>
                         <div className="price">price: ${price}</div>
+                        {/*Quantity component for select quantity of product*/}
+                        <Quantity />
                         <div className="single-product-button">
-                            {/*if the current singleproduct is aleready on cart render link if not then AddToCart component*/}
-                            {productInCart ? <Link to={`/checkout/cart`}>
-                                <button className="add-to-cart" >go to cart</button>
-                            </Link> : <AddToCart product={{ _id, price, quantity, title, slug, images }} />}
+                            {/*AddToCart component for add product in cart*/}
+                            {<AddToCart productInCart={productInCart} data={{ _id, price, productQuantity, title, slug, images, quantity }}  />}
                         </div>
                     </div>
                 </div>

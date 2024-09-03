@@ -13,17 +13,18 @@ const cartSlice = createSlice({
     initialState,
     reducers : {
         AddToCart : (state , action) => {
-          let {_id,price,quantity,title,slug,images} = action.payload;
+          let {_id,price,productQuantity,title,slug,images,quantity} = action.payload;
           
           let cartItems; 
 
           cartItems = {
             _id,
             price,
-            quantity,
+            productQuantity,
             title,
             slug,
-            images
+            images,
+            quantity,
           }
           state.cart =[...state.cart,cartItems]; 
         },

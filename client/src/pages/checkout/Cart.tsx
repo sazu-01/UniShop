@@ -14,7 +14,8 @@ const Cart = () => {
 
   //extract cart state from redux store  
   const { cart } = useAppSelector((state) => state.cart);
-
+  console.log(cart);
+  
   //save cart to localstorage whenever its change
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -27,7 +28,6 @@ const Cart = () => {
   cart.forEach((c) => {
     subtotal += c.price * c.quantity;
   })
-
 
   
   return (

@@ -9,24 +9,34 @@ import { useAppDispatch } from "../app/hook";
 import { AddToCart } from "../features/cartSlice";
 import { cartItem } from "../types/SliceTypes";
 
+interface demoType {
+  data: cartItem,
+  productInCart : boolean
+}
 
+const AddToCartButton: React.FC<demoType> = ({ data, productInCart }) => {
 
-const AddToCartButton: React.FC<{ product: cartItem }> = ({ product }) => {
 
   //destructure the product object
-  const { _id, price, quantity, title, slug, images } = product;
+  const { _id, price, productQuantity, title, slug, images, quantity } = data;
 
   const dispatch = useAppDispatch();
 
   //add product to the cart in the redux store 
   const AddProductToCart = () => {
-    dispatch(AddToCart({ _id, price, quantity, title, slug, images }))
+    dispatch(AddToCart({ _id, price, productQuantity, title, slug, images, quantity }))
   }
+  
   return (
     <>
-      <Link to={`/checkout/cart`}>
+      {/*if the current singleproduct is aleready on cart render link if not then AddToCart component*/}
+      {productInCart ? <Link to={`/checkout/cart`}>
+        <button className="add-to-cart" >go to cart</button>
+      </Link> : <Link to={`/checkout/cart`}>
         <button className="add-to-cart" onClick={AddProductToCart}>add to cart</button>
       </Link>
+      }
+
     </>
   )
 }

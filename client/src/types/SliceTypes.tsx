@@ -34,10 +34,11 @@ export interface loginCredentilas {
 export interface cartItem {
     _id : string,
     price : number,
-    quantity : number,
+    productQuantity : number,
     title : string,
     slug : string | undefined,
-    images: string[]
+    images: string[],
+    quantity : number,
   }
   
 export interface stateType {
@@ -67,4 +68,11 @@ export interface Products {
     isLoading : boolean,
     products : ProductType[] | null,
     error : string | null
+}
+
+
+//product quantity slice type
+
+export interface productQuantity {
+    productQuantity: number;
 }

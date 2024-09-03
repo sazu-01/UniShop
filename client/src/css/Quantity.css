@@ -1,0 +1,46 @@
+
+.quantity-container button{
+        outline: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-family: inherit;
+        background: #000;
+        transition: 150ms ease-in-out;
+        line-height: 1;
+        padding: 1rem 1.4rem;
+        color: rgb(0,0,0);
+        border:none;
+        height: 3.5rem;
+        font-size: 14px;
+        border-radius: 0.3rem;
+        text-decoration: none;
+        &:disabled{
+            background-color: rgb(218, 225, 231);
+            color: rgb(125, 135, 156);
+            border-color: rgb(218, 225, 231);
+            cursor: unset;
+        }
+        
+  }
+
+
+  
+
+
+
+.quantity-container button svg{
+    color: #fff;
+    font-weight: 900;
+}
+
+.quantity-container span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 3.4rem;
+    height: 3.4rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.6rem;
+}

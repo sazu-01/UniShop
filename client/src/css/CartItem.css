@@ -82,27 +82,3 @@
     flex-wrap: wrap;
     align-items: center;
 }
-
-.product-details .cart-quantity-price .quantity{
-    display: flex;  
-    flex-direction: row;
-    align-items: center;
-}
-
-.product-details .cart-quantity-price .quantity button{
-  display: flex;
-  width: unset;
-  justify-content: center;
-  align-items: center;
-  outline: none;
-  line-height: 1;
-  font-weight: 600;
-  background: transparent;
-  border: 1px solid rgb(0, 0, 0);
-}
-
-.product-details .cart-quantity-price .quantity div{
-    margin : 0rem 0.5rem ;
-    font-weight: 600;
-    font-size: 1.6rem;
-}
