@@ -3,7 +3,7 @@
 const GroceryShop = () => {
   return (
     <>
-
+    <div>GroceryShop</div>
     </>
   )
 }
