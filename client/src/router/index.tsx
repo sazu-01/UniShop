@@ -16,9 +16,6 @@ import UserDashboard from "../pages/dashboards/UserDashboard";
 import Cart from "../pages/checkout/Cart";
 import Shipping from "../pages/checkout/Shipping";
 
-//layout
-import Header from "../layouts/Header";
-
 
 export const router = createBrowserRouter([
     {            
@@ -29,9 +26,7 @@ export const router = createBrowserRouter([
             path: "/",
             element: <Home />,
           },
-          {
-            element : <Header />,
-            children : [
+
               {
                 path: "/register",
                 element : <Register />
@@ -66,8 +61,8 @@ export const router = createBrowserRouter([
                 path : "/checkout/shipping",
                 element : <Shipping />
               }
-            ]
-          }
+            
+          
           
           
         ]

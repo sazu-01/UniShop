@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300&display=swap');
+
+
+#footer{
+    background-color: #000;
+    color: #FFFFFF;
+}
+
+/*footer top design start*/
+
+#footer .footer-top{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr 1.5fr;
+    padding: 8rem 0rem 5rem 0rem;
+}
+
+#footer .footer-top h3{
+    font-size: 1.6rem;
+    font-family: 'Nunito Sans';
+    font-weight: 600;
+    color: #FFFFFF;
+
+}
+
+#footer .care-section a , .about-section a , .contact-section a{
+    display: block;
+    color: #ffffff;
+    opacity: 0.9;
+    text-decoration: none;
+    &:hover{
+        opacity: 1;
+    }
+}
+
+#footer .care-section,.about-section,.contact-section{
+    margin: 8px 15px;
+}
+
+#footer .container a:hover{
+    text-decoration: underline;
+}
+
+
+#footer .brand-details a{
+    font-size: 2.2rem;
+    opacity: 1;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+#footer .brand-details a:hover{
+    text-decoration: none;
+}
+
+#footer .brand-details p{
+    padding: 5px 28px 5px 0px;
+    margin: 10px 0px;
+    color: #FFFFFF;
+    opacity: 0.9;
+}
+
+#footer .brand-details .footer-downlnad-btn button{
+  background-color:#FFFFFF;
+  color: black;
+  box-shadow: none;
+  border: none;
+  border-radius: 6px;
+  margin: 10px 10px 0px 0px;
+  padding: 8px 15px;
+  font-weight: 500;
+
+}
+
+
+#footer .contact-section div p{
+    margin-bottom: 12px;
+    font-weight: 400;
+    opacity: 0.9;
+    margin: 0.5rem 0rem;
+}
+
+
+#footer .footer-input-section{
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    position: relative;
+}
+
+#footer .footer-input-section button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    position: absolute;
+    right: 0.4rem;
+    background-color: #000;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.3rem;
+}
+
+#footer .footer-input-section input{
+    width: 100%;
+    height: 4rem;
+    padding: 0rem 4.5rem 0rem 1rem;
+    outline: none;
+    border: none;
+    border-radius: 0.2rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+#footer .footer-input-section svg{
+  color: #fff;
+  font-size:2rem;
+  cursor: pointer;
+}
+
+
+#footer hr{
+    margin: 0rem 4rem;
+    background-color: #fff;
+}
+
+
+/*footer bottom design start*/
+#footer .footer-bottom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding: 1rem 0rem;
+}
+
+
+#footer .footer-bottom .footer-icons{
+    display: flex;
+    justify-content: flex-end;
+    padding-left: 0px;
+}
+
+  
+#footer .footer-bottom div{
+    flex: 50%;
+}
+
+#footer .footer-bottom .footer-icons{
+    text-align: end;
+}
+
+#footer .footer-bottom .footer-icons li{
+  list-style-type: none;
+  background-color: #FFFFFF;
+  margin: 5px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  border-radius: 100%;
+}
+
+#footer .footer-bottom .footer-icons li a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
+
+#footer .footer-bottom .footer-icons li a .icon{
+    color: black;
+}
+
+
+
+/*responsive design*/
+
+@media(max-width:990px){
+    
+#footer .footer-top{
+    display: grid;
+    grid-template-columns:  1fr 1fr;
+    padding: 80px 40px;
+}
+
+#footer .brand-details{
+    text-align: center;
+}
+#footer .about-section{
+    text-align: center;
+}
+#footer .care-section{
+    margin-top: 40px;
+    text-align: center;
+}
+#footer .contact-section{
+    margin-top: 40px;
+    text-align: center;
+}
+
+#footer .contact-section .footer-icons{
+    display: flex;
+    justify-content: center;
+}
+}
+
+
+@media(max-width:768px){
+    #footer hr{
+        margin: 0rem 0rem;
+    }
+    #footer .footer-top{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 80px 20px;
+        grid-gap: 20px;
+        
+    }
+    #footer .footer-bottom{
+        flex-direction: column;
+    }
+    }
+
+    @media(max-width:468px){
+        #footer .footer-top{
+            grid-template-columns: 1fr;
+            text-align: center  ;
+        }
+        #footer .care-section{
+            margin-top: 15px;
+        }
+        #footer .contact-section{
+            margin-top: 15px;
+        }
+
+    }   
