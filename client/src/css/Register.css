@@ -57,7 +57,7 @@
     font-size: 1.5rem;
     font-family: "Kanit", sans-serif;
     &:focus{
-        border : 1px solid #000  
+        border : 1px solid var(--shop-bg-color)  
     }
 }
 
@@ -79,17 +79,13 @@
 #register .sign-up-btn{
     width: 100%;
     margin: 10px 0px 10px 0px;
-    background-color: #222836;
+    background-color: var(--shop-bg-color);
     border: none;
     border-radius: .4rem;
     color: #FFFFFF;
     font-weight: 600;
     padding: 10px 0px;
     transition: .2s;
-    &:hover{
-        background-color: #000;
-        transition: .2s;
-    }
 }
 
 .or{

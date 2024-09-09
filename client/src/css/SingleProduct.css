@@ -60,7 +60,9 @@
     color: #fff;
     border: none;
     border-radius: 0.3rem;
-    background-color: #111;
+    background-color: var(--shop-bg-color);
+    font-weight: 500;
+
 }
 
 @media (min-width:1367px) {

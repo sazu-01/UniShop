@@ -10,34 +10,34 @@ import { BiSolidPhoneCall } from "react-icons/bi";
 import { IoIosMail } from "react-icons/io";
 
 
-const TopHeader = (props: any) => {
+const TopHeader = () => {
 
 
   return (
-    <div className="topheader" style={{ backgroundColor: props.bgColor, color: props.color }} >
-      <div className="topheader_content">
+    <div className="topheader" >
+      <div className="topheader-content">
 
-        <div className="responsive_logo">
+        <div className="responsive-logo">
           <Link to={`/`}>unishop</Link>
         </div>
 
-        <div className="topheader_left">
+        <div className="topheader-left">
 
-          <div className="topheader_contact_item">
-            <BiSolidPhoneCall className="topheader_icon" />
+          <div className="topheader-contact-item">
+            <BiSolidPhoneCall className="topheader-icon" />
             <span>0995822159</span>
           </div>
 
-          <div className="topheader_contact_item">
-            <IoIosMail className="topheader_icon" />
+          <div className="topheader-contact-item">
+            <IoIosMail className="topheader-icon" />
             <span>care@unishop.com</span>
           </div>
 
         </div>
 
-        <div className="topheader_right">
-          <Link style={{ color: props.color }} to={`/my-order`}>Track My Order</Link>
-          <Link style={{ color: props.color }} to={`/`}>Need Help</Link>
+        <div className="topheader-right">
+          <Link to={`/my-order`}>Track My Order</Link>
+          <Link to={`/`}>Need Help</Link>
         </div>
 
       </div>

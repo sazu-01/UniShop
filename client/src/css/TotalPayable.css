@@ -28,8 +28,8 @@
       transition: 150ms ease-in-out;
       line-height: 1;
       padding: 10px 16px;
-      color: rgb(0,0,0);
-      border: 1px solid rgb(0,0,0);
+      color: #000;
+      border: 1px solid var(--shop-bg-color);
       height: 40px;
       font-size: 14px;
       border-radius: 5px;
@@ -37,7 +37,7 @@
       margin-bottom: 30px;
       text-decoration: none;
       &:hover{
-        background-color: #000;
+        background-color: var(--shop-bg-color);
         color: #fff;
         transition: 150ms ease-in-out;
       }
@@ -67,8 +67,8 @@
     outline: none;
     font-size: 1.4rem;
     &:focus{
-      border-color: #000;
-      outline-color: #000;
+      border-color: var(--shop-bg-color);
+      outline-color: var(--shop-bg-color);
     }
   }
   
@@ -86,14 +86,14 @@
       line-height: 1;
       padding: 10px 16px;
       color: rgb(0,0,0);
-      border: 1px solid rgb(0,0,0);
+      border: 1px solid var(--shop-bg-color);
       height: 40px;
       font-size: 14px;
       border-radius: 5px;
       margin-top: 1rem;
       margin-bottom: 30px;
       &:hover{
-        background-color: #000;
+        background-color: var(--shop-bg-color);
         color: #fff;
         transition: 150ms ease-in-out;
       }
@@ -113,7 +113,7 @@
     line-height: 1;
     padding: 10px 16px;
     color: rgb(0,0,0);
-    border: 1px solid rgb(0,0,0);
+    border: 1px solid var(--shop-bg-color);
     height: 40px;
     font-size: 14px;
     border-radius: 5px;
@@ -121,7 +121,7 @@
     margin-bottom: 30px;
     text-decoration: none;
     &:hover{
-      background-color: #000;
+      background-color: var(--shop-bg-color);
       color: #fff;
       transition: 150ms ease-in-out;
     }

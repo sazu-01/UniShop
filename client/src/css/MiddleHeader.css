@@ -1,5 +1,6 @@
 
 .middle-header{
+    background-color: #fff;
     padding: 1.7rem 0rem;
     width: 100%;
 }
@@ -26,7 +27,7 @@
     font-variation-settings: "wdth" 100;
     text-decoration: none;
     font-size: 3rem;
-    color: var(--fashion-shop-main-color);
+    color: var(--text-color);
     position: relative;
     top: -14px;
 
@@ -71,7 +72,7 @@
 }
 
 .middle-header-search-wrapper button{
-    background-color: var(--fashion-shop-main-color);
+    background-color: var(--shop-bg-color);
     border: none;
     position: absolute;
     width: 6.2rem;
