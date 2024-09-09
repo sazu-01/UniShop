@@ -56,7 +56,7 @@ const TotalPayable : React.FC<TotalPayableProps> = ({subtotal}) => {
 
           {location.pathname === "/checkout/cart" ? <Link to={`/checkout/shipping`} className="selcet-address-btn">Select Address</Link> : 
           
-          <Link to={`/checkout/payment`} className="confirm-order-btn">Proceed To Payment</Link>
+          <Link to={`/checkout/payment`} className="confirm-order-btn">Confirm Order</Link>
           } 
           </div>
 

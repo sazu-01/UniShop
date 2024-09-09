@@ -11,6 +11,9 @@ import "../../css/Shipping.css";
 import TotalPayable from "../../components/TotalPayable";
 
 
+//
+import Payment from './Payment';
+
 const Shipping = () => {
 
     //extract cart state from redux store  
@@ -128,6 +131,8 @@ const Shipping = () => {
 
 
         </div>
+
+       <Payment />
       </div>
 
     </>
