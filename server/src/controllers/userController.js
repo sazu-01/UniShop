@@ -11,7 +11,7 @@ import Users from "../models/userModel.js";
 //helper functions
 import { CreateJsonWebToken } from "../helpers/jwt.js";
 import { ErrorResponse, SuccessResponse } from "../helpers/responseCode.js";
-import ProcessEmail from "../helpers/ProcessEmail.js";
+import ProcessEmail from "../helpers/processEmail.js";
 
 import { defaultImageForUser } from "../hiddenEnv.js";
 

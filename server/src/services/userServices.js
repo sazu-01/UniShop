@@ -7,8 +7,7 @@ import Jwt from "jsonwebtoken";
 
 //helper functions
 import { CreateJsonWebToken } from "../helpers/jwt.js";
-import { SendEmail } from "../helpers/nodeMailer.js";
-import ProcessEmail from "../helpers/ProcessEmail.js";
+import ProcessEmail from "../helpers/processEmail.js";
 import {
   deleteFileFromCloudinary,
   publicIdWithouthExtensionFromUrl,
