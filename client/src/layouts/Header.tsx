@@ -9,7 +9,7 @@ import BottomHeader from "./BottomHeader";
 const Header = () => {
   return (
     <>
-   <TopHeader bgColor="#111" color="#fff" />
+   <TopHeader />
    <MiddleHeader /> 
    <BottomHeader />
    <Outlet />
