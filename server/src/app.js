@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOptions = {
-    origin : "https://unishop-frontend.vercel.app",
+    origin : ["http://localhost:5173", "https://unishop-frontend.vercel.app"],
     credentials  : true,
 }
 app.use(cors(corsOptions));
