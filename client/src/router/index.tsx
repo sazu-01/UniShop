@@ -15,6 +15,7 @@ import SingleProduct from "../pages/SingleProduct";
 import UserDashboard from "../pages/dashboards/UserDashboard";
 import Cart from "../pages/checkout/Cart";
 import Shipping from "../pages/checkout/Shipping";
+import MobibleNavbar from "../layouts/MobileMenu";
 
 
 export const router = createBrowserRouter([
@@ -60,6 +61,11 @@ export const router = createBrowserRouter([
               {
                 path : "/checkout/shipping",
                 element : <Shipping />
+              },
+
+              {
+                path : "/mobile-navbar",
+                element : <MobibleNavbar />
               }
             
           

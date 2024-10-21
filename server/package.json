@@ -8,7 +8,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "nodemon src/server.js"
+    "start": "node src/server.js"
   },
   "dependencies": {
     "bcryptjs": "2.4.3",
