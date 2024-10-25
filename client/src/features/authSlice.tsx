@@ -13,7 +13,8 @@ import { authState , User , loginCredentilas } from "../types/SliceTypes";
 export const initialState: authState = {
   user: null,
   isLoading: false,
-  error: null
+  error: null,
+  isLoggedIn: false,
 }
 
 //async thunk for login
@@ -23,8 +24,9 @@ export const login = createAsyncThunk("auth/login",
       const res = await api.post("/auth/login", credentials);
       console.log(res);
       if (res.data.success){
-         window.location.reload();
+         localStorage.setItem("isLoggedIn", "true");
       }
+      return res.data;
     } catch (error: any) {
       console.log(error.response?.data?.message);
       return rejectWithValue(error.response?.data?.message || "Login failed");
@@ -35,9 +37,16 @@ export const login = createAsyncThunk("auth/login",
 export const logout = createAsyncThunk("auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      await api.post("/auth/logout");
+      const res =  await api.post("/auth/logout");
+
+      //clear localstorage
+      localStorage.removeItem("isAuthenticated");
+      
+      //reset the api instance if i have any default headers
+      api.defaults.headers.common['Authorization'] = '';
+      return res.data;
     } catch (error: any) {
-      rejectWithValue(error.respons?.data?.message);
+      return rejectWithValue(error.response?.data?.message || "Logout failed");
     }
   }
 )
@@ -49,6 +58,7 @@ export const getCurrentUser = createAsyncThunk("auth/getCurrentUser",
       const res = await api.get("/auth/current-user");
       return res.data.payload.user;
     } catch (error: any) {
+      localStorage.removeItem("isLoggedIn");
       return rejectWithValue(error.response?.data?.message);
     }
   });
@@ -81,17 +91,24 @@ export const loadAccessToken = createAsyncThunk("/auth/loadAccessToken",
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    resetAuth : (state) => {
+      state.user = null;
+      state.isLoading = false;
+      state.error = null;
+    }
+  },
   extraReducers(builder) {
     builder
       //handle login states
       .addCase(login.pending, (state) => {
-        state.isLoading = true
-        state.user = null
+        state.isLoading = true;
+        state.user = null;
+        state.isLoggedIn = true;
       })
       .addCase(login.fulfilled, (state) => {
-          state.isLoading = false
-          state.user = null
+          state.isLoading = false;
+          state.user = null;
       })
       .addCase(login.rejected, (state, action) => {
         state.user = null;
@@ -99,8 +116,21 @@ export const authSlice = createSlice({
       })
 
       //handle logout
+      .addCase(logout.pending, (state) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+
       .addCase(logout.fulfilled, (state) => {
-        state.user = null;
+        state.user =  null;
+        state.isLoading = false;
+        state.error = null;
+        clearTimeout(refreshTokenTimeout);
+      })
+
+      .addCase(logout.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       })
 
       //handle get current user states
@@ -110,10 +140,12 @@ export const authSlice = createSlice({
       .addCase(getCurrentUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload as User;
+        state.isLoggedIn = true;
       })
       .addCase(getCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string
+        state.isLoggedIn = false;
       })
 
       //handle load access token states
@@ -127,5 +159,7 @@ export const authSlice = createSlice({
   }
 
 })
+
+export const {resetAuth} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -2,7 +2,7 @@
 
 import { Link } from "react-router-dom";
 import { useAppSelector , useAppDispatch } from "../../app/hook";
-import { logout } from "../../features/authSlice";
+import { logout, resetAuth } from "../../features/authSlice";
 
 //icons
 import {FaCartShopping, FaHeart, FaUser, FaLocationDot, FaMoneyBill} from "react-icons/fa6"
@@ -18,8 +18,15 @@ const UserDashboard = () => {
 
 
     //
-    const handleLogout = () => {
-        dispatch(logout());
+    const handleLogout = async () => {
+        try {
+         await dispatch(logout()).unwrap();
+         dispatch(resetAuth());
+         
+        } catch (error) {
+          console.error('Logout failed:', error);
+          dispatch(resetAuth())
+        }
         
     }
 

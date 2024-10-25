@@ -43,8 +43,16 @@ const Login = () => {
   //handle form submission
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    dispatch(login({ email, password }))
-    handleClose();
+    try {
+      const resultAction = await dispatch(login({ email, password }));
+      if(login.fulfilled.match(resultAction)){
+        window.location.reload();
+      }else if (login.rejected.match(resultAction)) {
+        console.log(resultAction.payload);      }
+    } catch (error:any) {
+      console.log(error.message);
+      
+    }
   }
 
 

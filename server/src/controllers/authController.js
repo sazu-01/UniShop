@@ -66,10 +66,21 @@ const LoginController = async (req, res, next) => {
 
 const LogoutController = async (req, res, next) => {
   try {
-    //clear the refresh token cookie
-    res.clearCookie("refreshToken");
-    //clear the access token cookie
-    res.clearCookie("accessToken");
+      // Clear refresh token with proper options
+      res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        path: '/'
+    });
+
+    //Clear access token with proper options
+    res.clearCookie('accessToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        path: '/'
+    });
 
     //return successful response
     return SuccessResponse(res, {
