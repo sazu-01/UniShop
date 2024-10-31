@@ -2,7 +2,6 @@
 
 //packages
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 //icons
 import { FaRegEye,FaFacebook } from "react-icons/fa";
@@ -18,6 +17,8 @@ import { useAppDispatch } from '../../app/hook';
 import "../../css/Register.css";
 import { FormEvent, useState } from 'react';
 
+import { api } from '../../utili/axiosConfig';
+
 
 const Register = () => {
 
@@ -31,9 +32,8 @@ const Register = () => {
     const handleRegistration = async (e : FormEvent) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:4000/api/users/register-process", { name, email, phone, password });
-            console.log(res.data);
-
+            const res = await api.post("/users/register-process", { name, email, phone, password });
+            alert(res.data.message);
         } catch (error: any) {
             console.log(
                 error.response.data

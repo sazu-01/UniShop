@@ -1,7 +1,10 @@
 
-import axios from "axios";
+//packages
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
+//custome api
+import { api } from "../../utili/axiosConfig";
 
 
 
@@ -14,7 +17,7 @@ const ActivateEmail = () => {
 
     const completeRegistraion = async () => {
        try {
-         const res = await axios.post("http://localhost:4000/api/users/complete-register",{token});
+         const res = await api.post("/users/complete-register",{token});
          setMessage(res.data.message)
        } catch (error:any) {
         setMessage(error.response?.data?.message || error.message);
