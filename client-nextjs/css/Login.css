@@ -1,0 +1,262 @@
+
+.user_icon{
+    font-size: 1.6rem;
+    color: black;
+}
+
+.user{
+    width:45px;
+    height:45px;
+    position: relative;
+    padding: 0.8rem;
+    border-radius: 50%;
+    overflow: visible;
+    z-index: 1;
+    margin-left: 1.5rem;
+    cursor: pointer;
+    border: none;
+}
+
+.modal{
+    margin: 0px;
+}
+
+.modal.show{
+    padding: 0px;
+}
+
+.modal.fade{
+    padding: 0px;
+}
+
+.modal-backdrop{
+    margin-top: 0px;
+    z-index: 11;
+    padding: 0px;
+    @media(max-width:768px){
+        z-index: 2;
+    }
+}
+
+
+.modal-content{
+    width: 95%; 
+    height: auto;
+}
+
+.modal-dialog{
+  font-synthesis: none;
+}
+
+#login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #FFFFFF;
+    border-radius: .5rem;
+    box-sizing: border-box;
+    padding: 2.5rem 5rem ;
+    text-align: center;
+}
+
+#login-form h2{
+    font-size: 2.6rem;
+}
+
+#login-form label{
+    display: block;
+    font-size: 1.6rem;
+    padding-left: 4px;
+    margin-bottom: 5px;
+    text-align: start;
+}
+
+
+#login-form .input-field{
+    width: 100%;
+    outline: none;
+    border: 1px solid rgba(215,215,215,0.9);
+    font-size:1.6rem;
+    height: 4.5rem;
+    border-radius: 5px;
+    padding: 8px 10px;
+}
+
+#login-form .input-field::placeholder{
+    font-size: 1.6rem;
+}
+
+#login-form .password{
+    position: relative;
+}
+ 
+#login-form .password .input-field{
+    width: 100%;
+    height: 4rem;
+    border: 1px solid rgba(215,215,215,0.9);
+    border-radius: 5px;
+    padding: 8px 10px;
+}
+#login-form .password .hide-show-password{
+    position: absolute;
+    border: none;
+    padding: 3px 5px;
+    background: transparent;
+    top: 3.1rem;
+    right: 1.2rem;
+    font-size: 1.6rem;
+}
+
+#login-form .forgot-password{
+    text-align: end;
+    font-size: 1.4rem;
+    margin: 10px 2px 0px 0px;
+    color: #000;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+#login-form .sign-in-btn{
+    width: 100%;
+    margin: 15px auto 0px auto;
+    background-color: var(--shop-bg-color);
+    border: none;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-weight: 600;
+    padding: 10px 0px;
+    transition: .2s;
+    font-size: 1.5rem;
+}
+
+#login-form .login p{
+    margin-top:10px;
+}
+
+#login-form .facebook-signin-option{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #3B5998;
+    padding: 10px 0px;
+    border-radius: .4rem;
+    margin-top: 1rem;
+    font-family: "Kanit", sans-serif;
+   
+}
+
+#login-form .facebook-signin-option span{
+    color: #fff;
+}
+
+#login-form .google-signin-option{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #efeaea78;
+    padding: 10px 0px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: .4rem;
+    margin-top: 1rem;
+    font-family: "Kanit", sans-serif;
+}
+
+.facebook-signin-icon svg{
+    font-size: 1.6rem!important;
+    color: #fff;
+    margin-right: 0.5rem;
+}
+
+.google-signin-icon svg{
+    font-size: 1.6rem!important;
+    margin-right: 0.5rem;
+}
+
+@media(min-width:1367px){
+    .login{
+        height: 20vh;
+        margin: 130px 0px;
+    }
+}
+
+@media(max-width:768px) {
+
+    .modal-dialog{
+        max-width: 500px;
+        text-align: center;
+        justify-content: center;
+        padding: 0px;
+    }
+
+    .user{
+        width: 50px;
+        background-color: transparent;
+        border-radius: 0px;
+        padding: 0px;
+    }
+
+    .user_icon{
+        color: #FFF;
+    }
+
+}
+
+@media(max-width:500px){
+    .modal-header{
+        margin: 0px;
+    }
+
+    .modal-dialog{
+        margin-left: auto;
+        max-width: 357px;
+        margin-right: auto;
+        padding: 0px;
+    }
+
+       
+    .modal-content{
+        width: 100%;
+        height: auto;
+    }
+
+    #login-form{
+        padding: 2.5rem 2rem ;
+    }
+    
+/* 
+    .login-form label{
+        text-indent: 16px;
+    }
+
+    .login-form .input-field{
+        width: 280px;
+    }
+
+    .login-form .password .input-field{
+        width: 280px;
+    }
+
+    .login-form .forgot-password{
+        margin: 25px 20px 0px 0px
+    }
+
+    .login-form .password .hide-show-password{
+        position: absolute;
+        border: none;
+        padding: 3px 5px;
+        margin: 0px -8px;
+        background: transparent;
+        top: 31px;
+        right:30px;
+        
+    }
+
+    .login-form .sign-in-btn{
+        width: 90%;
+    } */
+
+}
+

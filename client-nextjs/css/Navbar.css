@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color:#000;
+  background-color: var(--shop-bg-color);
   padding: 0rem 1.6rem;
   width: 26rem;
   height: 4rem;
