@@ -111,6 +111,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+    text-decoration: none;
 }
 
 .middle-header-icons a div{
@@ -119,6 +120,30 @@
     align-items: center;
     width:25px;
     height: 25px;
+}
+
+.middle-header-icons a .middle-header-cart{
+    position: relative;
+}
+.middle-header-icons a .middle-header-cart span{
+        display: flex;
+        background-color: red;
+        color: #fff;
+        position: absolute;
+        border-radius: 50%;
+        bottom: 0;
+        right: 0;
+        left: 22px;
+        top: -10px;
+        overflow: visible;
+        z-index: 1;
+        width: 22px;
+        height: 22px;
+        font-size: 1.4rem;
+        font-weight: 500;
+        justify-content: center;
+        align-items: center;
+
 }
 
 

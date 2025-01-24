@@ -1,6 +1,6 @@
 .side-menu {
   position: relative;
-  top: 22rem;
+
 }
 
 .dropdown-toggler {
@@ -45,28 +45,33 @@
   font-size: 1.5rem;
 }
 
+
+
 .menubar-none {
-  opacity: 0;
-  z-index: -1;
-  max-width: 26rem;
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: 0;
+  width: 26rem;
   background-color: #ffffff;
   box-shadow: rgba(43, 52, 69, 0.3) 0px 4px 16px;
-  position: relative;
-  left: 0rem;
-  top: 0.8rem;
-  transition: opacity 0.2s ease-in;
+  transition: height 0.3s ease-in-out;
 }
 
 .menubar-block {
-  opacity: 1;
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  height: auto;
+  max-height: 500px; 
+  overflow: visible;
   z-index: 10;
-  max-width: 26rem;
+  width: 26rem;
   background-color: #ffffff;
   box-shadow: rgba(43, 52, 69, 0.3) 0px 4px 16px;
-  position: relative;
-  left: 0rem;
-  top: 0.8rem;
-  transition: opacity 0.2s ease-in;
+  transition: height 0.3s ease-in-out;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;
 }
@@ -127,4 +132,5 @@
   opacity: 1;
   transition: 0.2s cubic-bezier(0.655, 0.05, 0.315, 0.955);
 }
+
 

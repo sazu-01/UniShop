@@ -4,6 +4,8 @@
 import Image from 'next/image';
 import { Carousel } from 'react-bootstrap';
 
+//css
+import "@/css/FashionCover.css"
 
 const FashionCover = () => {
   return (
@@ -15,7 +17,7 @@ const FashionCover = () => {
           src="/fashion-slide1.jpg"
           alt="First slide"
           width={1920}
-          height={600}
+          height={1080}
           style={{
             width: '100%',
             height: 'auto',
@@ -30,7 +32,7 @@ const FashionCover = () => {
           src="/fashion-slide2.jpg"
           alt="Second slide"
           width={1920}
-          height={600}
+          height={1080}
           style={{
             width: '100%',
             height: 'auto',

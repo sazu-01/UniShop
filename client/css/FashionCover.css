@@ -1,0 +1,19 @@
+
+
+.carousel{
+    width: 90%;
+    margin: 20px auto;
+}
+
+@media(max-width:990px){
+  .carousel{
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media(min-width:1367px){
+    .carousel{
+        max-width: 1366px;
+    }
+}

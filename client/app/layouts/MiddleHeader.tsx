@@ -22,7 +22,8 @@ const MiddleHeader = () => {
   //get the user from auth slice
   const { user } = useAppSelector((state) => state.auth);
 
-  
+  const { cart } = useAppSelector((state)=> state.cart);
+
   return (
     <div className="middle-header">
       <div className="middle-header-content">
@@ -54,6 +55,7 @@ const MiddleHeader = () => {
           <Link href={`/`}>
             <div className="middle-header-cart">
               <MdOutlineShoppingBag style={{ fontSize: "2.3rem", color: "#000" }} />
+              {cart.length > 0 && <span>{cart.length}</span>}  
             </div>
           </Link>
         </div>
