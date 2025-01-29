@@ -173,9 +173,35 @@ const GetCurrentUserController = async (req, res, next) => {
     }
   };
 
+
+const HandleProtected = async (req, res, next) => {
+    try {
+      const accessToken = req.cookies.accessToken;
+      
+      //if no access token founds
+      if(!accessToken) throw HttpError(422, "No access token found, please login")
+      
+      //verify the token
+      const decodedToken = Jwt.verify(accessToken, jwtAccessKey);
+  
+      //if token is invalid
+      if(!decodedToken) {
+        throw HttpError(422, "Invalid access token, Please login again")
+      }
+  
+      return SuccessResponse(res,{
+        statusCode : 200,
+        message : "protected resources accessed successfully",
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
 export {
   LoginController,
   LogoutController,
   GetCurrentUserController,
   HandleRefreshToken,
+  HandleProtected
 };

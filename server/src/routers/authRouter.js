@@ -1,3 +1,4 @@
+
 "use strict"
 
 //import packages
@@ -8,7 +9,8 @@ import {
     LoginController, 
     LogoutController, 
     GetCurrentUserController,
-    HandleRefreshToken
+    HandleRefreshToken,
+    HandleProtected
  } 
 from "../controllers/authController.js";
 
@@ -27,4 +29,5 @@ authRouter.post("/login",validateUserLogin, RunValidation, IsLoggedOut, LoginCon
 authRouter.post("/logout", IsLoggedIn, LogoutController);
 authRouter.get('/current-user', GetCurrentUserController);
 authRouter.get("/refresh-token", HandleRefreshToken);
+authRouter.get("/protected", HandleProtected);
 export default authRouter;

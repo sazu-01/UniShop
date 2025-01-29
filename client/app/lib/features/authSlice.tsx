@@ -22,7 +22,6 @@ export const login = createAsyncThunk("auth/login",
   async (credentials: loginCredentilas, { rejectWithValue }) => {
     try {
       const res = await api.post("/auth/login", credentials);
-      console.log(res);
       if (res.data.success){
          localStorage.setItem("isLoggedIn", "true");
       }
@@ -40,7 +39,7 @@ export const logout = createAsyncThunk("auth/logout",
       const res =  await api.post("/auth/logout");
 
       //clear localstorage
-      localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("isLoggedIn");
       
       //reset the api instance if i have any default headers
       api.defaults.headers.common['Authorization'] = '';

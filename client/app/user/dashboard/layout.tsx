@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/app/lib/hook";
 
-import { logout, resetAuth } from "@/app/lib/features/authSlice";
+import { logout, resetAuth, getCurrentUser } from "@/app/lib/features/authSlice";
 
 import { useRouter } from 'next/navigation';
 //icons
@@ -20,12 +21,22 @@ import Image from "next/image";
 
 import { Nav } from "react-bootstrap";
 import { useState } from "react";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 export default function Dashboard() {
+
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.auth);
+  const { user, isLoggedIn } = useAppSelector((state) => state.auth);
+  
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("account");
+
+  useEffect(() => {
+    // Fetch user data if not already present
+    if (!user && isLoggedIn) {
+      dispatch(getCurrentUser());
+    }
+  }, [dispatch, user, isLoggedIn]);
 
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);
@@ -47,6 +58,7 @@ export default function Dashboard() {
   return (
     <>
 
+<ProtectedRoute>
 
 <div id="user-dashboard">
       <div className="user-dashboard-inner">
@@ -159,6 +171,7 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
+    </ProtectedRoute>
     </>
   );
 }

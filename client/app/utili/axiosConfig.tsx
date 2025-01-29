@@ -25,9 +25,9 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
-      if (error.response?.status === 401) {
-        // Handle unauthorized error
-        // You might want to dispatch resetAuth() here
+      if (error.response?.status === 401 || error.response?.status === 422) {
+        localStorage.removeItem("isLoggedIn");
+        window.location.href = '/register';
       }
       return Promise.reject(error);
     }
