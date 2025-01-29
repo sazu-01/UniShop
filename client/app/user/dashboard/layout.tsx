@@ -1,99 +1,164 @@
-'use client'
+"use client";
 
-import Link from "next/link";
 import { useAppSelector, useAppDispatch } from "@/app/lib/hook";
 
 import { logout, resetAuth } from "@/app/lib/features/authSlice";
 
+import { useRouter } from 'next/navigation';
 //icons
-import {FaCartShopping, FaHeart, FaUser, FaLocationDot, FaMoneyBill} from "react-icons/fa6"
-import { FaSave } from "react-icons/fa";
-import { GiTwoCoins } from "react-icons/gi";
+import {
+  FaCartShopping,
+  FaHeart,
+  FaUser,
+  FaLocationDot,
+  FaMoneyBill,
+} from "react-icons/fa6";
 
 
-import "../../../css/UserDashboard.css"
+import "../../../css/UserDashboard.css";
 import Image from "next/image";
 
+import { Nav } from "react-bootstrap";
+import { useState } from "react";
+
 export default function Dashboard() {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState("account");
 
-    const dispatch = useAppDispatch();
-    const {user} = useAppSelector((state)=>state.auth);
+  const handleTabClick = (tab: any) => {
+    setActiveTab(tab);
+  };
 
+  //logout function handler
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout()).unwrap();
+      dispatch(resetAuth());
+      router.replace('/');
 
-    //
-    const handleLogout = async () => {
-        try {
-         await dispatch(logout()).unwrap();
-         dispatch(resetAuth());
-         
-        } catch (error) {
-          console.error('Logout failed:', error);
-          dispatch(resetAuth())
-        }
-        
+    } catch (error) {
+      console.error("Logout failed:", error);
+      dispatch(resetAuth());
     }
+  };
 
   return (
     <>
-  <div id="user-dashboard">
-         <div className="user-dashboard-inner">
 
 
-            <div className="user-header">
-              <div className="left">
-               <figure className="m-0">{user && <Image src={user?.image} alt="" /> }</figure>
-              <div className="name">
-                  <p>Hello</p>
-                  <p>{user?.name}</p>
-              </div>
-              </div>
-              <div className="right">
-                <button onClick={handleLogout}>Logout</button>
-              </div>
-            
+<div id="user-dashboard">
+      <div className="user-dashboard-inner">
+        {/* Header Section */}
+        <div className="user-header">
+          <div className="left">
+            <figure className="m-0">
+              {user?.image && (
+                <Image src={user.image} width={500} height={500} alt="" />
+              )}
+            </figure>
+            <div className="name">
+              <p>Welcome back,</p>
+              <p>{user?.name}</p>
             </div>
+          </div>
+          <div className="right">
+            <button onClick={handleLogout}>Logout</button>
+          </div>
+        </div>
 
-           <div className="user-menus">
-              <div className="orders"><Link href={`/user/orders`}>
-              <span className="me-1"><FaCartShopping /></span>
-              <span>orders</span>
-              </Link></div>
+        {/* Dashboard Content */}
+        <div className="dashboard-content">
+          {/* Sidebar Navigation */}
+          <div className="dashboard-sidebar">
+            <Nav className="flex-column">
+              {[
+                { name: "Account", icon: <FaUser />, key: "account" },
+                { name: "Orders", icon: <FaCartShopping />, key: "orders" },
+                { name: "Transactions", icon: <FaMoneyBill />, key: "transaction" },
+                { name: "Wishlist", icon: <FaHeart />, key: "wishlist" },
+                { name: "Addresses", icon: <FaLocationDot />, key: "addresses" },
+              ].map((item) => (
+                <Nav.Link
+                  key={item.key}
+                  className={activeTab === item.key ? "active" : ""}
+                  onClick={() => handleTabClick(item.key)}
+                >
+                  <span className="nav-icon">{item.icon}</span>
+                  <span>{item.name}</span>
+                </Nav.Link>
+              ))}
+            </Nav>
+          </div>
 
-              <div className="wishlist"><Link href={`/user/wishlist`}>
-              <span className="me-1"><FaHeart /></span>
-              <span>wishlist</span>
-              </Link></div>
+          {/* Main Content Area */}
+          <div className="dashboard-main">
+            {activeTab === "account" && (
+              <div className="content-section">
+                <h3>Account Information</h3>
+                <div className="account-info">
+                  <div className="form-group">
+                    <label>Full Name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={user?.name || ""}
+                      readOnly
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      value={user?.email || ""}
+                      readOnly
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
 
-              <div className="edit-profile"><Link href={`/user/edit-profile`}>
-              <span className="me-1"><FaUser  /></span>
-              <span>edit profile</span>
-              </Link></div>
+            {activeTab === "orders" && (
+              <div className="content-section">
+                <h3>Your Orders</h3>
+                <div className="empty-state">
+                  <p>No orders found</p>
+                </div>
+              </div>
+            )}
 
-              <div className="address"><Link href={`/user/address`}>
-              <span className="me-1"><FaLocationDot /></span>
-              <span>address</span>
-              </Link></div>
+            {activeTab === "transaction" && (
+              <div className="content-section">
+                <h3>Transaction History</h3>
+                <div className="empty-state">
+                  <p>No transactions found</p>
+                </div>
+              </div>
+            )}
 
-              <div className="points"><Link href={`/user/points`}>
-              <span className="me-1"><GiTwoCoins /></span>
-              <span>unishop coins</span>
-              </Link></div>
+            {activeTab === "wishlist" && (
+              <div className="content-section">
+                <h3>Your Wishlist</h3>
+                <div className="empty-state">
+                  <p>Your wishlist is empty</p>
+                </div>
+              </div>
+            )}
 
-              <div className="transaction"><Link href={`/user/transaction`}>
-              <span className="me-1"><FaMoneyBill   /></span>
-              <span>transaction list</span>
-              </Link></div>
-
-              <div className="buy-later"><Link href={`/user/buy-later`}>
-              <span className="me-1"><FaSave /></span>
-              <span>Buy Later</span>
-              </Link></div>
-              
-           </div>
-
-         </div>
-     </div>
+            {activeTab === "addresses" && (
+              <div className="content-section">
+                <h3>Saved Addresses</h3>
+                <div className="empty-state">
+                  <p>No addresses saved</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
     </>
-  )
+  );
 }
-
