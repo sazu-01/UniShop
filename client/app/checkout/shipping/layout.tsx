@@ -43,12 +43,7 @@ const Shipping = () => {
     details_address: "",
     delivery_charge: 50,
   });
-
-  console.log(formData);
   
-
-  // Form validation state
-  const [isFormValid, setIsFormValid] = useState(false);
 
   // Update form data
   const handleInputChange = (
