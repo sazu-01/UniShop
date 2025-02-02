@@ -10,7 +10,7 @@ import "../../css/TotalPayable.css";
 // Create a type for the TotalPayable props
 type TotalPayableProps = {
   subtotal: number;
-  onConfirmOrder: (e: FormEvent) => Promise<void>;
+  onConfirmOrder?: (e: FormEvent) => Promise<void>;
 };
 
 const TotalPayable: React.FC<TotalPayableProps> = ({

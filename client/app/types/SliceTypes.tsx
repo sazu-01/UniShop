@@ -49,6 +49,7 @@ export interface stateType {
 
 
 /*product slice types */
+
   
 //define product interface
 export interface ProductType {
