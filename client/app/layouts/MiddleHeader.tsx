@@ -1,10 +1,11 @@
-'use client'
+"use client";
 
 //packages
+import { ChangeEvent, useState } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAppSelector } from "@/app/lib/hook";
-
+import Image from "next/image";
 //icons
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons/faMagnifyingGlass";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
@@ -15,54 +16,127 @@ import Login from "./Login";
 //css
 import "@/css/MiddleHeader.css";
 
-
-
 const MiddleHeader = () => {
-
   //get the user from auth slice
   const { user } = useAppSelector((state) => state.auth);
 
-  const { cart } = useAppSelector((state)=> state.cart);
+  const { cart } = useAppSelector((state) => state.cart);
+
+  const { products } = useAppSelector((state) => state.products);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showResults, setShowResults] = useState(false);
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setShowResults(value.length > 0);
+  };
+
+  const filteredProducts = products?.filter((product) => {
+    // if (!product.title) return false;
+    const searchWords = searchTerm.toLowerCase().split(" ");
+    const titleWords = product.title.toLowerCase().split(" ");
+
+    return searchWords.some((searchWord) =>
+      titleWords.some((titleWord) => titleWord.includes(searchWord))
+    );
+  });
+
+  const handle = () => {
+    setSearchTerm("");
+    setShowResults(false);
+  };
+
+  console.log(searchTerm);
 
   return (
     <div className="middle-header">
       <div className="middle-header-content">
-
-
         <div className="middle-header-logo">
           <Link href={`/`}>unishop</Link>
         </div>
 
         <div className="middle-header-search-wrapper">
-          <input type="text" className="" placeholder="search phone, watch, shirt..." />
-          <button><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+          <input
+            type="text"
+            className=""
+            placeholder="search phone, watch, shirt..."
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          <button>
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </button>
+          {showResults && (
+            <div className="search-results-dropdown">
+              {filteredProducts !== undefined && filteredProducts.length > 0 ? (
+                filteredProducts.map((product, index) => (
+                  <Link
+                    onClick={handle}
+                    href={`/product/${product.slug}`}
+                    key={index}
+                    className="search-result-item"
+                  >
+                    <div className="img-div">
+                      <Image
+                        src={product.images[0]}
+                        alt=""
+                        width={50}
+                        height={50}
+                      />
+                      <div className="title-brand">
+                        <p>{product.title}</p>
+                        <p>{product.brand}</p>
+                      </div>
+                    </div>
+
+                    <div className="price">
+                      <p>${product.price}</p>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <div className="no-results">No results found</div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="middle-header-icons">
-
-        {user !== null ? <Link href={`/user/dashboard`}> <div className="middle-header-user">
-            <FontAwesomeIcon icon={faUser} style={{ fontSize: "1.7rem", color: "#000" }} />
-          </div></Link> :  <Login />}
-          <Link href={`/`} >
-
-
+          {user !== null ? (
+            <Link href={`/user/dashboard`}>
+              {" "}
+              <div className="middle-header-user">
+                <FontAwesomeIcon
+                  icon={faUser}
+                  style={{ fontSize: "1.7rem", color: "#000" }}
+                />
+              </div>
+            </Link>
+          ) : (
+            <Login />
+          )}
+          <Link href={`/`}>
             <div className="middle-header-notification">
-              <FontAwesomeIcon icon={faHeart} style={{ fontSize: "2rem", color: "#000" }} />
+              <FontAwesomeIcon
+                icon={faHeart}
+                style={{ fontSize: "2rem", color: "#000" }}
+              />
             </div>
-
           </Link>
 
           <Link href={`/`}>
             <div className="middle-header-cart">
-              <MdOutlineShoppingBag style={{ fontSize: "2.3rem", color: "#000" }} />
-              {cart.length > 0 && <span>{cart.length}</span>}  
+              <MdOutlineShoppingBag
+                style={{ fontSize: "2.3rem", color: "#000" }}
+              />
+              {cart.length > 0 && <span>{cart.length}</span>}
             </div>
           </Link>
         </div>
-
       </div>
     </div>
-
   );
 };
 

@@ -19,7 +19,8 @@
 #images .thumbnails .thumb-img{
     width: 8rem;
     height: 8rem;
-    margin: 0.8rem 0 0 0;
+    margin: 0.8rem 0.5rem;
+    cursor : pointer
 }
 
 #single-product-page .single-product-details{

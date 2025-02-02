@@ -90,6 +90,91 @@
 }
 
 
+.middle-header-search-wrapper {
+    position: relative;
+  }
+  
+  .search-results-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-top: 4px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    border-radius: 6px;
+    padding: 8px 0;
+  }
+  
+  .search-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    gap: 10px;
+  }
+  
+  .search-result-item:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .search-result-item:last-child {
+    border-bottom: none;
+  }
+  
+  .search-result-item p {
+    margin: 0;
+    font-size: 14px;
+    color: #444;
+  }
+  
+  .search-result-item .img-div {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .search-result-item .title-brand {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.8rem;
+  } 
+  .search-result-item .price{
+    display: flex;
+  }
+  
+  .no-results {
+    padding: 16px;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  /* Scrollbar styling for the dropdown */
+  .search-results-dropdown::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .search-results-dropdown::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .search-results-dropdown::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  .search-results-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+
 .middle-header-icons{
     flex: 25%;
     top: 7px;
