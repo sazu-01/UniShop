@@ -1,0 +1,283 @@
+/* OrdersPage.css */
+.orders-container {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Search Styles */
+.search-wrapper {
+  position: relative;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  background: white;
+}
+
+.search-input {
+  height: 55px;
+  padding-left: 45px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.6rem;
+}
+
+.search-input:focus {
+  box-shadow: none;
+  border: 2px solid #4361ee;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+}
+
+/* Order Card Styles */
+.order-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  width: 86%;
+  margin: 10px auto;
+}
+
+.order-header {
+  background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+  color: white;
+  padding: 16px 20px;
+}
+
+.order-number {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.order-date {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 1.6rem;
+  white-space: nowrap;
+}
+
+/* Table Styles */
+.custom-table {
+  margin-bottom: 0;
+}
+
+.custom-table thead th {
+  background-color: #f8f9fa;
+  border-bottom: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  letter-spacing: 0.5px;
+  padding: 15px;
+  white-space: nowrap;
+}
+
+.custom-table tbody td {
+  padding: 15px;
+  vertical-align: middle;
+}
+
+.product-image-wrapper {
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-title {
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.product-title-mobile {
+  font-weight: 500;
+  color: #2d3748;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-end{
+  font-size: 1.6rem;
+}
+
+/* Info Card Styles */
+.info-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  height: 100%;
+}
+
+.info-title {
+  color: #2d3748;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e2e8f0;
+  font-size: 1.6rem;
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.info-item i {
+  color: #4361ee;
+  width: 20px;
+  margin-top: 3px;
+}
+
+.info-item .label {
+  font-weight: 600;
+  min-width: 70px;
+}
+
+.info-item .value {
+  color: #4a5568;
+  flex: 1;
+  word-break: break-word;
+}
+
+/* Order Summary Styles */
+.order-summary {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.summary-content {
+  max-width: 400px;
+  margin-left: auto;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  color: #4a5568;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid #e2e8f0;
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.total-amount {
+  color: #4361ee;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+  .search-input {
+    height: 50px;
+  }
+  
+  .info-card {
+    height: auto;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .order-content {
+    padding: 15px !important;
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    padding: 12px 8px;
+    font-size: 0.9rem;
+  }
+
+  .product-image-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+
+  .summary-content {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .order-number {
+    font-size: 1rem;
+  }
+  
+  .order-date {
+    font-size: 0.85rem;
+    padding: 4px 10px;
+  }
+
+  .info-item {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .info-item .label {
+    min-width: auto;
+  }
+  
+  .info-item .value {
+    padding-left: 30px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .orders-container {
+    background-color: white;
+  }
+
+  .search-wrapper {
+    display: none;
+  }
+
+  .order-card {
+    box-shadow: none;
+    border: 1px solid #dee2e6;
+    margin-bottom: 20px;
+  }
+
+  .order-header {
+    background: #f8f9fa !important;
+    color: black !important;
+  }
+
+  .order-date {
+    background: none;
+    padding: 0;
+  }
+}
