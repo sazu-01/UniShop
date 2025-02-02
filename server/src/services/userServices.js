@@ -35,7 +35,6 @@ export const FindUsersService = async ({ limit, page, search }, Users) => {
 
     // Define the filter for the database query
     const filter = {
-      isAdmin: { $ne: true },
       $or: [
         { name: { $regex: new RegExp(searchPattern, "i") } },
         { email: { $regex: new RegExp(searchPattern, "i") } },

@@ -1,0 +1,145 @@
+
+ /* Global styles */
+#admin-user-dashboard {
+    background: linear-gradient(to right, #eef2f3, #f5f7fa);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    font-family: 'Inter', 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Content wrapper */
+#admin-user-dashboard .admin-user-dashboard-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1300px;
+    width: 100%;
+    padding: 1rem;
+}
+
+/* User card */
+#admin-user-dashboard .admin-user {
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e0e0e0;
+    position: relative;
+    overflow: hidden;
+}
+
+#admin-user-dashboard .admin-user:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Profile image */
+#admin-user-dashboard img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #d4d4d8;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+#admin-user-dashboard .admin-user:hover img {
+    border-color: #6366f1;
+}
+
+/* User info */
+#admin-user-dashboard .admin-user p {
+    margin: 0.5rem 0;
+    color: #333;
+    font-size: 1.4rem;
+}
+
+/* Status labels */
+#admin-user-dashboard .admin-user p strong {
+    color: #4a5568;
+}
+
+/* Action buttons */
+#admin-user-dashboard .user-action-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 0.8rem;
+}
+
+#admin-user-dashboard .user-action-btn button {
+    padding: 0.6rem 1.4rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+/* Edit button */
+#admin-user-dashboard .user-action-btn button:first-child {
+    background-color: #2563eb;
+    color: white;
+}
+
+#admin-user-dashboard .user-action-btn button:first-child:hover {
+    background-color: #1d4ed8;
+}
+
+/* Delete button */
+#admin-user-dashboard .user-action-btn button:last-child {
+    background-color: #dc2626;
+    color: white;
+}
+
+#admin-user-dashboard .user-action-btn button:last-child:hover {
+    background-color: #b91c1c;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    #admin-user-dashboard .admin-user-dashboard-content {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    #admin-user-dashboard {
+        padding: 1rem;
+    }
+
+    #admin-user-dashboard .admin-user {
+        padding: 1.5rem;
+    }
+
+    #admin-user-dashboard .admin-user p {
+        font-size: 1.2rem;
+    }
+
+    #admin-user-dashboard .user-action-btn button {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #admin-user-dashboard .admin-user {
+        padding: 1.2rem;
+    }
+
+    #admin-user-dashboard img {
+        width: 80px;
+        height: 80px;
+    }
+
+    #admin-user-dashboard .admin-user p {
+        font-size: 1.1rem;
+    }
+}
