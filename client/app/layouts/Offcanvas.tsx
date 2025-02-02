@@ -29,7 +29,7 @@ const OffcanvasFun = () => {
       <>
       <RxHamburgerMenu  onClick={handleShow} className="home-header-offcavas-toggle" />
 
-    <Offcanvas show={show} onHide={handleClose}>
+    <Offcanvas show={show} onHide={handleClose} className="header-offcanvas">
       <Offcanvas.Header closeButton={false}>
         <Offcanvas.Title>unishop</Offcanvas.Title>
         <MdOutlineClose 

@@ -1,6 +1,5 @@
 
 
-
 //packages
 import Link from "next/link";
 
@@ -12,19 +11,18 @@ import {
 import { FiUser } from "react-icons/fi";
 
 
-// import { RiCustomerService2Fill } from "react-icons/ri";
-import { HiOutlineMenu } from "react-icons/hi";
-
+import MobileMenuNavigation from "./MobileMenuNavigation";
 
 //css
 import "@/css/MobileMenu.css"
+import { useAppSelector } from "../lib/hook";
 
 
 
 const MobileMenu = () => {
   
-
-
+  const { cart } = useAppSelector((state)=> state.cart);
+  
   return (
     <>
       <section id="bottom-menu">
@@ -33,14 +31,16 @@ const MobileMenu = () => {
           <span style={{fontSize:"1.2rem"}}>Home</span>
         </Link>
 
-        <Link href="/mobile-navbar">
-          <HiOutlineMenu className="icon" />
+        <Link href="">
+         <MobileMenuNavigation />
           <span style={{fontSize:"1.2rem"}}>Navigation</span>
         </Link>
 
+        
+
         <Link href="/checkout/cart">
           <AiOutlineShoppingCart className="cart-icon" />
-          <span className="responsive-cart-length">5</span>
+          <span className="responsive-cart-length">{cart.length}</span>
           <span style={{fontSize:'1.2rem'}}>Cart</span>
         </Link>
 

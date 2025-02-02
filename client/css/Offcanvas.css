@@ -1,30 +1,27 @@
 
-.offcanvas-body div{
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-}
 
-.offcanvas-body div a{
-  margin: 8px 1px;
-}
-
-#offcanvas{
+.header-offcanvas{
+  background-color: #000;
   display: none;
+  max-width: 30rem;
   @media (max-width: 990px) {
     display: block;
   }
 }
 
-.offcanvas-start {
-  background: #000;
-}
-
-.offcanvas-header {
+.header-offcanvas .offcanvas-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-.offcanvas-header .offcanvas-title {
+ .header-offcanvas div a{
+  margin: 8px 1px;
+}
+
+
+.header-offcanvas .offcanvas-header .offcanvas-title {
   color: #fff;
   text-decoration: none;
   font-size: 2.1rem;
@@ -33,7 +30,7 @@
   }
 }
 
-.offcanvas-title::after {
+.header-offcanvas .offcanvas-title::after {
   content: ".";
   color: var(--home-main-color);
   font-size: 2.1rem;
@@ -41,8 +38,8 @@
   margin-left: 2px;
 }
 
-.offcanvas-header .btn-close{
-  font-size: 2.5rem;
+ .header-offcanvas .offcanvas-header .btn-close{
+  font-size: 2.2rem;
   color: var(--home-main-color);
   opacity: 1;
   cursor: pointer;
@@ -61,7 +58,7 @@
 }
 
 @media(max-width: 990px) {
-  .home-header-offcavas-toggle{
+ .home-header-offcavas-toggle{
     display: block;
   }
 
