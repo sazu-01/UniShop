@@ -16,7 +16,7 @@ const menuItems = [
   { title: 'Delivery', image: '/courier.webp', href: '/admin/delivery'}
 ];
 
-export default function page() {
+export default function Admin() {
   
   const { user } = useAppSelector((state)=> state.auth);
 

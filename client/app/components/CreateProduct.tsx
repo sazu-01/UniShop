@@ -99,7 +99,7 @@ export default function CreateProduct() {
             });
 
               // Append multiple images
-              imageFiles.forEach((file, index) => {
+              imageFiles.forEach((file) => {
                 productFormData.append('images', file);
             });
 
