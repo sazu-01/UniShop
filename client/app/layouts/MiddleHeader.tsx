@@ -61,7 +61,7 @@ const MiddleHeader = () => {
           <input
             type="text"
             className=""
-            placeholder="search phone, watch, shirt..."
+            placeholder="search shirt, trouser, bag..."
             value={searchTerm}
             onChange={handleSearch}
           />
@@ -126,7 +126,7 @@ const MiddleHeader = () => {
             </div>
           </Link>
 
-          <Link href={`/`}>
+          <Link href={`/checkout/cart`}>
             <div className="middle-header-cart">
               <MdOutlineShoppingBag
                 style={{ fontSize: "2.3rem", color: "#000" }}

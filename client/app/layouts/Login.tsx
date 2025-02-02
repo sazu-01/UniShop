@@ -35,6 +35,8 @@ const Login = () => {
 
   //get modal visibility state from variableSlice
   const show = useAppSelector((state) => state.variables.show);
+  const isLoading = useAppSelector((state) => state.auth.isLoading);
+
   
   //modal toggles function
   const handleShow = () => dispatch(ShowModalFun());
@@ -122,7 +124,7 @@ const Login = () => {
           
           {/*login button*/}
           <button type="submit" className="sign-in-btn">
-            Login
+          {isLoading ? "Logging in..." : "Login"}
           </button>
  
          {/*facebook sign in option */}

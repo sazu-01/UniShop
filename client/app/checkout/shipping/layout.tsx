@@ -82,7 +82,7 @@ const Shipping = () => {
       });
 
       if (res.data.success) {
-        console.log("Order placed successfully");
+       alert("Order placed successfully");
       } else {
         console.log(res.data.message);
       }

@@ -15,6 +15,7 @@ import {
   FaMoneyBill,
 } from "react-icons/fa6";
 
+import Link from "next/link";
 
 import "../../../css/UserDashboard.css";
 import Image from "next/image";
@@ -119,6 +120,7 @@ export default function Dashboard() {
                       readOnly
                     />
                   </div>
+                  
                   <div className="form-group">
                     <label>Email</label>
                     <input
@@ -129,6 +131,7 @@ export default function Dashboard() {
                     />
                   </div>
                 </div>
+                <Link href='/admin' style={{color:"#000"}}>Go To Admin Page</Link>
               </div>
             )}
 
