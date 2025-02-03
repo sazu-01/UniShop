@@ -1,71 +1,22 @@
-// 'use client'
-
-// import { createSlice } from "@reduxjs/toolkit";
-
-// //type
-// import { stateType } from "@/app/types/SliceTypes";
-
-// const initialState : stateType = {
-//     cart : localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")!) : [],
-//     shipping : ""
-// }
- 
-// const cartSlice = createSlice({
-//     name : "cart",
-//     initialState,
-//     reducers : {
-//         AddToCart : (state , action) => {
-//           const {_id,price,productQuantity,title,slug,images,quantity} = action.payload;
-
-//          const cartItems = {
-//             _id,
-//             price,
-//             productQuantity,
-//             title,
-//             slug,
-//             images,
-//             quantity,
-//           }
-//           state.cart =[...state.cart,cartItems]; 
-//         },
-
-//         DeletToCart : (state , action) => {
-//          const updateCart = state.cart.filter((item) => item._id !== action.payload);
-//           state.cart = updateCart;
-//         },
-
-//         ResetCart : (state) => {
-//           state.cart = [];
-//         }
-//     },
-
-// })
-
-// export const {AddToCart , DeletToCart , ResetCart} = cartSlice.actions;
-
-// export default cartSlice.reducer;
-
-
-
-
-
-
-
-
-
-
 
 
 
 'use client';
-
 import { createSlice } from "@reduxjs/toolkit";
-
-// type
 import { stateType } from "@/app/types/SliceTypes";
 
+function getInitialCart() {
+  if (typeof window === 'undefined') return [];
+  try {
+    const storedCart = localStorage.getItem("cart");
+    return storedCart ? JSON.parse(storedCart) : [];
+  } catch {
+    return [];
+  }
+}
+
 const initialState: stateType = {
-  cart: [], // Avoid accessing localStorage directly here
+  cart: [],
   shipping: "",
 };
 
@@ -73,53 +24,27 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    initializeCart: (state) => {
+      state.cart = getInitialCart();
+    },
     AddToCart: (state, action) => {
       const { _id, price, productQuantity, title, slug, images, quantity } = action.payload;
-
       const cartItems = {
-        _id,
-        price,
-        productQuantity,
-        title,
-        slug,
-        images,
-        quantity,
+        _id, price, productQuantity, title, slug, images, quantity
       };
       state.cart = [...state.cart, cartItems];
-
-      // Update localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.setItem("cart", JSON.stringify(state.cart));
-      }
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
-
     DeletToCart: (state, action) => {
-      const updateCart = state.cart.filter((item) => item._id !== action.payload);
-      state.cart = updateCart;
-
-      // Update localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.setItem("cart", JSON.stringify(state.cart));
-      }
+      state.cart = state.cart.filter((item) => item._id !== action.payload);
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
-
     ResetCart: (state) => {
       state.cart = [];
-
-      // Clear localStorage
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem("cart");
-      }
-    },
-
-    setCart: (state, action) => {
-      // Populate cart from localStorage
-      state.cart = action.payload;
-    },
-
+      localStorage.removeItem("cart");
+    }
   },
 });
 
-export const { AddToCart, DeletToCart, ResetCart, setCart } = cartSlice.actions;
-
+export const { initializeCart, AddToCart, DeletToCart, ResetCart } = cartSlice.actions;
 export default cartSlice.reducer;

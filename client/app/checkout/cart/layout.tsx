@@ -1,6 +1,5 @@
 
 'use client';
-import { useEffect } from 'react';
 
 //hook
 import { useAppSelector } from '@/app/lib/hook';
@@ -8,27 +7,14 @@ import { useAppSelector } from '@/app/lib/hook';
 //component
 import CartItem from '@/app/components/CartItem';
 import TotalPayable from '@/app/components/TotalPayable';
-import { useAppDispatch } from '@/app/lib/hook';
+
 //css
 import "@/css/Cart.css";
 
-import { setCart } from '@/app/lib/features/cartSlice';
 
 const Cart = () => {
-  const dispatch = useAppDispatch();
+
   const { cart } = useAppSelector((state) => state.cart);
-
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedCart = localStorage.getItem("cart");
-      if (storedCart) {
-        dispatch(setCart(JSON.parse(storedCart)));
-      }
-    }
-  }, [dispatch]);
-
-
 
   let subtotal: number = 0;
 

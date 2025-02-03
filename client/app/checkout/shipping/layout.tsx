@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 
 //hook
 import { useAppSelector } from "@/app/lib/hook";
@@ -58,11 +58,6 @@ const Shipping = () => {
     }));
   };
 
-
-  //save cart to localstorage whenever its change
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
 
   let subtotal: number = 0;
 

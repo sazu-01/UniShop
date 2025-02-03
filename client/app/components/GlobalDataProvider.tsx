@@ -6,6 +6,8 @@ import { RootState } from "../lib/store";
 import { useEffect } from "react";
 import { getProduct } from "../lib/features/productSlice";
 import { getCurrentUser } from "../lib/features/authSlice";
+import { initializeCart } from "../lib/features/cartSlice";
+
 export default function GlobalDataProvider({
     children,
   }: {
@@ -16,6 +18,8 @@ export default function GlobalDataProvider({
   
     useEffect(() => {
       dispatch(getProduct())
+
+      dispatch(initializeCart());
       
       const isLoggedInLocal = localStorage.getItem('isLoggedIn') === 'true'
       if (isLoggedInLocal && !isLoggedIn) {
