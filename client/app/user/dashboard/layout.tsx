@@ -23,6 +23,7 @@ import Image from "next/image";
 import { Nav } from "react-bootstrap";
 import { useState } from "react";
 import ProtectedRoute from "@/app/components/ProtectedRoute";
+import Skeleton from "@/app/components/Skeleton";
 
 export default function Dashboard() {
 
@@ -55,6 +56,44 @@ export default function Dashboard() {
       dispatch(resetAuth());
     }
   };
+
+  if(!user) {
+    return (
+      <div id="user-dashboard">
+         <div className="user-dashboard-inner">
+           <div className="user-header">
+             <div className="left">
+              <figure className="m-0">
+                 <Skeleton width="10rem" height="10rem" className="rounded"/>
+              </figure>
+              <div className="name">
+              <Skeleton width="10rem" height="2rem" className="" />
+              <Skeleton width="8rem" height="2rem" className="mt-3" />
+            </div>
+             </div>
+
+             <div className="right">
+            <Skeleton width="10rem" height="3rem" />
+          </div>
+           </div>
+
+           <div className="dashboard-content">
+            <div className="dashboard-sidebar">
+              {[...Array(5)].map((_, index) => (
+                <Skeleton key={index} width="100%" height="3rem" className="mb-4" />
+              ))}
+            </div>
+            <div className="dashboard-main">
+              <Skeleton width="100%" height="10rem" className="mb-4" />
+              <Skeleton width="100%" height="10rem" className="mb-4" />
+            </div>
+
+
+         </div>
+      </div>
+      </div>
+    )
+  }
 
   return (
     <>

@@ -10,7 +10,7 @@ import { useAppSelector } from "../lib/hook";
 
 //type
 import { ProductType } from "@/app/types/SliceTypes";
-
+import Skeleton from "./Skeleton";
 //css
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -132,6 +132,43 @@ const FashionProducts = () => {
 
   //get products from product reducer
   const { products } = useAppSelector((state: any) => state.products);
+
+  if (!products) {
+    return (
+      <>
+        <div className="slide-header">
+          <Skeleton width="10rem" height="1.5rem" className="me-3" />
+          <Skeleton width="5rem" height="1.5rem" />
+        </div>
+
+        <div className="slick-slider">
+          <div className="slick-list">
+            <div className="slick-track d-flex">
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="product me-5">
+                  <Skeleton
+                    width="100%"
+                    height="250px"
+                    className="home-pro-img"
+                  />
+
+                  <div className="pro-content">
+                    <Skeleton width="80%" height="1.5rem" className="mb-3" />
+                    <Skeleton width="50%" height="1rem" className="mb-2" />
+                  </div>
+
+                  <div className="addcart d-flex justify-content-between align-items-center px-2">
+                    <Skeleton width="4rem" height="1.5rem" />
+                    <Skeleton width="3rem" height="1.5rem" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
