@@ -1,38 +1,44 @@
 
-//helpers
-import nodemailer from "nodemailer";
+"use strict";
 
-//env varaible
-import { smtpUsername, smtpPassword } from "../hiddenEnv.js"
+import nodemailer from "nodemailer";
+import { smtpUsername, smtpPassword } from "../hiddenEnv.js";
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    auth: {
-        user: smtpUsername,
-        pass: smtpPassword
-    },
+  host: "smtp-relay.brevo.com", // Brevo SMTP server
+  port: 587, // Use 587 for TLS
+  secure: false, // `false` because i am using TLS
+  auth: {
+    user: smtpUsername, 
+    pass: smtpPassword, 
+  },
 });
 
-
 const SendEmail = async (emailData) => {
-    try {
-        const { email, name, subject, html } = emailData;
+  try {
+    const { email, subject, html } = emailData;
 
-        await transporter.sendMail({
-            from: smtpUsername,
-            to: email,
-            subject: subject,
-            html: html
-        })
-    } catch (error) {
-         console.error("Error in SendEmail Function");
-         throw error;
-    }
+    const mailOptions = {
+      from: `"Unishop"<sazu2441@gmail.com>`,
+      to: email,
+      subject: subject,
+      html: html, 
+    };
 
-}
+   await transporter.sendMail(mailOptions);
 
-export { SendEmail }
+  } catch (error) {
+    console.error("❌ Error sending email:", error);
+    throw error;
+  }
+};
+
+export { SendEmail };
+
+
+
+
+
+
 
 
