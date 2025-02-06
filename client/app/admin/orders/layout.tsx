@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api } from '@/app/utili/axiosConfig';
 import { ChangeEvent } from 'react';
-
+import Image from 'next/image';
 import "@/css/AdminOrderDashbaord.css"
 
 type Cart = {
@@ -119,10 +119,12 @@ export default function OrdersLayout() {
                           <tr key={item._id}>
                             <td>
                               <div className="product-image-wrapper">
-                                <img
+                                <Image
                                   src={item.images[0]}
                                   alt={item.title}
                                   className="product-image"
+                                  width={100}
+                                  height={100}
                                 />
                               </div>
                             </td>
