@@ -1,0 +1,147 @@
+/* Root container */
+#admin-categories {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+#admin-categories h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1.2rem;
+}
+
+/* Form for creating categories */
+#admin-categories .create-categories {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+#admin-categories .create-categories input {
+    flex: 1;
+    padding: 0.8rem;
+    font-size: 1.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+#admin-categories .create-categories input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+#admin-categories .create-categories button {
+    padding: 0.8rem 1.2rem;
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 1.6rem;
+}
+
+#admin-categories .create-categories button:hover {
+    background-color: #0056b3;
+}
+
+/* Category list */
+#admin-categories .all-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+/* Category item */
+#admin-categories .category {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 6px;
+    transition: transform 0.2s, background 0.3s;
+}
+
+#admin-categories .category:hover {
+    background: #eef1f6;
+    transform: translateY(-2px);
+}
+
+/* Category text */
+#admin-categories .category p {
+    flex-grow: 1;
+    font-size: 1.6rem;
+    color: #333;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Buttons */
+#admin-categories .category button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.6rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    width: 60px;
+    margin: 0rem 1rem;
+}
+
+/* Edit button */
+#admin-categories .category .edit-category {
+    color: #007bff;
+}
+
+#admin-categories .category .edit-category:hover {
+    background: #d7e3fc;
+}
+
+/* Delete button */
+#admin-categories .category .delete-category {
+    color: #dc3545;
+}
+
+#admin-categories .category .delete-category:hover {
+    background: #f8d7da;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    #admin-categories {
+        padding: 1rem;
+    }
+
+    #admin-categories .create-categories {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    #admin-categories .create-categories input {
+        width: 100%;
+    }
+
+    #admin-categories .all-categories {
+        grid-template-columns: 1fr;
+    }
+
+    #admin-categories .category {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    #admin-categories .category button {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -16,7 +16,7 @@ import { IsAdmin, IsLoggedIn } from "../middlewares/authMiddleware.js";
 const categoryRouter = express.Router();
 
 
-categoryRouter.post("/",IsLoggedIn,IsAdmin,validateCategory,
+categoryRouter.post("/create-category",IsLoggedIn,IsAdmin,validateCategory,
 RunValidation,CreateCategoryController);
 
 categoryRouter.get("/all-category",GetAllCategoryController)

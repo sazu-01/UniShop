@@ -5,21 +5,20 @@ import { Nav } from "react-bootstrap";
 
 //icons
 import { FaCartShopping, FaUser } from "react-icons/fa6";
+import { TbCategoryFilled } from "react-icons/tb";
 
 import "@/css/AdminProductDashbaord.css";
 
 import CreateProduct from "@/app/components/CreateProduct";
 import AdminProducts from "@/app/components/AdminProducts";
+import AdminCategories from "@/app/layouts/AdminCategories";
 
 export default function AdminProductDashbaord() {
-
   const [activeTab, setActiveTab] = useState("all-product");
 
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);
   };
-
-
 
   return (
     <div id="admin-product-dashboard">
@@ -35,6 +34,11 @@ export default function AdminProductDashbaord() {
                   name: "Create A Product",
                   icon: <FaCartShopping />,
                   key: "create-a-product",
+                },
+                {
+                  name: "All Category",
+                  icon: <TbCategoryFilled />,
+                  key: "all-category",
                 },
               ].map((item) => (
                 <Nav.Link
@@ -53,14 +57,20 @@ export default function AdminProductDashbaord() {
           <div className="dashboard-main">
             {activeTab === "all-product" && (
               <div className="content-section">
-              <h2 className="form-title">Product Management</h2>
-              <AdminProducts />
+                <h2 className="form-title">Product Management</h2>
+                <AdminProducts />
               </div>
             )}
 
             {activeTab === "create-a-product" && (
               <div className="content-section">
                 <CreateProduct />
+              </div>
+            )}
+
+            {activeTab === "all-category" && (
+              <div className="content-section">
+                <AdminCategories />
               </div>
             )}
           </div>
