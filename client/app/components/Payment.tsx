@@ -1,55 +1,70 @@
 
-'use client'
+
+"use client";
 
 import { useState } from "react";
-
-import "../../css/Payment.css";
+import "@/css/Payment.css";
+import Image from "next/image";
 
 const Payment = () => {
 
-  const [select , setSelected] = useState<any>(null);
+  const [selected, setSelected] = useState<"cod" | "bkash" | "nagad" | "card" | null>(null);
 
-  const handleSelect = (key:any) => {
-       if(key === "cod") setSelected("cod");
-       else if(key === "card") setSelected((prev:any)=> (prev === "card" ? null : "card"));
-  }
+  const handleSelect = (key: string) => {
+    if (key === "cod") setSelected("cod");
+    else if (key === "card") setSelected((prev) => (prev === "card" ? null : "card"));
+    
+  };
 
   return (
-    <>
-     <div id="accordion">
-     <div className="accordion-box ">
-       <div className="accordion-header" onClick={()=>setSelected("cod")} >
-         <div className="d-flex align-items-center">
-           <input type="checkbox" checked={select === "cod"}  readOnly />
-          <p>Pay with COD</p></div>
-         </div>
-       </div>
+    <div className="payment-container">
+      <div className="payment-inner">
+      <h2 className="payment-title">Select Payment Method</h2>
+      
+      <div className="payment-methods">
 
-       <div className="accordion-box ">
-         <div className="accordion-header"  onClick={()=>handleSelect("card")} >
-           <div className="d-flex align-items-center">
-             <input type="checkbox" checked={select === "card"} readOnly />
-             <p>Pay with Card</p>
-           </div>
-         </div>
-         <div className={`accordion-body ${select === `card` ? `open` : ``}` } >
-           <div className="card-payment-input">
-               <input type="text" placeholder="enter card number" />
-               <input type="text" placeholder="mm/yy" />
-           </div>
+        <div className={`payment-option ${selected === "cod" ? "selected" : ""}`}>
+          <div className="payment-header" onClick={() => handleSelect("cod")}>
+            <div className="payment-selector">
+              <input
+                type="checkbox"
+                checked={selected === "cod"}
+                readOnly
+                className="payment-checkbox"
+              />
+               <Image src="/cod.jpg" alt="" width={25} height={25} /> 
+              <span className="payment-label">Cash on Delivery</span>
+            </div>
+          </div>
+        </div>
 
-           <div className="card-payment-input">
-               <input type="text" placeholder="name on card" />
-               <input type="text" placeholder="name on card" />
-           </div>
 
-         </div>
-       </div>
-     </div>
-    </>
-  )
-}
 
-export default Payment
+        <div className={`payment-option  ${selected === "card" ? "selected" : ""}`}>
+          <div className="payment-header" onClick={() => handleSelect("card")}>
+            <div className="payment-selector">
+              <input
+                type="checkbox"
+                checked={selected === "card"}
+                readOnly
+                className="payment-checkbox"
+              />
+              <Image src="/cart.webp" alt="" width={200} height={25} /> 
+              <span className="payment-label">Online Payment</span>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    </div>
+  );
+};
+
+export default Payment;
+
+
 
 

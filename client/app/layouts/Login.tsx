@@ -1,3 +1,5 @@
+
+"use client";
 //packages
 import { FormEvent, useState } from 'react';
 import Link from 'next/link';
@@ -144,9 +146,16 @@ const Login = () => {
           </div>
           
           {/*link to register page*/}
-          <p className="mt-4" style={{ fontFamily: "Kanit, sans-serif" }}>
-            not have a account ?<Link href="/register" onClick={handleClose}>Register</Link>
-          </p>
+          <div className="mt-4 fw-semibold" style={{fontSize:"1.6rem"}}>
+              have an account?&nbsp;
+              <Link href="/register">
+                <button type="button" style={{border : "none", background:"transparent", textDecoration:"underline", color:"#1E66CE", fontWeight:"600"}}
+                 onClick={()=>dispatch(CloseModalFun())}
+                >
+                  Register
+                </button>
+              </Link>
+            </div>
         </form>
       </Modal>
 

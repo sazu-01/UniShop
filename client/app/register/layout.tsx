@@ -124,14 +124,14 @@ const Register = () => {
               </div>
               <span className="google-signup-title">Sign in with Google</span>
             </div>
-            <p className="mt-4 fw-semibold">
+            <div className="mt-4 fw-semibold" style={{fontSize:"1.6rem"}}>
               have an account?&nbsp;
               <Link href="/fashion-shop/">
-                <button type="button" onClick={() => dispatch(ShowModalFun())}>
+                <button type="button" style={{border : "none", background:"transparent", textDecoration:"underline", color:"#1E66CE", fontWeight:"600"}} onClick={() => dispatch(ShowModalFun())}>
                   Login
                 </button>
               </Link>
-            </p>
+            </div>
           </form>
         </div>
       </div>

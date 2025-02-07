@@ -19,7 +19,6 @@ const Images : React.FC<ImageProps> = ({ imgs }) => {
       <div id="images">
         {/*view image */}
         <Image className="img-fluid" src={imgs[viewImage]} alt="" width={500} height={500} />
-        <p>hello</p>
         {/*thumbnails image */}
         <div className="thumbnails">
           {imgs.map((img, index)=>(

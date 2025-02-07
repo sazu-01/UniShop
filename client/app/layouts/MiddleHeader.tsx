@@ -1,15 +1,12 @@
 "use client";
 
-//packages
 import { ChangeEvent, useState } from "react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAppSelector } from "@/app/lib/hook";
 import Image from "next/image";
-//icons
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons/faMagnifyingGlass";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import Login from "./Login";
 
@@ -17,11 +14,9 @@ import Login from "./Login";
 import "@/css/MiddleHeader.css";
 
 const MiddleHeader = () => {
-  //get the user from auth slice
+
   const { user } = useAppSelector((state) => state.auth);
-
   const { cart } = useAppSelector((state) => state.cart);
-
   const { products } = useAppSelector((state) => state.products);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,7 +29,7 @@ const MiddleHeader = () => {
   };
 
   const filteredProducts = products?.filter((product) => {
-    // if (!product.title) return false;
+    
     const searchWords = searchTerm.toLowerCase().split(" ");
     const titleWords = product.title.toLowerCase().split(" ");
 
@@ -48,7 +43,7 @@ const MiddleHeader = () => {
     setShowResults(false);
   };
 
-  console.log(searchTerm);
+
 
   return (
     <div className="middle-header">
@@ -108,10 +103,7 @@ const MiddleHeader = () => {
             <Link href={`/user/dashboard`}>
               {" "}
               <div className="middle-header-user">
-                <FontAwesomeIcon
-                  icon={faUser}
-                  style={{ fontSize: "1.7rem", color: "#000" }}
-                />
+                <Image src={user.image} alt="" width={45} height={45} style={{borderRadius:"50%"}}  /> 
               </div>
             </Link>
           ) : (

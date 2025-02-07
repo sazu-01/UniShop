@@ -59,6 +59,7 @@ export default function Dashboard() {
 
   if(!user) {
     return (
+      <ProtectedRoute>
       <div id="user-dashboard">
          <div className="user-dashboard-inner">
            <div className="user-header">
@@ -92,6 +93,7 @@ export default function Dashboard() {
          </div>
       </div>
       </div>
+      </ProtectedRoute>
     )
   }
 
