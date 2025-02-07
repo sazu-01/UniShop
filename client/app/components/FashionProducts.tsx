@@ -6,15 +6,18 @@ import Slider from "react-slick";
 import Image from "next/image";
 
 //hook
-import { useAppSelector } from "../lib/hook";
+import { useAppSelector, useAppDispatch } from "../lib/hook";
 
 //type
 import { ProductType } from "@/app/types/SliceTypes";
 import Skeleton from "./Skeleton";
+
 //css
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import "@/css/FashionProducts.css";
+
+import { AddToCart } from "../lib/features/cartSlice";
 
 //icons
 import { BsArrowRightShort, BsArrowLeftShort } from "react-icons/bs";
@@ -44,7 +47,7 @@ const FashionProducts = () => {
       />
     );
   }
-  //update settings of Slider & make responsive
+
   const settings = {
     dots: false,
     infinite: false,
@@ -56,82 +59,49 @@ const FashionProducts = () => {
     nextArrow: <SampleNextArrow />,
     responsive: [
       {
-        breakpoint: 1115,
+        breakpoint: 1366,
         settings: {
           slidesToShow: 4,
           slidesToScroll: 4,
-          infinite: false,
-          speed: 800,
-          dots: false,
         },
       },
       {
-        breakpoint: 990,
+        breakpoint: 1024,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          speed: 800,
-          infinite: false,
-          dots: false,
         },
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          initialSlide: 1,
-          speed: 800,
-          dots: false,
-          infinite: false,
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          arrows: true,
         },
       },
       {
-        breakpoint: 670,
+        breakpoint: 480,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 1,
-          speed: 800,
-          dots: false,
-          infinit: false,
-        },
-      },
-      {
-        breakpoint: 500,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          speed: 800,
-          dots: false,
-          infinit: false,
-        },
-      },
-      {
-        breakpoint: 430,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          speed: 800,
-          dots: false,
-          infinit: false,
-        },
-      },
-      {
-        breakpoint: 300,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          speed: 800,
-          dots: false,
-          infinit: false,
+          arrows: true,
+          centerMode: true,
+          centerPadding: "20px",
         },
       },
     ],
   };
 
+  const dispatch = useAppDispatch();
+
   //get products from product reducer
-  const { products } = useAppSelector((state: any) => state.products);
+  const { products } = useAppSelector((state) => state.products);
+  const { cart } = useAppSelector((state) => state.cart);
+
+  const isProductInCart = (productId: string) => {
+    return cart.some((item) => item._id === productId);
+  };
 
   if (!products) {
     return (
@@ -143,9 +113,9 @@ const FashionProducts = () => {
 
         <div className="slick-slider">
           <div className="slick-list">
-            <div className="slick-track d-flex">
+            <div className="slick-track d-flex m-4">
               {[...Array(6)].map((_, index) => (
-                <div key={index} className="product me-5">
+                <div key={index} className="product m-5">
                   <Skeleton
                     width="100%"
                     height="250px"
@@ -158,8 +128,8 @@ const FashionProducts = () => {
                   </div>
 
                   <div className="addcart d-flex justify-content-between align-items-center px-2">
-                    <Skeleton width="4rem" height="1.5rem" />
-                    <Skeleton width="3rem" height="1.5rem" />
+                    <Skeleton width="4rem" height="10rem" />
+                    <Skeleton width="3rem" height="10rem" />
                   </div>
                 </div>
               ))}
@@ -174,7 +144,7 @@ const FashionProducts = () => {
     <>
       {/*slide header part*/}
       <div className="slide-header">
-        <p>categroy name</p>
+        <p>Fashion Products</p>
         <Link href={`/`}>see all</Link>
       </div>
 
@@ -183,7 +153,9 @@ const FashionProducts = () => {
         {/*if porduct is not null and length is greate than 0*/}
         {products && products.length > 0 ? (
           products.map((pro: ProductType) => {
-            const { _id, title, slug, images, price } = pro;
+            const { _id, title, slug, images, price, quantity = 1 } = pro;
+            const productQuantity = 1;
+            const inCart = isProductInCart(_id);
             return (
               <div key={_id} className="product">
                 {/*product img & content part*/}
@@ -218,7 +190,28 @@ const FashionProducts = () => {
                 {/*product price & button part*/}
                 <div className="addcart">
                   <p className="price">${price}</p>
-                  <button className="add-to-cart">+add</button>
+                  {inCart ? (
+                    <button className="home-page-addcart added">added</button>
+                  ) : (
+                    <button
+                      className="home-page-addcart "
+                      onClick={() =>
+                        dispatch(
+                          AddToCart({
+                            _id,
+                            price,
+                            productQuantity,
+                            title,
+                            slug,
+                            images,
+                            quantity,
+                          })
+                        )
+                      }
+                    >
+                      +add
+                    </button>
+                  )}
                 </div>
               </div>
             );

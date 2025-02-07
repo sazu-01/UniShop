@@ -73,6 +73,7 @@
     position: absolute;
     top: 28px;
     right: 6px;
+    font-size: 1.4rem;
 }
 
 
@@ -86,10 +87,10 @@
     font-weight: 600;
     padding: 10px 0px;
     transition: .2s;
+    font-size: 1.6rem;
 }
 
 .or{
-
  margin: 10px 0px 10px 0px;
 }
 
