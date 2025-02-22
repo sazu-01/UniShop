@@ -51,23 +51,9 @@ const CreateProductController = async (req, res, next) => {
 
 const GetAllProducts = async (req, res, next) => {
   try {
-    //extracting page, limit, and search query parameters from the request
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 10;
-    const search = req.query.search || "";
 
-    //creating a regular expression for case-insensitive search
-    const searchRegExp = new RegExp(".*" + search + ".*", "i");
-
-    const filter = {
-      $or: [{ title: { $regex: searchRegExp } }],
-    };
     //calling the get all products service with pagination and filter
-    const { products, pagination } = await GetAllProductsService(
-      page,
-      limit,
-      filter
-    );
+    const { products } = await GetAllProductsService();
 
     //return all the products
     return SuccessResponse(res, {
@@ -75,7 +61,6 @@ const GetAllProducts = async (req, res, next) => {
       message: "return all the products",
       payload: {
         products,
-        pagination,
       },
     });
   } catch (error) {

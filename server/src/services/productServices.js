@@ -46,32 +46,16 @@ export const CreateProductService = async (productData) => {
   }
 };
 
-export const GetAllProductsService = async (page, limit, filter = {}) => {
+export const GetAllProductsService = async () => {
   try {
     //get all the products from database
-    const products = await Products.find(filter)
+    const products = await Products.find()
       .populate("category") // Populate the category field with category data
-      .skip((page - 1) * limit) //skip the number of products based on the current page
-      .limit(limit) // Limit the number of products per page
-      .sort({ createdAt: -1 }); //sort the products by createdAt in descending order
 
     //if no products are found, throw an error
     if (!products) throw HttpError(404, "no products found");
 
-    //get the total count of products matching the filter
-    const count = await Products.find(filter).countDocuments();
-
-    //return the products and pagination data
-    return {
-      products,
-      pagination: {
-        totalPages: Math.ceil(count / limit),
-        currentPage: page,
-        previousPage: page - 1,
-        nextPage: page + 1,
-        totalNumberOfProducts: count,
-      },
-    };
+    return { products };
   } catch (error) {
     throw error;
   }

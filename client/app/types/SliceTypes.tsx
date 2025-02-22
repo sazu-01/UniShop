@@ -48,8 +48,12 @@ export interface stateType {
   }
 
 
-/*product slice types */
-
+/*category types*/
+export interface Category {
+    _id : string,
+    name : string,
+    slug : string
+}
   
 //define product interface
 export interface ProductType {
@@ -58,7 +62,7 @@ export interface ProductType {
     slug : string | undefined,
     images : string[],
     description : string,
-    category : string,
+    category : Category,
     brand : string,
     quantity : number,
     price : number,

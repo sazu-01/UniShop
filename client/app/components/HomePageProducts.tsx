@@ -15,7 +15,7 @@ import Skeleton from "./Skeleton";
 //css
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import "@/css/FashionProducts.css";
+import "@/css/HomePageProducts.css";
 
 import { AddToCart } from "../lib/features/cartSlice";
 
@@ -23,7 +23,7 @@ import { AddToCart } from "../lib/features/cartSlice";
 import { BsArrowRightShort, BsArrowLeftShort } from "react-icons/bs";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
-const FashionProducts = () => {
+const HomePageProducts = () => {
   //make custome next arrow
   function SampleNextArrow(props: any) {
     const { className, style, onClick } = props;
@@ -103,6 +103,30 @@ const FashionProducts = () => {
     return cart.some((item) => item._id === productId);
   };
 
+  // Group products by category and filter those that have at least 5 products
+  const categorizedProducts =
+    products?.reduce(
+      (
+        acc: Record<string, { name: string; products: ProductType[] }>,
+        product
+      ) => {
+        const { category } = product;
+        if (!acc[category?.slug]) {
+          acc[category?.slug] = {
+            name: category?.name || "Unknown",
+            products: [],
+          };
+        }
+        acc[category?.slug].products.push(product);
+        return acc;
+      },
+      {}
+    ) || {};
+
+  const filteredCategories = Object.entries(categorizedProducts).filter(
+    ([, categoryData]) => categoryData.products.length >= 5
+  );
+
   if (!products) {
     return (
       <>
@@ -142,86 +166,82 @@ const FashionProducts = () => {
 
   return (
     <>
-      {/*slide header part*/}
-      <div className="slide-header">
-        <p>Fashion Products</p>
-        <Link href={`/`}>see all</Link>
-      </div>
+      {filteredCategories.map(([categorySlug, categoryData]: any) => (
+        <div key={categorySlug}>
+          {/* Slide header part */}
+          <div className="slide-header">
+            <p>{categoryData.name}</p>
+            <Link href={`/${categorySlug}`}>See all</Link>
+          </div>
 
-      {/*slider part*/}
-      <Slider {...settings} className="">
-        {/*if porduct is not null and length is greate than 0*/}
-        {products && products.length > 0 ? (
-          products.map((pro: ProductType) => {
-            const { _id, title, slug, images, price, quantity = 1 } = pro;
-            const productQuantity = 1;
-            const inCart = isProductInCart(_id);
-            return (
-              <div key={_id} className="product">
-                {/*product img & content part*/}
-                <Link href={`/product/${slug}`}>
-                  <div className="product-img">
-                    <Image
-                      src={`${images[0]}`}
-                      alt=""
-                      width={300}
-                      height={300}
-                      className="home-pro-img"
-                      priority
-                      style={{
-                        objectFit: "cover",
-                        width: "100%",
-                        height: "auto",
-                      }}
-                    />
+          {/* Slider part */}
+          <Slider {...settings}>
+            {categoryData.products.map((pro: ProductType) => {
+              const { _id, title, slug, images, price, quantity = 1 } = pro;
+              const inCart = isProductInCart(_id);
+              return (
+                <div key={_id} className="product">
+                  <Link href={`/product/${slug}`}>
+                    <div className="product-img">
+                      <Image
+                        src={`${images[0]}`}
+                        alt={title}
+                        width={300}
+                        height={300}
+                        className="home-pro-img"
+                        priority
+                        style={{
+                          objectFit: "cover",
+                          width: "100%",
+                          height: "auto",
+                        }}
+                      />
+                    </div>
+                    <div className="pro-content">
+                      <p className="title">{title}</p>
+                      <p className="rating">
+                        <FaStar />
+                        <FaStar />
+                        <FaStar /> <FaStarHalfAlt />
+                        <FaStarHalfAlt />
+                      </p>
+                    </div>
+                  </Link>
+
+                  {/* Product price & button part */}
+                  <div className="addcart">
+                    <p className="price">${price}</p>
+                    {inCart ? (
+                      <button className="home-page-addcart added">Added</button>
+                    ) : (
+                      <button
+                        className="home-page-addcart"
+                        onClick={() =>
+                          dispatch(
+                            AddToCart({
+                              _id,
+                              price,
+                              productQuantity: 1,
+                              title,
+                              slug,
+                              images,
+                              quantity,
+                            })
+                          )
+                        }
+                      >
+                        +Add
+                      </button>
+                    )}
                   </div>
-
-                  <div className="pro-content">
-                    <p className="title">{title}</p>
-                    <p className="rating">
-                      <FaStar />
-                      <FaStar />
-                      <FaStar /> <FaStarHalfAlt />
-                      <FaStarHalfAlt />
-                    </p>
-                  </div>
-                </Link>
-
-                {/*product price & button part*/}
-                <div className="addcart">
-                  <p className="price">${price}</p>
-                  {inCart ? (
-                    <button className="home-page-addcart added">added</button>
-                  ) : (
-                    <button
-                      className="home-page-addcart "
-                      onClick={() =>
-                        dispatch(
-                          AddToCart({
-                            _id,
-                            price,
-                            productQuantity,
-                            title,
-                            slug,
-                            images,
-                            quantity,
-                          })
-                        )
-                      }
-                    >
-                      +add
-                    </button>
-                  )}
                 </div>
-              </div>
-            );
-          })
-        ) : (
-          <div>no products loading</div>
-        )}
-      </Slider>
+              );
+            })}
+          </Slider>
+        </div>
+      ))}
     </>
   );
 };
 
-export default FashionProducts;
+export default HomePageProducts;

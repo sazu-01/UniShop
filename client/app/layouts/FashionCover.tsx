@@ -7,7 +7,7 @@ import { Carousel } from 'react-bootstrap';
 //css
 import "@/css/FashionCover.css"
 
-const FashionCover = () => {
+const HomeCover = () => {
   return (
     <>
   <Carousel data-bs-theme="dark" className=''>
@@ -45,4 +45,4 @@ const FashionCover = () => {
   )
 }
 
-export default FashionCover
+export default HomeCover

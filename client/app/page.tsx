@@ -1,12 +1,14 @@
-import FashionProducts from "./components/FashionProducts";
-import FashionCover from "./layouts/FashionCover";
+
+
+import HomePageProducts from "./components/HomePageProducts";
+import HomeCover from "./layouts/FashionCover";
 
 
 export default function Home() {
   return (
     <>
-   <FashionCover /> 
-   <FashionProducts />
+   <HomeCover /> 
+   <HomePageProducts />
     </>
 
   );
