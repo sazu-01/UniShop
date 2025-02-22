@@ -67,6 +67,7 @@ export interface ProductType {
     quantity : number,
     price : number,
     status : boolean,
+    summary : string
 }
 
 //define initialState interface
