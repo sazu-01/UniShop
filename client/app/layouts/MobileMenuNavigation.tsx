@@ -26,7 +26,7 @@ interface MenuType {
 
 const MobileMenuNavigation = () => {
   const [show, setShow] = useState(false);
-  const [openCategory, setOpenCategory] = useState(null);
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
