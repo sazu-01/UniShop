@@ -13,7 +13,9 @@ const menuItems = [
   { title: 'Marketing', image: '/marketing.webp', href: '/admin/marketing' },
   { title: 'Users', image: '/user.png', href: '/admin/users'},
   { title: 'Orders', image: '/order.jpeg', href: '/admin/orders'},
-  { title: 'Delivery', image: '/courier.webp', href: '/admin/delivery'}
+  { title: 'Delivery', image: '/courier.webp', href: '/admin/delivery'},
+  {title : "Change Images of Website", image: '/media.png', href: '/admin/media'},
+  {title : "Change Content of Website", image: '/content.webp', href : '/admin/content'}
 ];
 
 export default function Admin() {

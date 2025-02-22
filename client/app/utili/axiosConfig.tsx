@@ -4,7 +4,7 @@ import axios from "axios";
 
 //custome instance of axios
 export const api = axios.create({
-    baseURL : "https://unishop-backend.vercel.app/api",
+    baseURL : "http://localhost:4000/api",
     withCredentials: true, // To send cookies with requests
     headers : {
         "Content-Type" : "application/json"

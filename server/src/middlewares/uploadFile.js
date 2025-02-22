@@ -21,6 +21,12 @@ const productStorage = multer.diskStorage({
     }   
 })
 
+const mediaStorage = multer.diskStorage({
+    filename : function (req, file, cb) {
+        cb(null, Date.now() + "-" + file.originalname)
+    }
+})
+
 
 const fileFilter = (req, file, cb) => {
     if (!allowedFileTypes.includes(file.mimetype)) {
@@ -41,8 +47,15 @@ const uploadProductImg = multer({
     fileFilter: fileFilter,
 });
 
+const uploadMediaImg = multer({
+    storage: mediaStorage,
+    limits: {fileSize: maxImageSize},
+    fileFilter: fileFilter,
+});
+
 
 export {
     uploadUserImg,
-    uploadProductImg
+    uploadProductImg,
+    uploadMediaImg
 }
