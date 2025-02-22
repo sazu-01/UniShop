@@ -2,46 +2,46 @@
 "use client"
 
 //packages
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import Link from "next/link";
-
-//component
-import { Navigation } from "./Navigation";
+import slugify from "slugify";
 
 //icons
-import { PiDressDuotone } from "react-icons/pi";
-import { FaLaptop } from "react-icons/fa";
-import { RiSofaLine } from "react-icons/ri";
-import { GiTomato } from "react-icons/gi";
-import { AiOutlineMedicineBox } from "react-icons/ai";
-import { IoLogoOctocat } from "react-icons/io";
-import { PiNotebookBold } from "react-icons/pi";
-import { BiFileBlank } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
-
+import { api } from "../utili/axiosConfig";
 //css
 
 import "@/css/Navbar.css";
 
+interface MenuType {
+  _id: string;
+  menu: string;
+  submenu: string[];
+}
+
 
 const Navbar = () => {
 
-  //object to map icon names to the corresponding icon components
-  const IconComponents = {
-    PiDressDuotone,
-    FaLaptop,
-    RiSofaLine,
-    GiTomato,
-    AiOutlineMedicineBox,
-    IoLogoOctocat,
-    PiNotebookBold,
-    BiFileBlank,
-  };
-
   //state to manage whether the menu is being hovered over
   const [isHovering , setIsHovering] = useState(false);
+
+  const [menus, setMenus] = useState<MenuType[]>([]);
+
+      // Fetch all menus
+      const handleGetAllMenu = async () => {
+        try {
+          const { data } = await api.get("/menu/all-menu");
+          setMenus(data.payload.allMenu);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      useEffect(()=>{
+        handleGetAllMenu()
+      },[])
 
   //function to handle mouse enter event
   const handleMouseEnter = () => {
@@ -74,27 +74,26 @@ const Navbar = () => {
 
       <nav className={isHovering ? "menubar-block" : "menubar-none"}>
         <div className="menubar-wrapper">
-          {Navigation.map((Nav, i) => {
-          //dynamically selecting the icon component
-          const IconComponent=IconComponents[Nav.icon as keyof typeof IconComponents];
+          {menus.map((Nav, i) => {
+            const link = slugify(Nav.menu, { lower: true, strict: true }); 
             return (
               <li key={i}>
                 {" "}
-                <span>{IconComponent && <IconComponent />}</span>{" "}
-                <p>{Nav.title}</p>
+                <Link href={`/${link}`}>{Nav.menu}</Link>
                 <ul className="dropmenu">
                   {/* dropmenu for categories */}
-                  {Nav.categorise.map((c, i) => {
+                  {/* {Nav.submenu.map((c, i) => {
+                   const sublink = slugify(c, { lower: true, strict: true }); 
                     return (
                       <React.Fragment key={i}>
                         {c === "" ? null : (
                           <li>
-                            <Link href={`/`}>{c}</Link>
+                            <Link href={`/${sublink}`}>{c}</Link>
                           </li>
                         )}
                       </React.Fragment>
                     );
-                  })}
+                  })} */}
                 </ul>
               </li>
             );

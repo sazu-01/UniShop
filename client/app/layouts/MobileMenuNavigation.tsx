@@ -1,21 +1,28 @@
-//packages
-import { useState } from "react";
 
+//packages
+import { useState, useEffect } from "react";
+import slugify from "slugify";
+import Link from "next/link";
 //icons
 import { MdOutlineClose } from "react-icons/md";
 
 //boostrap component
 import Offcanvas from "react-bootstrap/Offcanvas";
-
-import { Navigation } from "./Navigation";
+import { api } from "../utili/axiosConfig";
 
 //css
 import "@/css/MobileMenuNavigation.css";
 
 //component
-
 import { RxHamburgerMenu } from "react-icons/rx";
-import { FaChevronUp, FaChevronDown } from "react-icons/fa";
+
+
+interface MenuType {
+  _id: string;
+  menu: string;
+  submenu: string[];
+}
+
 
 const MobileMenuNavigation = () => {
   const [show, setShow] = useState(false);
@@ -24,9 +31,22 @@ const MobileMenuNavigation = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const toggleCategory = (index: any) => {
-    setOpenCategory(openCategory === index ? null : index);
+
+  const [menus, setMenus] = useState<MenuType[]>([]);
+  
+  // Fetch all menus
+  const handleGetAllMenu = async () => {
+    try {
+      const { data } = await api.get("/menu/all-menu");
+      setMenus(data.payload.allMenu);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(()=>{
+    handleGetAllMenu()
+  },[])
 
   return (
     <>
@@ -41,31 +61,28 @@ const MobileMenuNavigation = () => {
           <MdOutlineClose onClick={handleClose} className="btn-close" />
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <ul className="menu-list">
-            {Navigation.map((item, index) => (
-              <li key={index} className="menu-item">
-                <div
+        <ul className="menu-list">
+            {menus.map((item, index) => { 
+              const link = slugify(item.menu, {lower : true, strict: true})
+            return  (
+                
+              <li key={index} className="menu-item" >
+                <Link 
+                  href={`/${link}`}
                   className="menu-title"
-                  onClick={() => toggleCategory(index)}
+                  onClick={handleClose}
                 >
-                  <span>{item.title}</span>
-                  {openCategory === index ? (
+                  <span>{item.menu}</span>
+                  {/* {openCategory === index ? (
                     <FaChevronUp className="chevron-icon" />
                   ) : (
                     <FaChevronDown className="chevron-icon" />
-                  )}
-                </div>
-                {openCategory === index && (
-                  <ul className="submenu">
-                    {item.categorise.map((cat, idx) => (
-                      <li key={idx} className="submenu-item">
-                        {cat}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                  ) } */}
+                </Link>
+                
+
               </li>
-            ))}
+            )})}
           </ul>
         </Offcanvas.Body>
       </Offcanvas>

@@ -89,10 +89,11 @@
   }
 }
 
-.menubar-wrapper li p {
+.menubar-wrapper li a {
   text-decoration: none;
   color: var(--fashion-shop-main-color);
-  font-weight: 400;
+  font-weight: 600;
+  opacity: 0.8888;
   font-style: normal;
   font-family: "Kanit", sans-serif;
   margin: 0;
@@ -105,6 +106,8 @@
   text-decoration: none;
   font-family: "Kanit", sans-serif;
   color: var(--fashion-shop-main-color);
+  font-weight: 600;
+  opacity: 0.8888;
 }
 
 .menubar-wrapper li ul.dropmenu {

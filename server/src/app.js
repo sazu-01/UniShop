@@ -17,7 +17,7 @@ import authRouter from "./routers/authRouter.js";
 import categoryRouter from "./routers/categoryRouter.js";
 import productRouter from "./routers/productRouter.js";
 import orderRouter from "./routers/orderRouter.js"
-
+import contentRouter from "./routers/menuRouter.js";
 //create an express application;
 const app = express();
 
@@ -41,7 +41,7 @@ app.use("/api/auth",authRouter);
 app.use("/api/categories",categoryRouter);
 app.use("/api/products",productRouter);
 app.use("/api/order",orderRouter);
-
+app.use("/api/menu", contentRouter);
 
 //home route
 app.get("/", function (req, res) {
