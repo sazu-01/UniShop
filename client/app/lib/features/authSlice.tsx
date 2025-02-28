@@ -148,12 +148,17 @@ export const authSlice = createSlice({
       })
 
       //handle load access token states
+      .addCase(loadAccessToken.pending, (state) => {
+         state.isLoading = true;
+      })
       .addCase(loadAccessToken.fulfilled, (state) => {
         state.isLoading = false;
+        state.isLoggedIn = true;
       })
       .addCase(loadAccessToken.rejected, (state) => {
         state.isLoading = false;
         state.user = null;
+        state.isLoggedIn = false;
       })
   }
 
