@@ -17,11 +17,17 @@ import {
 
 const CreateProductController = async (req, res, next) => {
   try {
-    const { title, description, category, quantity, brand, price, summary } =
+    const { title, description, category, quantity, brand, price, size } =
       req.body;
 
     //checking if images are uploaded with the request
     const images = req.files?.map((file)=> file.path);
+
+    // Handle size as an array (multer parses it as either array or single value)
+    if (size && !Array.isArray(size)) {
+      // If only one size is provided, convert it to an array
+      size = [size];
+    }
 
     //creating an object with product data
     const productData = {
@@ -33,7 +39,7 @@ const CreateProductController = async (req, res, next) => {
       quantity,
       brand,
       price,
-      summary,
+      size,
     };
 
     //call the createproduct service with product data

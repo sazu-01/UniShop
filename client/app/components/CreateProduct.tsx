@@ -15,7 +15,7 @@ interface productFormData {
     brand: string;
     price: string;
     status: 'add-to-cart' | 'not-available' | 'in-stock';
-    summary: string;
+    size : string[],
 }
 
 interface Category {
@@ -33,7 +33,7 @@ export default function CreateProduct() {
         brand: "",
         price: "",
         status: "add-to-cart",
-        summary: ""
+        size : []
     });
 
     const [categories, setCategories] = useState<Category[]>([]);
@@ -41,6 +41,38 @@ export default function CreateProduct() {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [newSize, setNewSize] = useState("");
+
+    const commonSizes = ["XS", "S", "M", "L", "XL", "XXL"];
+    
+       // Add function to add common size
+       const addCommonSize = (size: string) => {
+        if (!formData.size.includes(size)) {
+            setFormData(prev => ({
+                ...prev,
+                size: [...prev.size, size]
+            }));
+        }
+    };
+    
+    // Add function to add custom size
+    const addCustomSize = () => {
+        if (newSize && !formData.size.includes(newSize)) {
+            setFormData(prev => ({
+                ...prev,
+                size: [...prev.size, newSize]
+            }));
+            setNewSize(""); // Clear input after adding
+        }
+    };
+    
+    // Remove size function
+    const removeSize = (sizeToRemove: string) => {
+        setFormData(prev => ({
+            ...prev,
+            size: prev.size.filter(size => size !== sizeToRemove)
+        }));
+    };
 
     // Fetch categories when component mounts
     useEffect(() => {
@@ -95,7 +127,14 @@ export default function CreateProduct() {
 
             // Append all form fields to FormData
             (Object.keys(formData) as Array<keyof productFormData>).forEach(key => {
-                productFormData.append(key, formData[key]);
+                if (key === 'size') {
+                    // Handle size array specially
+                    formData.size.forEach(size => {
+                        productFormData.append('size', size);
+                    });
+                } else {
+                    productFormData.append(key, formData[key]);
+                }
             });
 
               // Append multiple images
@@ -120,7 +159,7 @@ export default function CreateProduct() {
                     brand: "",
                     price: "",
                     status: "add-to-cart",
-                    summary: ""
+                    size : [],
                 });
                 setSelectedImages([]);
                 setImageFiles([]);
@@ -194,6 +233,64 @@ export default function CreateProduct() {
                             />
                         </div>
                     </div>
+                </div>
+            </div>
+
+
+
+            <div className="form-row">
+                <label className="form-label">Sizes</label>
+                <div className="size-selection">
+                    <div className="common-sizes">
+                        {commonSizes.map(size => (
+                            <button
+                                key={size}
+                                type="button"
+                                className={`size-button ${formData.size.includes(size) ? 'selected' : ''}`}
+                                onClick={() => addCommonSize(size)}
+                            >
+                                {size}
+                            </button>
+                        ))}
+                    </div>
+                    
+                    <div className="custom-size-input">
+                        <input
+                            type="text"
+                            value={newSize}
+                            onChange={(e) => setNewSize(e.target.value)}
+                            className="form-input"
+                            placeholder="Add custom size"
+                        />
+                        <button
+                            type="button"
+                            onClick={addCustomSize}
+                            className="add-size-button"
+                            disabled={!newSize}
+                        >
+                            Add
+                        </button>
+                    </div>
+                    
+                    {formData.size.length > 0 && (
+                        <div className="selected-sizes">
+                            <label>Selected Sizes:</label>
+                            <div className="size-tags">
+                                {formData.size.map(size => (
+                                    <div key={size} className="size-tag">
+                                        {size}
+                                        <button
+                                            type="button"
+                                            onClick={() => removeSize(size)}
+                                            className="remove-size-button"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -291,17 +388,7 @@ export default function CreateProduct() {
                 </select>
             </div>
 
-            <div className="form-row">
-                <label className="form-label">Summary</label>
-                <textarea
-                    name="summary"
-                    value={formData.summary}
-                    onChange={handleChange}
-                    className="form-input form-textarea"
-                    placeholder="Enter product summary"
-                    required
-                ></textarea>
-            </div>
+            
 
             <button 
                 type="submit" 
