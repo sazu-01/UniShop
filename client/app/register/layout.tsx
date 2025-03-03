@@ -126,7 +126,7 @@ const Register = () => {
             </div>
             <div className="mt-4 fw-semibold" style={{fontSize:"1.6rem"}}>
               have an account?&nbsp;
-              <Link href="/fashion-shop/">
+              <Link href="/">
                 <button type="button" style={{border : "none", background:"transparent", textDecoration:"underline", color:"#1E66CE", fontWeight:"600"}} onClick={() => dispatch(ShowModalFun())}>
                   Login
                 </button>

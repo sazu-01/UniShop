@@ -36,7 +36,7 @@ const TopHeader = () => {
         </div>
 
         <div className="topheader-right">
-          <Link href={`/my-order`}>Track My Order</Link>
+          <Link href={`/`}>Track My Order</Link>
           <Link href={`/`}>Need Help</Link>
         </div>
 

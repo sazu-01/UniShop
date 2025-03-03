@@ -15,8 +15,9 @@ const Footer = () => {
   return (
     <>
       <section id="footer">
-
-        <div className="container footer-top">
+      
+      <div className="footer-content">
+        <div className=" footer-top">
          
          {/*brand details section*/}
         <div className="brand-details">
@@ -78,7 +79,7 @@ const Footer = () => {
 
         <hr  />
 
-        <div className="container footer-bottom" >
+        <div className=" footer-bottom" >
             <div><p>@ 2024 unishop. All rights reserved</p></div>
           {/*social media icons*/}
           <div className="footer-icons">
@@ -88,6 +89,8 @@ const Footer = () => {
             <li><Link href='/'>  <AiFillInstagram className="icon" /></Link> </li>
             <li> <Link href='/'> <FaTwitter className="icon" /></Link> </li>
            </div>
+        </div>
+
         </div>
       </section>
     </>

@@ -80,7 +80,7 @@ export default function Slug() {
             <p className="title">{title}</p>
             <div className="brand">brand : {brand}</div>
             <p>
-              see more : <Link href={`/`}>{category?.slug}</Link>
+              see more : <Link href={`/${category?.slug}`}>{category?.slug}</Link>
             </p>
             <p>in stock : {quantity}</p>
             <div className="star">

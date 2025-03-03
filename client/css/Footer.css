@@ -4,6 +4,11 @@
 #footer{
     background-color: var(--shop-bg-color);
     color: #FFFFFF;
+    width: 100%;
+}
+
+#footer .footer-content{
+    margin: 0rem 7rem;
 }
 
 /*footer top design start*/
@@ -32,7 +37,7 @@
     margin: 8px 15px;
 }
 
-#footer .container a:hover{
+#footer a:hover{
     text-decoration: underline;
 }
 
@@ -113,7 +118,7 @@
 
 
 #footer hr{
-    margin: 0rem 4rem;
+    margin: 0rem 0rem;
     background-color: #fff;
 }
 
@@ -124,7 +129,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    padding: 1rem 0rem;
+    padding: 2rem 0rem 1rem 0rem;
 }
 
 
@@ -168,6 +173,13 @@
 
 /*responsive design*/
 
+@media (min-width : 1367px) {
+    #footer .footer-content {
+        max-width: 1366px;
+        margin: 0 auto;
+    }
+}
+
 @media(max-width:990px){
     
 #footer .footer-top{
@@ -199,6 +211,10 @@
 
 
 @media(max-width:768px){
+
+    #footer .footer-content {
+        margin: 0 1rem;
+    }
     #footer hr{
         margin: 0rem 0rem;
     }

@@ -19,7 +19,7 @@ export const counterSlice = createSlice({
     ShowModalFun : (state:any) =>{
         state.show = true
     },
-    //action t
+    //action to close the modal
     CloseModalFun : (state:any) => {
         state.show = false
     }

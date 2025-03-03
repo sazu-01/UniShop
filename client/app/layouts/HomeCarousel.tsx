@@ -7,12 +7,13 @@ import Image from 'next/image';
 import { Carousel } from 'react-bootstrap';
 import Skeleton from '../components/Skeleton';
 //css
-import "@/css/FashionCover.css"
+import "@/css/HomeCarousel.css"
+
 interface MediaItem {
   carouselImages: string[];
 }
 
-const HomeCover = () => {
+const HomeCarousel  = () => {
   
   const [media, setAllMedia] = useState<MediaItem[]>([]);
   
@@ -27,13 +28,14 @@ const HomeCover = () => {
       }
     };
 
-
+  console.log(media);
+  
   
   useEffect(() => {
       handleGetAllCarousel();
     }, []);
 
-    if(!media[0]) {
+    if(!media) {
       return <Carousel>
          <Carousel.Item>
            <Skeleton width='100%' height='50rem' className='' ></Skeleton>
@@ -77,4 +79,4 @@ const HomeCover = () => {
   )
 }
 
-export default HomeCover
+export default HomeCarousel 

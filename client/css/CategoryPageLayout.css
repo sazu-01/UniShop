@@ -51,8 +51,11 @@
   padding: 1.5rem;
 }
 
+.product-content a{
+  text-decoration: none;
+}
 
-.product-title {
+ .product-title {
   font-size: 1.6rem;
   font-weight: 600;
   color: #1a1a1a;
@@ -60,12 +63,8 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-decoration: none;
 }
 
-.product-title:hover {
-  color: #4a5568;
-}
 
 .product-rating {
   display: flex;

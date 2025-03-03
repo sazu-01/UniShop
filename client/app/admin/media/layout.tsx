@@ -187,7 +187,7 @@ export default function AdminMediaLayout() {
           {media.map((item) =>
             item.carouselImages.map((image, index) => (
               <div key={index} className="image-card">
-                <Image src={image} alt="" className="image" />
+                <Image src={image} alt="" className="image" width={500} height={500} />
                 <div className="image-actions">
                   <button
                     onClick={() => handleDeleteCarousel(image)}

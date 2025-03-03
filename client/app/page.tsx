@@ -1,13 +1,13 @@
 
 
 import HomePageProducts from "./components/HomePageProducts";
-import HomeCover from "./layouts/FashionCover";
+import HomeCarousel  from "./layouts/HomeCarousel";
 
 
 export default function Home() {
   return (
     <>
-   <HomeCover /> 
+   <HomeCarousel  /> 
    <HomePageProducts />
     </>
 
