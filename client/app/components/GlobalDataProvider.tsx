@@ -1,8 +1,7 @@
 
 'use client';
 
-import { useAppDispatch, useAppSelector } from "../lib/hook";
-// import { RootState } from "../lib/store";
+import { useAppDispatch } from "../lib/hook";
 import { useEffect } from "react";
 import { getProduct } from "../lib/features/productSlice";
 import { initializeCart } from "../lib/features/cartSlice";
