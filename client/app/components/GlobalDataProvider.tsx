@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "../lib/hook";
 // import { RootState } from "../lib/store";
 import { useEffect } from "react";
 import { getProduct } from "../lib/features/productSlice";
-// import { getCurrentUser, loadAccessToken } from "../lib/features/authSlice";
 import { initializeCart } from "../lib/features/cartSlice";
 import { getCurrentUser } from "../lib/features/authSlice";
 export default function GlobalDataProvider({
@@ -13,19 +12,16 @@ export default function GlobalDataProvider({
   }: {
     children: React.ReactNode
   }) {
-    const dispatch = useAppDispatch()
-    const { isLoggedIn } = useAppSelector((state) => state.auth)
+    const dispatch = useAppDispatch();
   
     useEffect(() => {
       dispatch(getProduct())
       dispatch(initializeCart());
-
-
+   
       
       const isLoggedInLocal = localStorage.getItem('isLoggedIn') === 'true'
-      if (isLoggedInLocal && !isLoggedIn) {
+      if (isLoggedInLocal) {
         dispatch(getCurrentUser());
-        // dispatch(loadAccessToken());
       }
     }, [dispatch])
   

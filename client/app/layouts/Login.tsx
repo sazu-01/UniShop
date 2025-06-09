@@ -14,7 +14,7 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 //redux actions
 import { CloseModalFun, ShowModalFun } from '@/app/lib/features/variableSlice';
 
-// import { login } from '@/app/lib/features/authSlice';
+
 import { signInStart,  signInSuccess, signInFailure, } from "@/app/lib/features/authSlice"
 //import custom hooks
 import { useAppDispatch, useAppSelector } from '@/app/lib/hook';
@@ -29,10 +29,6 @@ const Login = () => {
  const handleChange = (e : any) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-
-  //state for form input
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   //state for password visibility
   const [seePassword, setSeepasswrod] = useState(false);

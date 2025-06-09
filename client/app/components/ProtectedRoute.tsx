@@ -12,6 +12,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   const [isAuthorized, setIsAuthorized] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -22,11 +23,9 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
             "Content-Type" : "application/json"
           }
         });
-        const data = res.json();
-        console.log(data);
         
         if(res.ok) {
-    setIsAuthorized(true);
+         setIsAuthorized(true);
         }else {
           router.replace('/')
         }
@@ -38,7 +37,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     };
 
     checkAuth();
-  }, []);
+  }, [router]);
 
   return isAuthorized ? children : null;
 }
