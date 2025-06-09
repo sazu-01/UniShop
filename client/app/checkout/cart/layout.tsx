@@ -23,7 +23,7 @@ const Cart = () => {
     subtotal += c.price * c.productQuantity;
   });
 
- 
+ let delivery_charge = 0;
   
 
   return (
@@ -37,7 +37,7 @@ const Cart = () => {
             </div>
     
             {/*payable section*/}
-            <TotalPayable subtotal={subtotal} />
+            <TotalPayable subtotal={subtotal} delivery_charge={delivery_charge} />
           </div>
         </div>
       );

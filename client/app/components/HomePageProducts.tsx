@@ -177,7 +177,7 @@ const HomePageProducts = () => {
           {/* Slider part */}
           <Slider {...settings}>
             {categoryData.products.map((pro: ProductType) => {
-              const { _id, title, slug, images, price, quantity = 1 } = pro;
+              const { _id, title, slug, images, price, productQuantity = 1 } = pro;
               const inCart = isProductInCart(_id);
               return (
                 <div key={_id} className="product">
@@ -221,11 +221,10 @@ const HomePageProducts = () => {
                             AddToCart({
                               _id,
                               price,
-                              productQuantity: 1,
                               title,
                               slug,
                               images,
-                              quantity,
+                              productQuantity,
                             })
                           )
                         }

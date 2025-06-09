@@ -26,7 +26,7 @@ export default function CreateProduct() {
     const [formData, setFormData] = useState<productFormData>({
         title: "",
         category: "", // This will store the category ObjectId
-        inStock: 0,
+        inStock: "",
         brand: "",
         price: "",
         status: "add-to-cart",
