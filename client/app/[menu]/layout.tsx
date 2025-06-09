@@ -77,7 +77,7 @@ export default function CategoryProductLayout() {
                  <AiFillStar />
                  <AiOutlineStar />
                </div>
-               <p className="product-price">${price}</p>
+               <p className="product-price">Tk. {price}</p>
              </div>
            </div>
          );

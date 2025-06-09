@@ -210,7 +210,7 @@ const HomePageProducts = () => {
 
                   {/* Product price & button part */}
                   <div className="addcart">
-                    <p className="price">${price}</p>
+                    <p className="price">TK. {price}</p>
                     {inCart ? (
                       <button className="home-page-addcart added">Added</button>
                     ) : (

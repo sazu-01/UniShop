@@ -3,7 +3,6 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { api } from '@/app/utili/axiosConfig';
 import { ChangeEvent } from 'react';
 import Image from 'next/image';
 import "@/css/AdminOrderDashbaord.css"
@@ -39,10 +38,14 @@ export default function OrdersLayout() {
 
   const getAllOrder = async () => {
     try {
-      const res = await api.get("/order/all-order");
-      if (res.data.success) {
-        setOrders(res.data.payload.orders);
-        setFilteredOrders(res.data.payload.orders);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/all-order`, {
+        method : "GET",
+        credentials : "include"
+      });
+      const data = await res.json();
+      if (data.success) {
+        setOrders(data.payload.orders);
+        setFilteredOrders(data.payload.orders);
       }
     } catch (error) {
       console.log(error);
@@ -122,7 +125,7 @@ export default function OrdersLayout() {
                                 <Image
                                   src={item.images[0]}
                                   alt={item.title}
-                                  className="product-image"
+                                  className="product-image img-fluid"
                                   width={100}
                                   height={100}
                                 />
@@ -131,9 +134,9 @@ export default function OrdersLayout() {
                             <td>
                               <Link href={`/product/${item.slug}`} className="product-title-mobile">{item.title}</Link>
                             </td>
-                            <td className="text-end" style={{fontSize:"1.6rem"}}>${item.price}</td>
+                            <td className="text-end" style={{fontSize:"1.6rem"}}>TK. {item.price}</td>
                             <td className="text-end text-center">{item.productQuantity}</td>
-                            <td className="text-end fw-bold">${item.price * item.productQuantity}</td>
+                            <td className="text-end fw-bold">TK. {item.price * item.productQuantity}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -196,17 +199,17 @@ export default function OrdersLayout() {
                     <div className="summary-item">
                       <span>Subtotal</span>
                       <span className="amount">
-                        ${order.cart.reduce((total, item) => total + (item.price * item.productQuantity), 0)}
+                        TK. {order.cart.reduce((total, item) => total + (item.price * item.productQuantity), 0)}
                       </span>
                     </div>
                     <div className="summary-item">
                       <span>Delivery Charge</span>
-                      <span className="amount">${order.delivery_charge}</span>
+                      <span className="amount">TK. {order.delivery_charge}</span>
                     </div>
                     <div className="summary-total">
                       <span>Total</span>
                       <span className="total-amount">
-                        ${order.cart.reduce((total, item) => 
+                        TK. {order.cart.reduce((total, item) => 
                           total + (item.price * item.productQuantity), 0) + parseInt(order.delivery_charge)}
                       </span>
                     </div>

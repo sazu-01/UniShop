@@ -3,15 +3,13 @@
 "use client";
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import Image from 'next/image';
-import { api } from '../utili/axiosConfig';
 
 import "@/css/AdminProductDashbaord.css"
 
 interface productFormData {
     title: string;
-    description: string;
     category: string;
-    quantity: string;
+    inStock: string;
     brand: string;
     price: string;
     status: 'add-to-cart' | 'not-available' | 'in-stock';
@@ -27,9 +25,8 @@ export default function CreateProduct() {
 
     const [formData, setFormData] = useState<productFormData>({
         title: "",
-        description: "",
         category: "", // This will store the category ObjectId
-        quantity: "",
+        inStock: 0,
         brand: "",
         price: "",
         status: "add-to-cart",
@@ -78,8 +75,13 @@ export default function CreateProduct() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await api.get('/categories/all-category');
-                setCategories(response.data.payload.categories || []);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/all-category`,{
+                    method : "GET",
+                    credentials : "include",
+                });
+
+                const data = await res.json();
+                setCategories(data.payload.categories || []);
             } catch (error) {
                 console.error('Error fetching categories:', error);
                 setError('Failed to load categories');
@@ -142,20 +144,21 @@ export default function CreateProduct() {
                 productFormData.append('images', file);
             });
 
-            const response = await api.post('/products/create-product', productFormData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/create-product`, {
+                method : "POST",
+                credentials : "include",
+                body : productFormData
             });
 
-            if (response.data.success) {
+            const data = await res.json()
+
+            if (data.success) {
                 alert("Product created successfully!");
                 // Reset form
                 setFormData({
                     title: "",
-                    description: "",
                     category: "",
-                    quantity: "",
+                    inStock: "",
                     brand: "",
                     price: "",
                     status: "add-to-cart",
@@ -164,7 +167,7 @@ export default function CreateProduct() {
                 setSelectedImages([]);
                 setImageFiles([]);
             } else {
-                setError(response.data.message || "Failed to create product");
+                setError(data.message || "Failed to create product");
             }
         } catch (error : any) {
             console.error(error);
@@ -295,20 +298,6 @@ export default function CreateProduct() {
             </div>
 
 
-
-
-            <div className="form-row">
-                <label className="form-label">Description</label>
-                <textarea
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    className="form-input form-textarea"
-                    placeholder="Enter product description"
-                    required
-                ></textarea>
-            </div>
-
             <div className="form-row">
                 <label className="form-label">Category</label>
                 <select
@@ -345,15 +334,14 @@ export default function CreateProduct() {
             </div>
 
             <div className="form-row">
-                <label className="form-label">Quantity</label>
+                <label className="form-label">In Stock</label>
                 <input
                     type="number"
-                    name="quantity"
-                    value={formData.quantity}
+                    name="inStock"
+                    value={formData.inStock}
                     onChange={handleChange}
                     className="form-input"
-                    placeholder="Enter product quantity"
-                    min="0"
+                    placeholder="how many products are in stock"
                     required
                 />
             </div>

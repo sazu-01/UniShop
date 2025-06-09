@@ -14,8 +14,8 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 //redux actions
 import { CloseModalFun, ShowModalFun } from '@/app/lib/features/variableSlice';
 
-import { login } from '@/app/lib/features/authSlice';
-
+// import { login } from '@/app/lib/features/authSlice';
+import { signInStart,  signInSuccess, signInFailure, } from "@/app/lib/features/authSlice"
 //import custom hooks
 import { useAppDispatch, useAppSelector } from '@/app/lib/hook';
 
@@ -25,6 +25,10 @@ import "@/css/Login.css"
 
 
 const Login = () => {
+  const [formData, setFormData] = useState({});
+ const handleChange = (e : any) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
   //state for form input
   const [email, setEmail] = useState("");
@@ -34,7 +38,6 @@ const Login = () => {
   const [seePassword, setSeepasswrod] = useState(false);
 
   const dispatch = useAppDispatch();
-
   //get modal visibility state from variableSlice
   const show = useAppSelector((state) => state.variables.show);
   const isLoading = useAppSelector((state) => state.auth.isLoading);
@@ -43,19 +46,33 @@ const Login = () => {
   //modal toggles function
   const handleShow = () => dispatch(ShowModalFun());
   const handleClose = () => dispatch(CloseModalFun());
-
+   
   //handle form submission
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    try {
-      const resultAction = await dispatch(login({ email, password }));
-      if(login.fulfilled.match(resultAction)){
-        window.location.reload();
-      }else if (login.rejected.match(resultAction)) {
-        console.log(resultAction.payload);      }
-    } catch (error:any) {
-      console.log(error.message);
+     try {
+      dispatch(signInStart());
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+
+        body: JSON.stringify(formData),
+      });
+          
+      const data = await res.json();
       
+      if (res.ok === false) {
+        dispatch(signInFailure(data));
+        return;
+      }
+      dispatch(signInSuccess(data));
+      localStorage.setItem("isLoggedIn", "true");
+
+    } catch (error) {
+      dispatch(signInFailure(error));
     }
   }
 
@@ -84,8 +101,8 @@ const Login = () => {
             <input
               type="email"
               className="input-field"
-              onChange={(e) => setEmail(e.target.value)}
-              id="exampleInputEmail1"
+              onChange={handleChange}
+              id="email"
               placeholder="Enter your email"
               autoComplete="none"
               required
@@ -98,8 +115,8 @@ const Login = () => {
             <input
               type={seePassword ? `text` : `password`}
               className="input-field"
-              onChange={(e) => setPassword(e.target.value)}
-              id="exampleInputPassword1"
+              onChange={handleChange}
+              id="password"
               placeholder="Enter your password"
               autoComplete="none"
               required

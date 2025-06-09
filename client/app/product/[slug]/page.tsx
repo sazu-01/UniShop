@@ -1,6 +1,5 @@
 "use client";
 
-import { api } from "@/app/utili/axiosConfig";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Images from "@/app/components/Images";
@@ -29,8 +28,9 @@ export default function Slug() {
   useEffect(() => {
     const fetchSingleProduct = async () => {
       try {
-        const response = await api.get(`/products/${slug}`);
-        setSingleProduct(response.data?.payload?.singleProduct);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/${slug}`);
+        const data = await res.json();
+        setSingleProduct(data?.payload?.singleProduct);
       } catch (error: any) {
         console.log(error.response?.data?.message);
       }
@@ -65,7 +65,7 @@ export default function Slug() {
     );
   }
 
-  const { _id, title, price, brand, category, images, quantity } =
+  const { _id, title, price, category, images } =
     SingleProduct;
 
   return (
@@ -78,11 +78,9 @@ export default function Slug() {
           {/*render single product details */}
           <div className="single-product-details">
             <p className="title">{title}</p>
-            <div className="brand">brand : {brand}</div>
-            <p>
+            <p className="category">
               see more : <Link href={`/${category?.slug}`}>{category?.slug}</Link>
             </p>
-            <p>in stock : {quantity}</p>
             <div className="star">
               <AiFillStar />
               <AiFillStar />
@@ -90,7 +88,7 @@ export default function Slug() {
               <AiFillStar />
               <AiOutlineStar />
             </div>
-            <div className="price">price: ${price}</div>
+            <div className="price"><b>TK. {price}</b></div>
             {/*Quantity component for select quantity of product*/}
             <Quantity />
             <div className="single-product-button">
@@ -104,7 +102,6 @@ export default function Slug() {
                   title,
                   slug,
                   images,
-                  quantity,
                 }}
               />
             </div>

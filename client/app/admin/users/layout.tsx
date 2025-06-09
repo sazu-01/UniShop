@@ -1,6 +1,5 @@
 
 "use client";
-import { api } from "@/app/utili/axiosConfig";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
@@ -22,8 +21,12 @@ export default function AdminUserDashboard() {
 
   const handleUsers = async () => {
     try {
-      const { data } = await api.get("/users/all-user");
-      console.log(data);
+      const res = await fetch("http://localhost:4000/api/users/all-user", {
+        method : "GET",
+        credentials : "include",
+      });
+
+      const data = await res.json();
 
       if (data.success) {
         setUsers(data.payload.users);
@@ -41,7 +44,15 @@ export default function AdminUserDashboard() {
       const endpoint = user.isBanned
         ? `/users/unban-user/${user._id}`
         : `/users/ban-user/${user._id}`;
-      const { data } = await api.put(endpoint);
+        
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`, {
+        method : "PUT",
+        credentials : "include",
+        headers : {
+          'Content-Type' : 'application/json'
+        }
+      });
+      const data = await res.json()
       if (data.success) {
         setUsers((prevUsers) =>
           prevUsers.map((u) =>
@@ -56,7 +67,12 @@ export default function AdminUserDashboard() {
 
   async function handleDelete(user: User) {
     try {
-        const { data } = await api.delete(`/users/delete-user/${user._id}`);
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/delete-user/${user._id}`, {
+          method: "DELETE",
+          credentials: "include", 
+    });
+
+    const data = await res.json();
         if (data.success) {
             setUsers(prevUsers => prevUsers.filter(u => u._id !== user._id));
         }

@@ -3,7 +3,6 @@
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
-import { api } from "@/app/utili/axiosConfig";
 import "@/css/AdminMediaLayout.css";
 
 
@@ -53,14 +52,20 @@ export default function AdminMediaLayout() {
         formData.append("carouselImages", file);
       });
 
-      const { data } = await api.post("/media/create-carousel", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/media/create-carousel`, {
+        method : "POST",
+        credentials : "include",
+        body : formData
       });
+  
+      const data = await res.json();
 
+      if(!res.ok){
+        throw new Error(data.message || "Error in creating carousel")
+      }      
+      
       // Get the new images from the response, ensure the backend returns the uploaded images
-      const newImages = data.payload.media.carouselImages;
+      const newImages = data?.payload?.media?.carouselImages || [];
 
       // Update the UI immediately by appending new images
       setAllMedia((prevMedia) => {
@@ -89,8 +94,8 @@ export default function AdminMediaLayout() {
   //handle get carousel
   const handleGetAllCarousel = async () => {
     try {
-      const { data } = await api.get("/media/all-media");
-
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/media/all-media`);
+      const data = await res.json();
       setAllMedia(data.payload.allMedia);
     } catch (error) {
       console.log(`error in get carousel`, error);
@@ -102,8 +107,13 @@ export default function AdminMediaLayout() {
   // Handle delete image
   const handleDeleteCarousel = async (image: string) => {
     try {
-      await api.delete("/media/delete-carousel", {
-        data: { imageUrl: image }, // Send image URL in request body
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/media/delete-carousel`, {
+        method : "DELETE",
+        credentials : "include",
+        headers : {
+          'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({imageUrl: image})
       });
       // Update media state to remove the deleted image
       setAllMedia((prevMedia) =>
@@ -113,8 +123,6 @@ export default function AdminMediaLayout() {
         }))
       );
 
-      //remove carousel from redux store
-      // dispatch(removeFromCarousel(image));
     } catch (error) {
       console.error("Error deleting image:", error);
     }

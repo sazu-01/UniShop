@@ -4,9 +4,7 @@
 
 import React, { useState, useEffect } from "react";
 import "@/css/AdminContentLayout.css";
-import { api } from "@/app/utili/axiosConfig";
 import { MdDelete } from "react-icons/md";
-
 
 interface Category {
   name: string;
@@ -31,7 +29,8 @@ export default function AdminContentLayout() {
   // Fetch all categories
   const handleAllCategories = async () => {
     try {
-      const { data } = await api.get("/categories/all-category");
+      const  res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/all-category`);
+      const data = await res.json();
       setAllCategories(data.payload.categories);
     } catch (error) {
       console.log(error);
@@ -45,7 +44,8 @@ export default function AdminContentLayout() {
   // Fetch all menus
   const handleGetAllMenu = async () => {
     try {
-      const { data } = await api.get("/menu/all-menu");
+      const res  = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/menu/all-menu`);
+      const data = await res.json();
       setMenus(data.payload.allMenu);
     } catch (error) {
       console.log(error);
@@ -78,7 +78,24 @@ export default function AdminContentLayout() {
     }
 
     try {
-      const { data } = await api.post("/menu/create-menu", { menu: selectedCategory });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/menu/create-menu`, {
+         method : "POST",
+         credentials : "include",
+         headers : {
+          'Content-Type' : 'application/json'
+         },
+         body : JSON.stringify({
+         menu: selectedCategory 
+         })
+        });
+         console.log(selectedCategory);
+         
+        if(!res.ok){
+          const data = await res.json();
+          throw new Error(data.message || "Error on creating menu");
+        }
+        const data = await res.json();
+
       setMenus([...menus, data.payload.newMenu]); // Update state with new menu
       setSelectedCategory(""); // Reset selection
     } catch (error) {
@@ -120,7 +137,16 @@ export default function AdminContentLayout() {
 // Delete a Menu by ID
 const handleDeleteMenu = async (menuId: string) => {
   try {
-     await api.delete(`/menu/delete-menu/${menuId}`);
+    const res =  await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/menu/delete-menu/${menuId}`,{
+      method : "DELETE",
+      credentials : "include"
+     });
+
+    if(!res.ok) {
+      const data = await res.json();
+      throw new Error(data.message || "Failed to delete menu");
+    } 
+
     // Remove the deleted menu from state
     setMenus(menus.filter((menu) => menu._id !== menuId));
   } catch (error) {

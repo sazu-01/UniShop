@@ -10,7 +10,7 @@ import slugify from "slugify";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { api } from "../utili/axiosConfig";
+// import { api } from "../utili/axiosConfig";
 //css
 
 import "@/css/Navbar.css";
@@ -32,7 +32,8 @@ const Navbar = () => {
       // Fetch all menus
       const handleGetAllMenu = async () => {
         try {
-          const { data } = await api.get("/menu/all-menu");
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/menu/all-menu`);
+           const data = await res.json();
           setMenus(data.payload.allMenu);
         } catch (error) {
           console.log(error);

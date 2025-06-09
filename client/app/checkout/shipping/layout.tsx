@@ -9,11 +9,9 @@ import { useAppSelector } from "@/app/lib/hook";
 import "../../../css/Shipping.css";
 
 //component
-import TotalPayable from "../../components/TotalPayable";
-
-//
+import TotalPayable from "@/app/components/TotalPayable";
 import Payment from "@/app/components/Payment";
-import { api } from "@/app/utili/axiosConfig";
+import { Locations } from "@/app/components/Location";
 
 // Create a type for the form data
 type ShippingFormData = {
@@ -30,8 +28,7 @@ type ShippingFormData = {
 const Shipping = () => {
   //extract cart state from redux store
   const { cart } = useAppSelector((state) => state.cart);
-  console.log(cart);
-  
+
   // Combined form state
   const [formData, setFormData] = useState<ShippingFormData>({
     name: "",
@@ -41,9 +38,10 @@ const Shipping = () => {
     city: "",
     area: "",
     details_address: "",
-    delivery_charge: 50,
+    delivery_charge: 0,
   });
-  
+
+
 
   // Update form data
   const handleInputChange = (
@@ -63,23 +61,32 @@ const Shipping = () => {
 
   //calculate the subtotal price of the order
   cart.forEach((c) => {
-    subtotal += c.price * c.quantity;
+    subtotal += c.price * c.productQuantity;
   });
 
   // Handle order confirmation
   const handleConfirmOrder = async (e: FormEvent) => {
     e.preventDefault();
-   
+
     try {
-      const res = await api.post("/order/create-order", {
-        cart,
-        ...formData,
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/create-order`, {
+        method: "POST",
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          cart,
+          ...formData,
+        })
       });
 
-      if (res.data.success) {
-       alert("Order placed successfully");
+      const data = await res.json();
+
+      if (data.success) {
+        alert("Order placed successfully");
       } else {
-        console.log(res.data.message);
+        console.log(data.message);
       }
     } catch (error) {
       console.log(error);
@@ -151,42 +158,45 @@ const Shipping = () => {
               {/*country and area  input*/}
               <div className="d-flex flex-row">
                 <div>
-                  <div>Country</div>
+                  <label>City</label>
                   <select
-                    id=""
                     name="city"
                     value={formData.city}
-                    onChange={handleInputChange}
+                    onChange={(e) => {
+                      const selectedCity = e.target.value;
+                      setFormData((prev) => ({
+                        ...prev,
+                        city: selectedCity,
+                        area: "",
+                        delivery_charge: selectedCity === "Dhaka" ? 70 : 120,
+                      }));
+                    }}
+
                   >
-                    <option value="America">America</option>
-                    <option value="Bangladesh">Bangladesh</option>
-                    <option value="China">China</option>
-                    <option value="Denmark">Denmark</option>
-                    <option value="Egypt">Egypt</option>
-                    <option value="France">France</option>
-                    <option value="Germany">Germany</option>
-                    <option value="Hungary">Hungary</option>
-                    <option value="Italy">Italy</option>
+                    <option value="">Select City</option>
+                    {Object.keys(Locations).map((cityName) => (
+                      <option key={cityName} value={cityName}>
+                        {cityName}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div>
-                  <div>Area</div>
+                  <label>Area</label>
                   <select
                     name="area"
-                    id=""
                     value={formData.area}
                     onChange={handleInputChange}
                   >
-                    <option value="Newyork">Newyork</option>
-                    <option value="Dhaka">Dhaka</option>
-                    <option value="Beijing">Beijing</option>
-                    <option value="Copenhagen">Copenhagen</option>
-                    <option value="Kayro">Kayro</option>
-                    <option value="Paris">Paris</option>
-                    <option value="Berlin">Berlin</option>
-                    <option value="Budapost">Budapost</option>
-                    <option value="Roma">Roma</option>
+                    <option value="">Select Area</option>
+                    {formData.city &&
+                      Locations[formData.city as keyof typeof Locations]?.map((area) => (
+                        <option key={area} value={area}>
+                          {area}
+                        </option>
+                      ))}
+
                   </select>
                 </div>
               </div>
@@ -211,6 +221,7 @@ const Shipping = () => {
           {/*total payable*/}
           <TotalPayable
             subtotal={subtotal}
+            delivery_charge={formData.delivery_charge}
             onConfirmOrder={handleConfirmOrder}
           />
         </div>

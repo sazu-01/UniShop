@@ -6,7 +6,7 @@ import { ShowModalFun } from "../lib/features/variableSlice";
 import { useAppDispatch } from "../lib/hook";
 import "../../css/Register.css";
 import { FormEvent, useState } from "react";
-import { api } from "../utili/axiosConfig";
+// import { api } from "../utili/axiosConfig";
 import { FaRegEyeSlash } from "react-icons/fa";
 
 const Register = () => {
@@ -21,13 +21,21 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const res = await api.post("/users/register-process", {
-        name,
-        email,
-        phone,
-        password,
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/register-process`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          password,
+        }),
       });
-      alert(res.data.message);
+
+      const data = await res.json();
+      alert(data.message);
       // Clear form after successful registration
       setName("");
       setEmail("");
@@ -124,10 +132,10 @@ const Register = () => {
               </div>
               <span className="google-signup-title">Sign in with Google</span>
             </div>
-            <div className="mt-4 fw-semibold" style={{fontSize:"1.6rem"}}>
+            <div className="mt-4 fw-semibold" style={{ fontSize: "1.6rem" }}>
               have an account?&nbsp;
               <Link href="/">
-                <button type="button" style={{border : "none", background:"transparent", textDecoration:"underline", color:"#1E66CE", fontWeight:"600"}} onClick={() => dispatch(ShowModalFun())}>
+                <button type="button" style={{ border: "none", background: "transparent", textDecoration: "underline", color: "#1E66CE", fontWeight: "600" }} onClick={() => dispatch(ShowModalFun())}>
                   Login
                 </button>
               </Link>

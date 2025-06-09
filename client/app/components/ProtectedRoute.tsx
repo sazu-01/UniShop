@@ -1,8 +1,8 @@
 
 
 "use client";
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { api } from "@/app/utili/axiosConfig";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -11,14 +11,27 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   const [isAuthorized, setIsAuthorized] = useState(false);
-
+  const router = useRouter();
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res =  api.get('/auth/protected');
-        console.log(res);
+        const res =  await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/protected`,{
+          method : "GET",
+          credentials : "include",
+          headers : {
+            "Content-Type" : "application/json"
+          }
+        });
+        const data = res.json();
+        console.log(data);
         
-        setIsAuthorized(true);
+        if(res.ok) {
+    setIsAuthorized(true);
+        }else {
+          router.replace('/')
+        }
+        
+    
       } catch (error) {
       console.log(error);
       }

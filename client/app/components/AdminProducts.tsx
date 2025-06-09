@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useAppSelector } from "@/app/lib/hook";
 import { FaTrash, FaPen } from "react-icons/fa6";
 import { AiOutlineClose } from "react-icons/ai";
-import { api } from "../utili/axiosConfig";
 import { ProductType } from "../types/SliceTypes";
 import { Category } from "../types/SliceTypes";
 import "@/css/AdminProductDashbaord.css";
@@ -21,12 +20,10 @@ export default function AdminProducts() {
 
   const [updateFormData, setUpdateFormData] = useState({
     title: "",
-    description: "",
     category: "",
-    quantity: 0,
+    inStock: 0,
     brand: "",
     price: 0,
-    summary: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -36,12 +33,10 @@ export default function AdminProducts() {
     setSelectedProduct(product);
     setUpdateFormData({
       title: product.title,
-      description: product.description,
       category: product.category._id,
-      quantity: product.quantity,
+      inStock: product.inStock,
       brand: product.brand,
       price: product.price,
-      summary: product.summary || "",
     });
     setIsUpdateModalOpen(true);
   };
@@ -50,8 +45,14 @@ export default function AdminProducts() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await api.get("categories/all-category");
-        setCategories(response.data.payload.categories);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/all-category`, {
+          method : "GET",
+          credentials : "include",
+        });
+
+        const data = await res.json();
+       
+        setCategories(data.payload.categories);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -77,12 +78,15 @@ export default function AdminProducts() {
     }
     try {
       setLoading(true);
-      const response = await api.delete(`/products/delete-product/${slug}`);
-
-      if (response.data.success) {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/delete-product/${slug}`, {
+         method : "DELETE",
+         credentials : "include"
+      });
+       const data = await res.json();
+      if (data.success) {
         alert("Product deleted successfully");
       } else {
-        alert(response.data.message || "Failed to delete product");
+        alert(data.message || "Failed to delete product");
       }
     } catch (error: any) {
       console.error(error);
@@ -101,17 +105,24 @@ export default function AdminProducts() {
       setLoading(true);
       setError("");
 
-      const response = await api.put(
-        `/products/update-product/${selectedProduct.slug}`,
-        updateFormData
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/update-product/${selectedProduct.slug}`,{
 
-      if (response.data.success) {
+        method : "PUT",
+        credentials : "include",
+        headers : {
+          'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(updateFormData)
+        });
+
+        const data = await res.json()
+
+      if (data.success) {
         alert("Product updated successfully");
         setIsUpdateModalOpen(false);
         // You might want to refresh the products list here
       } else {
-        setError(response.data.message || "Failed to update product");
+        setError(data.message || "Failed to update product");
       }
     } catch (error: any) {
       console.error(error);
@@ -137,7 +148,7 @@ export default function AdminProducts() {
             <div className="product-details">
               <h3 className="product-title">{product.title}</h3>
               <div className="product-actions">
-                <span className="product-price">${product.price}</span>
+                <span className="product-price">TK. {product.price}</span>
                 <div>
                   <button
                     className="action-button edit-button"
@@ -190,17 +201,6 @@ export default function AdminProducts() {
               </div>
 
               <div className="form-row">
-                <label className="form-label">Description</label>
-                <textarea
-                  name="description"
-                  value={updateFormData.description}
-                  onChange={handleUpdateChange}
-                  className="form-input form-textarea"
-                  required
-                ></textarea>
-              </div>
-
-              <div className="form-row">
                 <label className="form-label">Category</label>
                 <select
                   name="category"
@@ -231,11 +231,11 @@ export default function AdminProducts() {
               </div>
 
               <div className="form-row">
-                <label className="form-label">Quantity</label>
+                <label className="form-label">In Stock</label>
                 <input
                   type="number"
-                  name="quantity"
-                  value={updateFormData.quantity}
+                  name="inStock"
+                  value={updateFormData.inStock}
                   onChange={handleUpdateChange}
                   className="form-input"
                   min="0"
@@ -255,16 +255,6 @@ export default function AdminProducts() {
                   step="0.01"
                   required
                 />
-              </div>
-
-              <div className="form-row">
-                <label className="form-label">Summary</label>
-                <textarea
-                  name="summary"
-                  value={updateFormData.summary}
-                  onChange={handleUpdateChange}
-                  className="form-input form-textarea"
-                ></textarea>
               </div>
 
               <div className="form-actions">

@@ -2,7 +2,7 @@
 
 //packages
 import { useEffect, useState } from "react";
-import { api } from "../utili/axiosConfig";
+// import { api } from "../utili/axiosConfig";
 import Image from "next/image";
 import { Carousel } from "react-bootstrap";
 import Skeleton from "../components/Skeleton";
@@ -19,8 +19,8 @@ const HomeCarousel = () => {
   //handle get carousel
   const handleGetAllCarousel = async () => {
     try {
-      const { data } = await api.get("/media/all-media");
-
+      const  res  = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/media/all-media`);
+      const data = await res.json();
       setAllMedia(data.payload.allMedia);
     } catch (error) {
       console.log(`error in get carousel`, error);

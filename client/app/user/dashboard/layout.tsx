@@ -1,11 +1,8 @@
+
 "use client";
 
-import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/app/lib/hook";
 
-import { logout, resetAuth, getCurrentUser } from "@/app/lib/features/authSlice";
-
-import { useRouter } from 'next/navigation';
 //icons
 import {
   FaCartShopping,
@@ -22,44 +19,33 @@ import Image from "next/image";
 
 import { Nav } from "react-bootstrap";
 import { useState } from "react";
-import ProtectedRoute from "@/app/components/ProtectedRoute";
-import Skeleton from "@/app/components/Skeleton";
 
+import Skeleton from "@/app/components/Skeleton";
+import {  logout } from "@/app/lib/features/authSlice";
 export default function Dashboard() {
 
   const dispatch = useAppDispatch();
-  const { user, isLoggedIn } = useAppSelector((state) => state.auth);
-  
-  const router = useRouter();
-  const [activeTab, setActiveTab] = useState("account");
+  const { user } = useAppSelector((state) => state.auth);
 
-  useEffect(() => {
-    // Fetch user data if not already present
-    if (!user && isLoggedIn) {
-      dispatch(getCurrentUser());
-    }
-  }, [dispatch, user, isLoggedIn]);
+  const [activeTab, setActiveTab] = useState("account");
 
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);
   };
 
-  //logout function handler
-  const handleLogout = async () => {
-    try {
-      await dispatch(logout()).unwrap();
-      dispatch(resetAuth());
-      router.replace('/');
+const handleLogout = async () => {
+  try {
+     dispatch(logout());
+  } catch (error) {
+     console.log(error);
 
-    } catch (error) {
-      console.error("Logout failed:", error);
-      dispatch(resetAuth());
-    }
-  };
+  }
+};
+
 
   if(!user) {
     return (
-      <ProtectedRoute>
+    
       <div id="user-dashboard">
          <div className="user-dashboard-inner">
            <div className="user-header">
@@ -93,14 +79,13 @@ export default function Dashboard() {
          </div>
       </div>
       </div>
-      </ProtectedRoute>
+      
     )
   }
 
   return (
     <>
 
-<ProtectedRoute>
 
 <div id="user-dashboard">
       <div className="user-dashboard-inner">
@@ -172,7 +157,7 @@ export default function Dashboard() {
                     />
                   </div>
                 </div>
-                <Link href='/admin' style={{color:"#000"}}>Go To Admin Page</Link>
+                {user.isAdmin &&  <Link href='/admin' style={{color:"#000"}}>Go To Admin Page</Link> } 
               </div>
             )}
 
@@ -215,7 +200,7 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-    </ProtectedRoute>
+
     </>
   );
 }

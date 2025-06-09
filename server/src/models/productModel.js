@@ -35,9 +35,9 @@ const productSchema = new Schema(
       required: [true, "brand must be provided"],
     },
 
-    quantity: {
+    inStock: {
       type: Number,
-      required: [true, "quantity must be provided"],
+      required : [true, "inStock must be provided"]
     },
 
     price: {

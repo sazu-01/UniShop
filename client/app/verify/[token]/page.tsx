@@ -3,7 +3,6 @@
 import React, { useCallback, useState } from "react";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
-import { api } from "@/app/utili/axiosConfig";
 import { useAppDispatch } from "@/app/lib/hook";
 import Link from "next/link";
 import { ShowModalFun } from "@/app/lib/features/variableSlice";
@@ -17,8 +16,17 @@ export default function Token() {
 
   const handleCompleteRegister = useCallback(async () => {
     try {
-      const response = await api.post(`/users/complete-register`, { token });
-      if (response.data.success) {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/complete-register`,{
+        method : "POST",
+        credentials : "include",
+        headers : {
+          'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({token})
+      });
+
+      const data = await res.json()
+      if (data.success) {
         setStatus("success");
       }
     } catch (error) {

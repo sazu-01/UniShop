@@ -19,7 +19,7 @@ export default function AdminProductDashbaord() {
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);
   };
-
+ 
   return (
     <div id="admin-product-dashboard">
       <div className="user-dashboard-inner">

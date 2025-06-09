@@ -10,14 +10,15 @@ import "../../css/TotalPayable.css";
 // Create a type for the TotalPayable props
 type TotalPayableProps = {
   subtotal: number;
+  delivery_charge : number
   onConfirmOrder?: (e: FormEvent) => Promise<void>;
 };
 
 const TotalPayable: React.FC<TotalPayableProps> = ({
   subtotal,
+  delivery_charge,
   onConfirmOrder,
 }) => {
-  const shipping = 50;
 
   const pathname = usePathname();
 
@@ -26,11 +27,11 @@ const TotalPayable: React.FC<TotalPayableProps> = ({
       <div className="total">
         <div className="subtotal d-flex flex-row justify-content-between">
           <p>Subtotal</p>
-          <p>${subtotal}</p>
+          <p>{subtotal}</p>
         </div>
         <div className="shipping d-flex flex-row justify-content-between">
           <p>Shipping</p>
-          <p>${shipping}</p>
+          <p>{delivery_charge}</p>
         </div>
         <div className="discount d-flex flex-row justify-content-between">
           <p>Discount</p>
@@ -40,7 +41,7 @@ const TotalPayable: React.FC<TotalPayableProps> = ({
 
         <div className=" d-flex flex-row justify-content-between mb-2">
           <p>Total</p>
-          <p>${subtotal + shipping}</p>
+          <p>TK. {subtotal + delivery_charge}</p>
         </div>
 
         {/*promo code input section*/}

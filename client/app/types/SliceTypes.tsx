@@ -7,17 +7,17 @@ export interface User {
     name: string,
     email: string,
     phone: number,
+    password : string,
     image: string,
-    address: string,
     isAdmin: boolean,
     isBanned: boolean
 }
 
 //define auth state interface
 export interface authState {
-    user: User | null,
+    user: any | null,
     isLoading: boolean,
-    error: null | string,
+    error: null | string | any,
     isLoggedIn  : boolean,
 }
 
@@ -29,9 +29,7 @@ export interface loginCredentilas {
 }
 
 
-
 /*cart slice types */
-
 export interface cartItem {
     _id : string,
     price : number,
@@ -39,7 +37,6 @@ export interface cartItem {
     title : string,
     slug : any,
     images: string[],
-    quantity : number,
   }
   
 export interface stateType {
@@ -61,13 +58,11 @@ export interface ProductType {
     title : string,
     slug : string | undefined,
     images : string[],
-    description : string,
     category : Category,
     brand : string,
-    quantity : number,
+    inStock : number,
     price : number,
     status : boolean,
-    summary : string
 }
 
 //define initialState interface

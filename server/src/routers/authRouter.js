@@ -9,8 +9,6 @@ import {
     LoginController, 
     LogoutController, 
     GetCurrentUserController,
-    HandleRefreshToken,
-    HandleProtected
  } 
 from "../controllers/authController.js";
 
@@ -28,6 +26,5 @@ const authRouter = express.Router();
 authRouter.post("/login",validateUserLogin, RunValidation, IsLoggedOut, LoginController);
 authRouter.post("/logout", IsLoggedIn, LogoutController);
 authRouter.get('/current-user', GetCurrentUserController);
-authRouter.get("/refresh-token", HandleRefreshToken);
-authRouter.get("/protected", HandleProtected);
+
 export default authRouter;

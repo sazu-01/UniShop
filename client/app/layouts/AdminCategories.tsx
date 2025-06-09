@@ -4,7 +4,6 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 
 import "@/css/AdminCategories.css"
-import { api } from '../utili/axiosConfig';
 
 export default function AdminCategories() {
 
@@ -14,7 +13,12 @@ export default function AdminCategories() {
     //get all categories handler 
     const handleAllCategories = async () => {
         try {
-            const { data } = await api.get("/categories/all-category");
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/all-category`,{
+                method : "GET",
+                credentials : "include",
+            });
+
+            const data = await res.json();
             setAllCategories(data.payload.categories);
             
         } catch (error) {
@@ -29,7 +33,17 @@ export default function AdminCategories() {
         if (!newCategory.trim()) return alert("Category name cannot be empty");
     
        try {
-              const { data } = await api.post("/categories/create-category", { name: newCategory });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/create-category`, { 
+        method : "POST",
+        credentials : "include",
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+
+        body : JSON.stringify({ name: newCategory })
+       });
+
+      const data = await res.json();
       setAllCategories([...AllCategories, data.payload.newCategory]);
       setNewCategory("");
        } catch (error) {
@@ -43,7 +57,17 @@ export default function AdminCategories() {
         const newName = prompt("Enter new category name");
         if(!newName) return
         try {
-            const { data } = await api.put(`/categories/update-category/${slug}`, {name : newName});
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/update-category/${slug}`, {
+            method : "PUT",
+            credentials : "include",
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify({name : newName})
+
+            });
+
+            const data = await res.json();
             setAllCategories(AllCategories?.map((category) => category.slug === slug ? data.payload : category))
         } catch (error) {
             console.error("Error updating category:", error);
@@ -54,7 +78,10 @@ export default function AdminCategories() {
      const handleDeleteCategory = async (slug: string) => {
         if (!confirm("Are you sure you want to delete this category?")) return;
         try {
-            await api.delete(`/categories/delete-category/${slug}`);
+            await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/delete-category/${slug}`,{
+                method : "DELETE",
+                credentials : "include"
+            });
 
             setAllCategories(AllCategories?.filter((category) => category.slug !== slug ))
         } catch (error) {

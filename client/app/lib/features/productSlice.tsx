@@ -2,9 +2,6 @@
 //packages
 import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 
-//utilites
-import { api } from "@/app/utili/axiosConfig";
-
 //types
 import { Products, ProductType } from "@/app/types/SliceTypes";
 
@@ -18,8 +15,10 @@ const initialState : Products = {
 export const getProduct = createAsyncThunk("products/getproduct",
     async() =>{
         try {
-            const res = await api.get("/products/all-product");
-            return res.data.payload.products;
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/all-product`);
+                const data = await res.json();
+                
+            return data.payload.products;
         } catch (error:any) {
              console.log(error.response?.data?.message);
              throw error

@@ -20,15 +20,11 @@ export const validateProduct = [
       return true; 
     }), 
 
-  body("description")
-    .isLength({ min: 10 })
-    .withMessage("description must be 10 characters"),
-
   body("category").notEmpty().withMessage("category is required"),
 
   body("brand").notEmpty().withMessage("brand is reqired"),
 
-  body("quantity").notEmpty().withMessage("quantity is required"),
+  body("inStock").notEmpty().withMessage("In Stock is required"),
 
   body("price").notEmpty().withMessage("price is required"),
 ];

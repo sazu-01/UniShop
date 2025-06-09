@@ -21,13 +21,13 @@ const AddToCartButton: React.FC<demoType> = ({ data, productInCart }) => {
 
 
   //destructure the product object
-  const { _id, price, productQuantity, title, slug, images, quantity } = data;
+  const { _id, price, productQuantity, title, slug, images } = data;
 
   const dispatch = useAppDispatch();
 
   //add product to the cart in the redux store 
   const AddProductToCart = () => {
-    dispatch(AddToCart({ _id, price, productQuantity, title, slug, images, quantity }))
+    dispatch(AddToCart({ _id, price, productQuantity, title, slug, images }))
   }
   
   return (
