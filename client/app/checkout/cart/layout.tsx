@@ -23,7 +23,7 @@ const Cart = () => {
     subtotal += c.price * c.productQuantity;
   });
 
- let delivery_charge = 0;
+ const delivery_charge = 0;
   
 
   return (
