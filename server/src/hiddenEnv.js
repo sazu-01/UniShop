@@ -40,6 +40,8 @@ const cloudeApiSecret = process.env.CLOUDE_API_SECRET;
 //client url
 const clientUrl = process.env.clientUrl;
 
+const NODE_ENV=process.env.NODE_ENV;
+
 export {
   serverPort,
   MongodbURL,
@@ -54,4 +56,5 @@ export {
   cloudeName,
   cloudeApiKey,
   cloudeApiSecret,
+  NODE_ENV
 };

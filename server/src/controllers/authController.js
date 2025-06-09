@@ -2,6 +2,7 @@
 import HttpError from "http-errors";
 import bcrypt from "bcryptjs";
 import Jwt from "jsonwebtoken";
+import { NODE_ENV } from "../hiddenEnv.js";
 
 //model
 import Users from "../models/userModel.js";
@@ -37,7 +38,7 @@ const LoginController = async (req, res, next) => {
     if (user.isBanned) {
       throw HttpError(403, "you are banned , please contact to authority");
     }
-
+  
     //create a jwt access key
     const expiryDate = new Date(Date.now() + 10 * 24 * 60 * 60 * 1000); // 10 days
     
@@ -47,7 +48,12 @@ const LoginController = async (req, res, next) => {
     const {...rest } = user._doc;
 
     res
-      .cookie('accessToken', accessToken, { httpOnly: true, expires: expiryDate })
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: NODE_ENV === "production", // only secure in production
+        sameSite: NODE_ENV === "production" ? "None" : "Lax", // for cross-site cookies in production
+        expires: expiryDate,
+      })
       .status(200)
       .json(rest);
   } catch (error) {
