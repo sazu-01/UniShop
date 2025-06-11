@@ -21,7 +21,7 @@ export default function AdminUserDashboard() {
 
   const handleUsers = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/users/all-user", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/all-user`, {
         method : "GET",
         credentials : "include",
       });

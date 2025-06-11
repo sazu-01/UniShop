@@ -2,7 +2,6 @@
 
 //packages
 import { useEffect, useState } from "react";
-// import { api } from "../utili/axiosConfig";
 import Image from "next/image";
 import { Carousel } from "react-bootstrap";
 import Skeleton from "../components/Skeleton";
@@ -53,6 +52,7 @@ const HomeCarousel = () => {
                 alt="First slide"
                 width={1920}
                 height={1080}
+                priority={index === 0}
                 style={{
                   width: "100%",
                   height: "auto",

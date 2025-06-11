@@ -57,6 +57,7 @@ export default function CategoryProductLayout() {
                  <Image
                   width={500}
                   height={500}
+                  priority={index === 0}
                    className="product-image"
                    src={images[0]}
                    alt={title}

@@ -176,11 +176,11 @@ const HomePageProducts = () => {
 
           {/* Slider part */}
           <Slider {...settings}>
-            {categoryData.products.map((pro: ProductType) => {
+            {categoryData.products.map((pro: ProductType, index: number) => {
               const { _id, title, slug, images, price, productQuantity = 1 } = pro;
               const inCart = isProductInCart(_id);
               return (
-                <div key={_id} className="product">
+                <div key={index} className="product">
                   <Link href={`/product/${slug}`}>
                     <div className="product-img">
                       <Image
@@ -189,7 +189,7 @@ const HomePageProducts = () => {
                         width={300}
                         height={300}
                         className="home-pro-img"
-                        priority
+                        priority={index === 0}
                         style={{
                           objectFit: "cover",
                           width: "100%",

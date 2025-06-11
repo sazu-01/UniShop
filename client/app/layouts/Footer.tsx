@@ -1,3 +1,4 @@
+"use client"
 
 import Link from "next/link";
 
@@ -5,9 +6,10 @@ import Link from "next/link";
 import "@/css/Footer.css"
 
 //icons
-import {FaFacebookF,FaYoutube,FaTwitter,FaGoogle} from "react-icons/fa";
+import {FaFacebookF,FaYoutube, FaTiktok } from "react-icons/fa";
 import {AiFillInstagram} from "react-icons/ai"
 import { SiMinutemailer } from "react-icons/si";
+import { CgMail } from "react-icons/cg";
 
 
 
@@ -83,11 +85,11 @@ const Footer = () => {
             <div><p>@ 2024 unishop. All rights reserved</p></div>
           {/*social media icons*/}
           <div className="footer-icons">
-            <li> <Link href='/'> <FaFacebookF className="icon" /> </Link> </li>
-            <li><Link href='/'>  <FaYoutube className="icon" /></Link> </li>
-            <li><Link  href=''>  <FaGoogle className="icon" /></Link> </li>
-            <li><Link href='/'>  <AiFillInstagram className="icon" /></Link> </li>
-            <li> <Link href='/'> <FaTwitter className="icon" /></Link> </li>
+            <li> <Link href='https://www.facebook.com/unishop.cloth' target="blank"> <FaFacebookF className="icon" /> </Link> </li>
+            <li><Link href='https://www.youtube.com/@unishop-cloth' target="blank">  <FaYoutube className="icon" /></Link> </li>
+            <li><Link  href='https://mail.google.com/mail/?view=cm&fs=1&to=unishop72@gmail.com'  target="blank">  <CgMail className="icon" /></Link> </li>
+            <li><Link href='https://www.instagram.com/unishop.bd' target="blank">  <AiFillInstagram className="icon" /></Link> </li>
+            <li> <Link href='https://www.tiktok.com/@unishop.cloth' target="blank"> <FaTiktok className="icon" /></Link> </li>
            </div>
         </div>
 

@@ -74,12 +74,12 @@ const MiddleHeader = () => {
                     className="search-result-item"
                   >
                     <div className="img-div">
-                      {/* <Image
+                      <Image
                         src={product.images[0]}
                         alt=""
                         width={50}
                         height={50}
-                      /> */}
+                      />
                       <div className="title-brand">
                         <p>{product.title}</p>
                         <p>{product.brand}</p>

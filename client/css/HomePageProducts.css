@@ -90,6 +90,7 @@
     position: relative;
     width: 100%;
     padding-top: 100%;
+    overflow: hidden;
 }
 
 .home-pro-img {
@@ -99,7 +100,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
- 
     transition: transform 0.3s ease;
 }
 
@@ -233,7 +233,7 @@
     }
     
     .pro-content .title {
-        font-size: 0.9rem;
+        font-size: 1.2rem;
     }
     
     .price {

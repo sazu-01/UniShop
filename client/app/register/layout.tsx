@@ -120,13 +120,13 @@ const Register = () => {
                 <span>or</span>
               </div>
             </div>
-            <div className="facebook-signin-option">
+            <div className="facebook-signin-option"  onClick={()=>alert("This feature not valid yet, please register with gmail")}>
               <div className="facebook-signin-icon">
                 <FaFacebook className="facebook-icon" />
               </div>
               <span>Sign in with Facebook</span>
             </div>
-            <div className="google-signin-option">
+            <div className="google-signin-option"  onClick={()=>alert("This Feature not valid yet, please register with gmail")}>
               <div className="google-signin-icon">
                 <FcGoogle className="google-icon" />
               </div>
