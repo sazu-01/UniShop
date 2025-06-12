@@ -68,7 +68,8 @@ const LogoutController = async (req, res, next) => {
     //Clear access token with proper options
     res.clearCookie('accessToken', {
         httpOnly: true,
-
+        secure: NODE_ENV === "production", // only secure in production
+        sameSite: NODE_ENV === "production" ? "None" : "Lax", // for cross-site cookies in production
     });
 
  
