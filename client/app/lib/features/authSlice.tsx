@@ -97,7 +97,7 @@ export const authSlice = createSlice({
   
       })
 
-      .addCase(logout.pending, (state, action) => {
+      .addCase(logout.pending, (state) => {
         state.isLoading = true
       })
 

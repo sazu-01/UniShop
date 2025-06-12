@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from '@/app/lib/hook';
 //css
 import "@/css/Login.css"
 
-const layout = () => {
+const Login = () => {
 
     const [formData, setFormData] = useState({});
      const handleChange = (e : any) => {
@@ -163,4 +163,4 @@ const layout = () => {
   )
 }
 
-export default layout
+export default Login
