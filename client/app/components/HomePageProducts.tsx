@@ -2,7 +2,7 @@
 
 //packages
 import Link from "next/link";
-import Slider from "react-slick";
+
 import Image from "next/image";
 
 //hook
@@ -13,85 +13,15 @@ import { ProductType } from "@/app/types/SliceTypes";
 import Skeleton from "./Skeleton";
 
 //css
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
 import "@/css/HomePageProducts.css";
 
 import { AddToCart } from "../lib/features/cartSlice";
 
 //icons
-import { BsArrowRightShort, BsArrowLeftShort } from "react-icons/bs";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 const HomePageProducts = () => {
-  //make custome next arrow
-  function SampleNextArrow(props: any) {
-    const { className, style, onClick } = props;
-    return (
-      <BsArrowRightShort
-        className={className}
-        style={{ ...style }}
-        onClick={onClick}
-      />
-    );
-  }
 
-  //make custome previous arrow
-  function SamplePrevArrow(props: any) {
-    const { className, style, onClick } = props;
-    return (
-      <BsArrowLeftShort
-        className={className}
-        style={{ ...style }}
-        onClick={onClick}
-      />
-    );
-  }
-
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 800,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-    initialSlide: 0,
-    prevArrow: <SamplePrevArrow />,
-    nextArrow: <SampleNextArrow />,
-    responsive: [
-      {
-        breakpoint: 1366,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-        },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          arrows: true,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          arrows: true,
-          centerMode: true,
-          centerPadding: "20px",
-        },
-      },
-    ],
-  };
 
   const dispatch = useAppDispatch();
 
@@ -124,7 +54,7 @@ const HomePageProducts = () => {
     ) || {};
 
   const filteredCategories = Object.entries(categorizedProducts).filter(
-    ([, categoryData]) => categoryData.products.length >= 5
+    ([, categoryData]) => categoryData.products.length >= 2
   );
 
   if (!products) {
@@ -134,30 +64,27 @@ const HomePageProducts = () => {
           <Skeleton width="10rem" height="1.5rem" className="me-3" />
           <Skeleton width="5rem" height="1.5rem" />
         </div>
-
-        <div className="slick-slider">
-          <div className="slick-list">
-            <div className="slick-track d-flex m-4">
-              {[...Array(6)].map((_, index) => (
-                <div key={index} className="product m-5">
+        <div id="home-page-products">
+          <div className="products-grid">
+            {[...Array(8)].map((_, index) => (
+              <div key={index} className="product">
+                <div className="product-img">
                   <Skeleton
                     width="100%"
-                    height="250px"
-                    className="home-pro-img"
+                    height="100%"
+                    className="home-pro-img skeleton-img"
                   />
-
-                  <div className="pro-content">
-                    <Skeleton width="80%" height="1.5rem" className="mb-3" />
-                    <Skeleton width="50%" height="1rem" className="mb-2" />
-                  </div>
-
-                  <div className="addcart d-flex justify-content-between align-items-center px-2">
-                    <Skeleton width="4rem" height="10rem" />
-                    <Skeleton width="3rem" height="10rem" />
-                  </div>
                 </div>
-              ))}
-            </div>
+                <div className="pro-content">
+                  <Skeleton width="80%" height="1.5rem" className="mb-3" />
+                  <Skeleton width="50%" height="1rem" className="mb-2" />
+                </div>
+                <div className="addcart">
+                  <Skeleton width="4rem" height="1.2rem" />
+                  <Skeleton width="3rem" height="1.8rem" />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </>
@@ -166,16 +93,14 @@ const HomePageProducts = () => {
 
   return (
     <>
+
       {filteredCategories.map(([categorySlug, categoryData]: any) => (
-        <div key={categorySlug}>
-          {/* Slide header part */}
+        <div key={categorySlug} id="home-page-products">
           <div className="slide-header">
             <p>{categoryData.name}</p>
             <Link href={`/${categorySlug}`}>See all</Link>
           </div>
-
-          {/* Slider part */}
-          <Slider {...settings}>
+          <div className="products-grid">
             {categoryData.products.map((pro: ProductType, index: number) => {
               const { _id, title, slug, images, price, productQuantity = 1 } = pro;
               const inCart = isProductInCart(_id);
@@ -207,8 +132,6 @@ const HomePageProducts = () => {
                       </p>
                     </div>
                   </Link>
-
-                  {/* Product price & button part */}
                   <div className="addcart">
                     <p className="price">TK. {price}</p>
                     {inCart ? (
@@ -236,7 +159,7 @@ const HomePageProducts = () => {
                 </div>
               );
             })}
-          </Slider>
+          </div>
         </div>
       ))}
     </>

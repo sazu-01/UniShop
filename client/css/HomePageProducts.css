@@ -1,85 +1,72 @@
 
-.slide-header {
+ .slide-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
+    width: 100%;
     max-width: 1366px;
-    margin: 100px auto 0;
-    padding: 5px 10px;
+    margin: 0 auto 0;
+    padding: 5px 0px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     background-color: #fff;
 }
 
 .slide-header p {
     margin-bottom: 0;
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 1.6rem;
+    font-weight: 600;
     text-transform: capitalize;
 }
 
-.slide-header a{
-  outline: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-family: inherit;
-  background: transparent;
-  transition: 150ms ease-in-out;
-  padding: 5px 16px;
-  color: #000;
-  border: 1px solid rgba(0, 0, 0, 0.4);
-  font-size: 14px;
-  border-radius: 5px;
-  text-decoration: none;
-  margin: 5px 0px;
-  &:hover{
+.slide-header a {
+    outline: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    background: transparent;
+    transition: 150ms ease-in-out;
+    padding: 5px 16px;
+    color: #000;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    font-size: 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 5px 0px;
+}
+
+.slide-header a:hover {
     background-color: var(--shop-bg-color);
     color: #fff;
     transition: 150ms ease-in-out;
-  }
 }
 
-
-.slick-slider {
+#home-page-products {
     width: 90%;
-    background-color: #fff;
     max-width: 1366px;
-    margin: 20px auto 60px;
-    height: auto;
-}
-
-.slick-slider .slick-list {
-    width: 100%;
-    margin: 20px 0;
-    padding: 0px 0px;
+    margin: 100px auto 60px;
+    background-color: #fff;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
 }
 
-.slick-track {
-    display: flex;
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     margin: 15px 0;
-}
-
-.slick-slide {
-    height: auto;
-}
-
-.slick-slide > div {
-    height: 100%;
 }
 
 .product {
     background-color: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 6px;
-    width: 100% !important;
-    max-width: 280px;
-    margin: 0 auto;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
+
+
 
 .product a {
     text-decoration: none;
@@ -102,7 +89,6 @@
     object-fit: cover;
     transition: transform 0.3s ease;
 }
-
 
 .pro-content {
     padding: 12px 7px 8px;
@@ -148,12 +134,12 @@
     transition: all 0.2s ease;
 }
 
-.home-page-addcart.added{
+.home-page-addcart.added {
     background-color: #081621;
     color: #fff;
 }
 
-.add-to-cart:hover {
+.home-page-addcart:hover {
     background: #000;
     color: #FFF;
     opacity: 1;
@@ -164,43 +150,14 @@
     color: rgb(255, 205, 78);
 }
 
-.slick-arrow {
-    width: 35px;
-    height: 35px;
-    background-color: #000;
-    color: white;
-    z-index: 1;
-    border-radius: 50%;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-}
-
-.slick-arrow:hover,
-.slick-arrow:focus,
-.slick-arrow:active {
-    background-color: #000;
-    color: white;
-}
-
-.slick-arrow.slick-disabled {
-    background-color: rgb(227, 233, 239);
-    color: black;
-}
-
-.slick-prev {
-    left: -5px !important;
-}
-
-.slick-next {
-    right: -5px !important;
-}
-
-@media (max-width: 1366px) {
-    /* .slide-header,
-    .slick-slider {
-        width: 95%;
-    } */
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    #home-page-products {
+    margin: 20px auto 60px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -208,8 +165,9 @@
         font-size: 1.2rem;
     }
     
-    .product {
-        max-width: 240px;
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
     
     .pro-content .title {
@@ -218,22 +176,25 @@
 }
 
 @media (max-width: 480px) {
-
     .slide-header {
         padding: 5px;
-        margin-top: 50px;
     }
-
-    .slide-header a{
+    
+    .slide-header a {
         font-size: .9rem;
     }
     
-    .product {
-        max-width: 180px;
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    #home-page-products {
+        padding: 15px;
     }
     
     .pro-content .title {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
     
     .price {
@@ -244,13 +205,4 @@
         padding: 2px 4px;
         font-size: 0.8rem;
     }
-    
-    .slick-arrow {
-        width: 30px;
-        height: 30px;
-    }
-
-    .slick-slider .slick-list{
-        padding: 0px 0px;
-    }
-}
+}   

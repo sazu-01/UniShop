@@ -14,6 +14,7 @@ export const initialState: authState = {
 }
 
 
+
 //async thunk for logout
 export const logout = createAsyncThunk("auth/logout",
   async (_, { rejectWithValue }) => {
@@ -26,7 +27,9 @@ export const logout = createAsyncThunk("auth/logout",
       //clear localstorage
       localStorage.removeItem("isLoggedIn");
 
-      if(res.ok === true) alert("User logout successfull");
+      if(res.ok === true) {
+        return true;
+      }
      
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Logout failed");
@@ -46,7 +49,6 @@ export const getCurrentUser = createAsyncThunk("auth/getCurrentUser",
       
       return data.payload.user;
     } catch (error: any) {
-      // localStorage.removeItem("isLoggedIn");
       return rejectWithValue(error.response?.data?.message);
     }
 });
@@ -91,8 +93,21 @@ export const authSlice = createSlice({
       .addCase(getCurrentUser.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
-         state.isLoggedIn = false;
+        state.isLoggedIn = false;
   
+      })
+
+      .addCase(logout.pending, (state, action) => {
+        state.isLoading = true
+      })
+
+      .addCase(logout.fulfilled, (state) => {
+        state.isLoading = false;
+        state.user = null;
+      })
+
+      .addCase(logout.rejected, (state, action) => {
+        state.error = action.payload as string
       })
   }
 

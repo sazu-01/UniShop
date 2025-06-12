@@ -1,42 +1,40 @@
 
-.shipping-page{
+
+  .shipping-page {
     width: 100%;
-    background-color:#FEFEFE;
+    background-color: #FEFEFE;
 }
 
-.shipping-page-inner{
-    display: flex;
-    flex-wrap: wrap;
+.shipping-page-inner {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
     margin: 2rem 6.8rem;
-    justify-content: space-between;
+    align-items: start;
 }
 
-.shipping-address{
-    max-width: 100%;
-    min-width: 30rem;
-    flex: 1;
+.shipping-address {
+    width: 100%;
 }
 
-
-
-#shipping-form{
+#shipping-form {
     box-shadow: rgba(43, 52, 69, 0.3) 0px 2px 16px;
     padding: 1.5rem;
+    margin-bottom: 2rem;
 }
 
-#shipping-form div{
+#shipping-form div {
     margin: 0.5rem;
 }
 
 #shipping-form div input, 
-#shipping-form div select{
+#shipping-form div select {
     width: 100%;
     padding: 1rem;
     height: 4rem;
     font-size: 1.4rem;
     outline: none;
     border: 1px solid rgb(218, 225, 231);
-    
 }
 
 #shipping-form div textarea {
@@ -65,10 +63,52 @@
     flex: 1 1 300px;
 }
 
+.confirm-order-btn{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    background: #081621;
+    transition: 150ms ease-in-out;
+    line-height: 1;
+    padding: 10px 16px;
+    color: #fff;
+    border: 1px solid var(--shop-bg-color);
+    height: 40px;
+    font-size: 14px;
+    border-radius: 5px;
+    margin-top: 1rem;
+    margin-bottom: 30px;
+    text-decoration: none;
+}
+
+
+@media (min-width: 1367px) {
+    .shipping-page-inner {
+        max-width: 1366px;
+        margin: 2rem auto;
+    }
+}
+
+@media (max-width: 1115px) {
+    .shipping-page-inner {
+        grid-template-columns: 1fr 350px;
+    }
+}
 
 @media (max-width: 990px) {
     .shipping-page-inner {
+        grid-template-columns: 1fr;
         margin: 2rem 2rem;
+        gap: 2rem;
+    }
+    
+    .payment-option {
+        width: 100%;
     }
 }
 
@@ -84,10 +124,12 @@
     }
 }
 
-@media (min-width:1367px) {
-    .shipping-page-inner{
-        width: 1366px;
-        margin: 2rem auto;
+@media (max-width: 576px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .payment-container {
+        padding: 10px;
     }
 }
- 

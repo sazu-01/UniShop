@@ -23,6 +23,7 @@ type ShippingFormData = {
   area: string;
   details_address: string;
   delivery_charge: number;
+  paymentMethod: "cod" | "bkash" | null;
 };
 
 const Shipping = () => {
@@ -39,6 +40,7 @@ const Shipping = () => {
     area: "",
     details_address: "",
     delivery_charge: 0,
+    paymentMethod : null
   });
 
 
@@ -56,18 +58,27 @@ const Shipping = () => {
     }));
   };
 
-
+  
   let subtotal: number = 0;
 
   //calculate the subtotal price of the order
-  cart.forEach((c) => {
+  cart.forEach((c : any) => {
     subtotal += c.price * c.productQuantity;
   });
+
+
+   // Handle payment method selection
+  const handlePaymentSelect = (method: "cod" | "bkash" | null) => {
+    setFormData((prev) => ({
+      ...prev,
+      paymentMethod: method,
+    }));
+  };
 
   // Handle order confirmation
   const handleConfirmOrder = async (e: FormEvent) => {
     e.preventDefault();
-
+    
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/create-order`, {
         method: "POST",
@@ -84,22 +95,28 @@ const Shipping = () => {
       const data = await res.json();
 
       if (data.success) {
-        alert("Order placed successfully");
+        localStorage.removeItem("cart");
+        alert("Order placed successfully, we will contact with you as soon as possible");
       } else {
-        console.log(data.message);
+       alert(data.message);
       }
     } catch (error) {
       console.log(error);
     }
   };
+  
 
+  
+  
   return (
     <>
       <div className="shipping-page">
         <div className="shipping-page-inner">
+          
+ 
           {/*shipping form part start */}
           <div className="shipping-address">
-            <form action="" id="shipping-form">
+            <form action="" id="shipping-form" onSubmit={handleConfirmOrder}>
               <div className="shipping-title">
                 <h2>Shipping Address</h2>
               </div>
@@ -115,6 +132,7 @@ const Shipping = () => {
                     placeholder="Your Name"
                     value={formData.name}
                     onChange={handleInputChange}
+                    required
                   />
                 </div>
 
@@ -127,6 +145,7 @@ const Shipping = () => {
                     placeholder="Your Email"
                     value={formData.email}
                     onChange={handleInputChange}
+                    required
                   />
                 </div>
               </div>
@@ -141,6 +160,7 @@ const Shipping = () => {
                     placeholder="Your Phone Number"
                     value={formData.number}
                     onChange={handleInputChange}
+                    required
                   />
                 </div>
                 <div className="alternative-number-input">
@@ -210,9 +230,21 @@ const Shipping = () => {
                     id=""
                     value={formData.details_address}
                     onChange={handleInputChange}
+                    required
                   ></textarea>
                 </div>
               </div>
+              <Payment 
+               selected={formData.paymentMethod}
+               onPaymentSelect={handlePaymentSelect}
+              />
+
+            <button
+            type="submit"
+            className="confirm-order-btn"
+          >
+            Confirm Order
+          </button>
             </form>
           </div>
 
@@ -222,11 +254,11 @@ const Shipping = () => {
           <TotalPayable
             subtotal={subtotal}
             delivery_charge={formData.delivery_charge}
-            onConfirmOrder={handleConfirmOrder}
           />
+
         </div>
 
-        <Payment />
+
       </div>
     </>
   );

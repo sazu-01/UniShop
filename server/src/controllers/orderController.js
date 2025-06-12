@@ -16,10 +16,11 @@ const CreateOrderController = async (req, res, next) => {
       area,
       details_address,
       delivery_charge,
-      discount
+      discount,
+      paymentMethod
     } = req.body;
 
-    if ((!name && !email && !number && !city && !area && !details_address)) {
+    if ((!name && !email && !number && !city && !area && !details_address, !paymentMethod)) {
       return ErrorResponse(res,{
         statusCode : 400,
         message : "please fill up all the fields"
@@ -37,7 +38,8 @@ const CreateOrderController = async (req, res, next) => {
       area,
       details_address,
       delivery_charge,
-      discount
+      discount,
+      paymentMethod
     }).save();
 
     return SuccessResponse(res,{

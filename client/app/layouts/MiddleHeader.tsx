@@ -7,8 +7,8 @@ import { useAppSelector } from "@/app/lib/hook";
 import Image from "next/image";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons/faMagnifyingGlass";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { MdOutlineShoppingBag } from "react-icons/md";
-import Login from "./Login";
 
 //css
 import "@/css/MiddleHeader.css";
@@ -99,16 +99,19 @@ const MiddleHeader = () => {
         </div>
 
         <div className="middle-header-icons">
-          {user !== null ? (
-            <Link href={`/user/dashboard`}>
+
+          <Link href={user !== null ? `/user/dashboard` : `/login`}>
               {" "}
               <div className="middle-header-user">
-                <Image src={user.image} alt="" width={45} height={45} style={{borderRadius:"50%"}}  /> 
+                {user !== null ?
+                    <Image src={user.image} alt="" width={45} height={45} style={{borderRadius:"50%"}}  /> 
+                   : 
+                   
+                   <FontAwesomeIcon icon={faUser} style={{ fontSize: "1.7rem", color: "#000" }} /> 
+                  }
               </div>
             </Link>
-          ) : (
-            <Login />
-          )}
+
           <Link href={`/`}>
             <div className="middle-header-notification">
               <FontAwesomeIcon

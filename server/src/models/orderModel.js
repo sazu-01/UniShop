@@ -24,7 +24,6 @@ const orderSchema = new Schema({
     
     alterNative_number : {
       type : String,
-      required : false
     },
 
     city : {
@@ -49,6 +48,11 @@ const orderSchema = new Schema({
 
     discount : {
         type : String,
+    },
+
+    paymentMethod : {
+      type : String,
+      required : true 
     }
 },{timestamps: true});
 

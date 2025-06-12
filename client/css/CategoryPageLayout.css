@@ -1,19 +1,15 @@
 
-
 .category-page-container {
     max-width: 1250px;
     margin: 2rem auto;
     padding: 0 1.5rem;
   }
-
-
 .category-page-products {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 2rem;
   width: 100%;
 }
-
 .product-card {
   background: white;
   border-radius: 1rem;
@@ -21,40 +17,34 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
 }
-
 .product-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
-
 .product-image-wrapper {
   position: relative;
-  padding-top: 100%; /* 1:1 Aspect Ratio */
+  height: 350px; 
   overflow: hidden;
 }
-
 .product-image {
   position: absolute;
-  top: 0;
+  top: 0; 
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   transition: transform 0.3s ease;
 }
-
 .product-card:hover .product-image {
   transform: scale(1.05);
 }
-
 .product-content {
   padding: 1.5rem;
 }
-
 .product-content a{
   text-decoration: none;
 }
-
  .product-title {
   font-size: 1.6rem;
   font-weight: 600;
@@ -64,8 +54,6 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
-
 .product-rating {
   display: flex;
   align-items: center;
@@ -74,18 +62,11 @@
   margin-bottom: 0.75rem;
   color: #eab308;
 }
-
 .product-price {
   font-size: 1.6rem;
   font-weight: 700;
   color: #2d3748;
 }
-
-
-
-
-
-
 .no-products-container {
   width: 100%;
   min-height: 400px;
@@ -95,7 +76,6 @@
   margin: 20px auto;
   padding: 20px;
 }
-
 .no-products-message {
   background-color: #fff;
   border-radius: 8px;
@@ -104,14 +84,12 @@
   text-align: center;
   animation: fadeIn 0.5s ease-in-out;
 }
-
 .no-products-message p {
   font-size: 1.6rem;
   color: #666;
   margin: 0;
   font-weight: 500;
 }
-
 @keyframes fadeIn {
   from {
       opacity: 0;
@@ -123,8 +101,9 @@
   }
 }
 
-/* Responsive styles for the no products message */
+/* Responsive styles */
 @media screen and (max-width: 768px) {
+
   .no-products-message {
       padding: 20px 30px;
   }
@@ -135,6 +114,8 @@
 }
 
 @media screen and (max-width: 480px) {
+
+  
   .no-products-container {
       min-height: 300px;
   }

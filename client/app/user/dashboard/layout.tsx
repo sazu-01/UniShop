@@ -19,14 +19,15 @@ import Image from "next/image";
 
 import { Nav } from "react-bootstrap";
 import { useState } from "react";
-
+import { useRouter } from 'next/navigation';
 import Skeleton from "@/app/components/Skeleton";
 import {  logout } from "@/app/lib/features/authSlice";
+
 export default function Dashboard() {
 
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
-
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("account");
 
   const handleTabClick = (tab: any) => {
@@ -36,6 +37,7 @@ export default function Dashboard() {
 const handleLogout = async () => {
   try {
      dispatch(logout());
+     router.push('/')
   } catch (error) {
      console.log(error);
 

@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FormEvent } from "react";
+import { useAppSelector } from "../lib/hook";
 //css
 import "../../css/TotalPayable.css";
 
@@ -17,10 +18,12 @@ type TotalPayableProps = {
 const TotalPayable: React.FC<TotalPayableProps> = ({
   subtotal,
   delivery_charge,
-  onConfirmOrder,
 }) => {
 
   const pathname = usePathname();
+
+    const { user } = useAppSelector((state) => state.auth);
+
 
   return (
     <>
@@ -58,18 +61,11 @@ const TotalPayable: React.FC<TotalPayableProps> = ({
         {/*submit promocode buttton */}
         <button className="promocode-btn">Apply Promocode</button>
 
-        {pathname === "/checkout/cart" ? (
-          <Link href={`/checkout/shipping`} className="selcet-address-btn">
+        {pathname === "/checkout/cart" ?
+          <Link href={user !== null ? `/checkout/shipping` : `/login?redirect=/checkout/shipping`}  className="selcet-address-btn">
             Select Address
           </Link>
-        ) : (
-          <button
-            onClick={onConfirmOrder}
-            className="confirm-order-btn"
-          >
-            Confirm Order
-          </button>
-        )}
+        : "" }
       </div>
     </>
   );

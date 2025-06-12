@@ -6,7 +6,6 @@ import { ShowModalFun } from "../lib/features/variableSlice";
 import { useAppDispatch } from "../lib/hook";
 import "../../css/Register.css";
 import { FormEvent, useState } from "react";
-// import { api } from "../utili/axiosConfig";
 import { FaRegEyeSlash } from "react-icons/fa";
 
 const Register = () => {
@@ -134,7 +133,7 @@ const Register = () => {
             </div>
             <div className="mt-4 fw-semibold" style={{ fontSize: "1.6rem" }}>
               have an account?&nbsp;
-              <Link href="/">
+              <Link href="/login">
                 <button type="button" style={{ border: "none", background: "transparent", textDecoration: "underline", color: "#1E66CE", fontWeight: "600" }} onClick={() => dispatch(ShowModalFun())}>
                   Login
                 </button>

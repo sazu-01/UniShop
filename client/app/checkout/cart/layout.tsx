@@ -16,6 +16,8 @@ const Cart = () => {
 
   const { cart } = useAppSelector((state) => state.cart);
 
+  
+
   let subtotal: number = 0;
 
   //calculate the subtotal price of the order

@@ -28,6 +28,7 @@ type Cart = {
    area : string;
    details_address : string;
    delivery_charge : string;
+   paymentMethod: string;
    createdAt : string;
 }
 
@@ -165,6 +166,13 @@ export default function OrdersLayout() {
                           <span className="label">Phone:</span>
                           <span className="value">{order.number}</span>
                         </div>
+
+                        <div className="info-item">
+                          <i className="bi bi-telephone"></i>
+                          <span className="label">Payment Method:</span>
+                          <span className="value">{order.paymentMethod}</span>
+                        </div>
+
                       </div>
                     </div>
                   </div>

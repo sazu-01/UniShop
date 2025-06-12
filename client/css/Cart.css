@@ -28,10 +28,26 @@
 
 }
 
+@media (max-width: 1115px) {
+    .cart-page .total {
+        width: 35rem;
+    }
+}
+
 @media (max-width:990px) {
-  .cart-page-inner{
-    margin: 1rem 1.5rem;
-  }
+   .cart-page-inner {
+        margin: 1rem 1.5rem;
+    }
+    
+    .cart-page .total {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 2rem;
+    }
+    
+    .payment-option {
+        width: 100%;
+    }
 }
 
 @media (max-width:582px) {
