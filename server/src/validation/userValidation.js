@@ -5,12 +5,8 @@ import { body } from "express-validator";
 
 export const validateUserRegistration = [
   body("name")
-    .trim()
-    .notEmpty()
-    .withMessage("name is required")
-    .isLength({ min: 3, max: 31 })
-    .withMessage("name should be at least 3-31 characters"),
-
+    .trim(),
+    
   body("email")
     .trim()
     .notEmpty()
@@ -29,8 +25,8 @@ export const validateUserRegistration = [
     .trim()
     .notEmpty()
     .withMessage("phone is required")
-    .isLength({ max: 15, min: 10 })
-    .withMessage("phone number minimum 10 and maximum 15 characters"),
+    .isLength({ max: 13, min: 11 })
+    .withMessage("phone number minimum 11 and maximum 13 characters"),
 
   body("address").optional(),
   body("image").optional(),
@@ -38,9 +34,14 @@ export const validateUserRegistration = [
 
 
 export const validateUserLogin = [
-  body("email").notEmpty().withMessage("you have to give an email for login"),
+  body().custom((value)=> {
+    if(!value.email && !value.phone) {
+      throw new Error("provide either email or phone to login")
+    }
+    return true;
+  }),
 
   body("password")
     .notEmpty()
-    .withMessage("you have to give a password for login"),
+    .withMessage("you have to give password for login"),
 ];

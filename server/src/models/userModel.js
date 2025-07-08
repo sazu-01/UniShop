@@ -9,15 +9,13 @@ const userSchema = new Schema(
     name: {
       type: String,
       trim: true,
-      required: true,
-      minLength: [3, "name is too short"],
-      maxLength: [40, "name is too long"],
+      default : "",
     },
 
     email: {
       type: String,
       trim: true,
-      required: true,
+      required: [true, "you have to give a phone number"],
       unique: true,
       validate: {
         validator: function (value) {
@@ -32,8 +30,8 @@ const userSchema = new Schema(
       required: [true, "you have to give a phone number"],
       unique: [true, "already have an account with this number"],
       trim: true,
-      minLength: [9, "number is too short"],
-      maxLength: [16, "number is too long"],
+      minLength: [11, "phone number is required minimum 11 characters"],
+      maxLength: [13, "phone number is required maximum 13 characters"],
     },
 
     password: {
@@ -49,6 +47,7 @@ const userSchema = new Schema(
 
     address: {
       type: String,
+      default : "",
     },
 
     isAdmin: {

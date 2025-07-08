@@ -144,9 +144,11 @@
     display: flex;
     flex-direction: column;
     margin-left: 0.8rem;
+
   } 
   .search-result-item .price{
     display: flex;
+        height: 4rem;
   }
   
   .no-results {

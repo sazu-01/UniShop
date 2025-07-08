@@ -16,11 +16,11 @@ import { jwtAccessKey } from "../hiddenEnv.js";
 
 const LoginController = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, phone, password } = req.body;
 
     //check the user is exist or not
-    const user = await Users.findOne({ email });
-
+    const user = await Users.findOne(email ? { email } : {phone});
+   
     //if user does not exist
     if (!user) {
       throw HttpError(404, "user does not exist , please register");

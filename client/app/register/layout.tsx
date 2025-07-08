@@ -1,16 +1,17 @@
+
 "use client";
 import Link from "next/link";
-import { FaRegEye, FaFacebook } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import { ShowModalFun } from "../lib/features/variableSlice";
-import { useAppDispatch } from "../lib/hook";
+import { FaRegEye } from "react-icons/fa";
 import "../../css/Register.css";
 import { FormEvent, useState } from "react";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { useRouter } from 'next/navigation';
+
 
 const Register = () => {
-  const dispatch = useAppDispatch();
-  const [name, setName] = useState("");
+  
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [phone, setphone] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +27,6 @@ const Register = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name,
           email,
           phone,
           password,
@@ -36,10 +36,10 @@ const Register = () => {
       const data = await res.json();
       alert(data.message);
       // Clear form after successful registration
-      setName("");
       setEmail("");
       setphone("");
       setPassword("");
+      router.push('/login')
     } catch (error: any) {
       alert(error.response?.data?.message || "Registration failed");
     }
@@ -50,18 +50,6 @@ const Register = () => {
       <div id="register">
         <div className="register-content">
           <form onSubmit={handleRegistration} className="register-form">
-            <div className="form-group">
-              <label htmlFor="exampleInputName">Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="input-field"
-                id="exampleInputName"
-                placeholder="Enter your Name"
-                required
-              />
-            </div>
             <div className="form-group">
               <label htmlFor="exampleInputEmail1">Email</label>
               <input
@@ -119,22 +107,22 @@ const Register = () => {
                 <span>or</span>
               </div>
             </div>
-            <div className="facebook-signin-option"  onClick={()=>alert("This feature not valid yet, please register with gmail")}>
+             {/*  <div className="facebook-signin-option"  onClick={()=>alert("This feature not valid yet, please register with gmail")}>
               <div className="facebook-signin-icon">
                 <FaFacebook className="facebook-icon" />
               </div>
               <span>Sign in with Facebook</span>
             </div>
-            <div className="google-signin-option"  onClick={()=>alert("This Feature not valid yet, please register with gmail")}>
+          <div className="google-signin-option"  onClick={()=>alert("This Feature not valid yet, please register with gmail")}>
               <div className="google-signin-icon">
                 <FcGoogle className="google-icon" />
               </div>
               <span className="google-signup-title">Sign in with Google</span>
-            </div>
+            </div> */}
             <div className="mt-4 fw-semibold" style={{ fontSize: "1.6rem" }}>
               have an account?&nbsp;
               <Link href="/login">
-                <button type="button" style={{ border: "none", background: "transparent", textDecoration: "underline", color: "#1E66CE", fontWeight: "600" }} onClick={() => dispatch(ShowModalFun())}>
+                <button type="button" style={{ border: "none", background: "transparent", textDecoration: "underline", color: "#1E66CE", fontWeight: "600" }} >
                   Login
                 </button>
               </Link>

@@ -9,14 +9,12 @@ import mongoose from "mongoose";
 import Users from "../models/userModel.js";
 
 //helper functions
-import { CreateJsonWebToken } from "../helpers/jwt.js";
 import { ErrorResponse, SuccessResponse } from "../helpers/responseCode.js";
-import ProcessEmail from "../helpers/processEmail.js";
 
 import { defaultImageForUser } from "../hiddenEnv.js";
 
 //environment variables
-import { clientUrl, jwtPrivateKey } from "../hiddenEnv.js";
+import { jwtPrivateKey } from "../hiddenEnv.js";
 
 //services functions
 import {
@@ -28,6 +26,7 @@ import {
   ResetPasswordService,
   UpdateUserService,
 } from "../services/userServices.js";
+import User from "../models/userModel.js";
 
 
 const GetAllUsers = async (req, res, next) => {
@@ -84,7 +83,7 @@ const GetSingleUserByID = async (req, res, next) => {
 const RegisterProcess = async (req, res, next) => {
   try {
     //destructure name email phone and password from req.body
-    const { name, email, phone, password, address } = req.body;
+    const { email, phone, password } = req.body;
 
     //get the default Image For User
     const image = defaultImageForUser;
@@ -104,65 +103,62 @@ const RegisterProcess = async (req, res, next) => {
       );
     }
 
-    //make an user object with data
-    const userData = { name, email, phone, password, address, image };
+    //make an user object with data & create user
+    const userData = { email, phone, password, image };
+    await User.create(userData);
 
-    //create a json web token for the new user
-    const token = CreateJsonWebToken(userData, jwtPrivateKey, "10m");
+    //create a json web token for the new user & send email to activate email
+    // const token = CreateJsonWebToken(userData, jwtPrivateKey, "10m");
+    // const emailData = {
+    //   name,
+    //   email,
+    //   subject: "Activation Email From UniShop",
+    //   html: `
+    //         <!DOCTYPE html>
+    //     <html>
+    //     <head>
+    //       <style>
+    //         .button {
+    //           background-color: #4CAF50;
+    //           border: none;
+    //           color: white;
+    //           padding: 15px 32px;
+    //           text-align: center;
+    //           text-decoration: none;
+    //           display: inline-block;
+    //           font-size: 16px;
+    //           margin: 4px 2px;
+    //           cursor: pointer;
+    //           border-radius: 4px;
+    //         }
+    //       </style>
+    //     </head>
+    //     <body>
+    //       <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color:"#F6F6F6">
+    //         <h2>Welcome to UniShop, ${name}!</h2>
+    //         <p>Thank you for registering. Please click the button below to activate your account:</p>
+    //         <div style="text-align: center; margin: 30px 0;">
+    //           <a href="${clientUrl}/verify/${token}" target="_blank" class="button" style="color: white;">
+    //             Activate Account
+    //           </a>
+    //         </div>
+    //         <p>Or copy and paste this link in your browser:</p>
+    //         <p>${clientUrl}/verify/${token}</p>
+    //         <p>This link will expire in 10 minutes.</p>
+    //         <p>If you didn't create an account with UniShop, please ignore this email.</p>
+    //       </div>
+    //     </body>
+    //     </html>`,
+    // };
 
-    //prepare an email data
-    const emailData = {
-      name,
-      email,
-      subject: "Activation Email From UniShop",
-      html: `
-            <!DOCTYPE html>
-        <html>
-        <head>
-          <style>
-            .button {
-              background-color: #4CAF50;
-              border: none;
-              color: white;
-              padding: 15px 32px;
-              text-align: center;
-              text-decoration: none;
-              display: inline-block;
-              font-size: 16px;
-              margin: 4px 2px;
-              cursor: pointer;
-              border-radius: 4px;
-            }
-          </style>
-        </head>
-        <body>
-          <div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color:"#F6F6F6">
-            <h2>Welcome to UniShop, ${name}!</h2>
-            <p>Thank you for registering. Please click the button below to activate your account:</p>
-            <div style="text-align: center; margin: 30px 0;">
-              <a href="${clientUrl}/verify/${token}" target="_blank" class="button" style="color: white;">
-                Activate Account
-              </a>
-            </div>
-            <p>Or copy and paste this link in your browser:</p>
-            <p>${clientUrl}/verify/${token}</p>
-            <p>This link will expire in 10 minutes.</p>
-            <p>If you didn't create an account with UniShop, please ignore this email.</p>
-          </div>
-        </body>
-        </html>`,
-    };
-
-    //Process of Email
-    await ProcessEmail(emailData);
+    // await ProcessEmail(emailData);
 
     // send a response with a message and the generated token
     return SuccessResponse(res, {
-      message: `please go to your email and click on the 
-                      given link to activate your email`,
-      payload: {
-        token,
-      },
+      message: `user registration successfull`,
+      // payload: {
+      //   token,
+      // },
     });
   } catch (error) {
     next(error);

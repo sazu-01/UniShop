@@ -17,7 +17,8 @@ import { signInStart, signInSuccess, signInFailure, } from "@/app/lib/features/a
 import { useAppDispatch, useAppSelector } from '@/app/lib/hook';
 
 //css
-import "@/css/Login.css"
+import "@/css/Login.css";
+
 
 const Login = () => {
 
@@ -30,11 +31,11 @@ const Login = () => {
   useEffect(() => {
     setMounted(true);
 
-  const params = new URLSearchParams(window.location.search);
-  const param = params.get("redirect");
-  if (param) {
-    setRedirect(param);
-  }
+    const params = new URLSearchParams(window.location.search);
+    const param = params.get("redirect");
+    if (param) {
+      setRedirect(param);
+    }
   }, []);
 
 
@@ -42,7 +43,8 @@ const Login = () => {
   const [seePassword, setSeePassword] = useState(false);
   const isLoading = useAppSelector((state) => state.auth.isLoading);
 
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({ emailOrPhone: "", password: "" });
+  
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -50,8 +52,22 @@ const Login = () => {
   //handle form submission
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
+    console.log(typeof formData.emailOrPhone);
     try {
       dispatch(signInStart());
+
+    // Determine if it's an email or phone
+    const payload: any = {
+      password: formData.password,
+    };
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(formData.emailOrPhone)) {
+      payload.email = formData.emailOrPhone;
+    } else {
+      payload.phone = formData.emailOrPhone;
+    }
+
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
         method: 'POST',
         credentials: 'include',
@@ -59,7 +75,7 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
 
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
@@ -80,7 +96,7 @@ const Login = () => {
       dispatch(signInFailure(error));
     }
   }
-  
+
 
   // Don't render until mounted to avoid hydration mismatch
   if (!mounted) {
@@ -106,16 +122,17 @@ const Login = () => {
             <p className="login-subtitle">Login with your email and password</p>
 
             <div className="form-group">
-              <label htmlFor="exampleInputEmail1">Email</label>
+              <label htmlFor="emailOrPhone">Email or Phone</label>
               <input
-                type="email"
+                type="text"
                 onChange={handleChange}
                 className="input-field"
-                id="email"
-                placeholder="Enter your email"
-                autoComplete="none"
+                id="emailOrPhone"
+                placeholder="Enter your email or phone"
+                autoComplete="off"
                 required
               />
+
             </div>
 
             <div className="form-group" id="password">
@@ -159,7 +176,7 @@ const Login = () => {
                 <span>or</span>
               </div>
             </div>
-
+ {/*
             <div className="facebook-signin-option" onClick={() => alert("This feature not valid yet, please register with gmail")}>
               <div className="facebook-signin-icon">
                 <FaFacebook className="facebook-icon" />
@@ -173,8 +190,8 @@ const Login = () => {
               </div>
               <span className="google-signup-title">Sign in with Google</span>
             </div>
-
-            <div className="mt-4 fw-semibold" style={{ fontSize: "1.6rem" }}>
+*/}
+            <div className="mt-2 fw-semibold" style={{ fontSize: "1.6rem" }}>
               {"Don't have an account? "}
               <Link href="/register">
                 <button type="button" style={{ border: "none", background: "transparent", textDecoration: "underline", color: "#1E66CE", fontWeight: "600" }}>
