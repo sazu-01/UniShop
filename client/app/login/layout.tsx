@@ -7,8 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 //icons
-import { FaRegEye, FaFacebook, FaRegEyeSlash } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 // action slice 
 import { signInStart, signInSuccess, signInFailure, } from "@/app/lib/features/authSlice";
@@ -26,7 +25,7 @@ const Login = () => {
   const [mounted, setMounted] = useState(false);
   const dispatch = useAppDispatch();
   const router = useRouter()
-
+  
   // Ensure component is mounted before accessing browser APIs
   useEffect(() => {
     setMounted(true);
