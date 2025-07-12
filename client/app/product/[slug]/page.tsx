@@ -24,6 +24,9 @@ export default function Slug() {
 
   const { cart } = useAppSelector((state) => state.cart);
   const { productQuantity } = useAppSelector((state) => state.productQuantity);
+  const { user } = useAppSelector((state) => state.auth);
+
+  
 
   useEffect(() => {
     const fetchSingleProduct = async () => {
@@ -65,7 +68,7 @@ export default function Slug() {
     );
   }
 
-  const { _id, title, price, category, images } =
+  const { _id, title, price, category, images, brand } =
     SingleProduct;
 
   return (
@@ -81,6 +84,7 @@ export default function Slug() {
             <p className="category">
               see more : <Link href={`/${category?.slug}`}>{category?.slug}</Link>
             </p>
+            {user?.isAdmin &&  <p className="supplier">supplier: {brand}</p>} 
             <div className="star">
               <AiFillStar />
               <AiFillStar />

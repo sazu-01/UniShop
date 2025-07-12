@@ -25,7 +25,7 @@ const Login = () => {
   const [mounted, setMounted] = useState(false);
   const dispatch = useAppDispatch();
   const router = useRouter()
-  
+
   // Ensure component is mounted before accessing browser APIs
   useEffect(() => {
     setMounted(true);
@@ -43,7 +43,7 @@ const Login = () => {
   const isLoading = useAppSelector((state) => state.auth.isLoading);
 
   const [formData, setFormData] = useState({ emailOrPhone: "", password: "" });
-  
+
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -55,17 +55,17 @@ const Login = () => {
     try {
       dispatch(signInStart());
 
-    // Determine if it's an email or phone
-    const payload: any = {
-      password: formData.password,
-    };
+      // Determine if it's an email or phone
+      const payload: any = {
+        password: formData.password,
+      };
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (emailRegex.test(formData.emailOrPhone)) {
-      payload.email = formData.emailOrPhone;
-    } else {
-      payload.phone = formData.emailOrPhone;
-    }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(formData.emailOrPhone)) {
+        payload.email = formData.emailOrPhone;
+      } else {
+        payload.phone = formData.emailOrPhone;
+      }
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
         method: 'POST',
@@ -81,6 +81,7 @@ const Login = () => {
 
       if (res.ok === false) {
         dispatch(signInFailure(data));
+        alert(data.message)
         return;
       }
       dispatch(signInSuccess(data));
@@ -91,8 +92,9 @@ const Login = () => {
 
       router.push(redirect);
 
-    } catch (error) {
+    } catch (error : any) {
       dispatch(signInFailure(error));
+      alert(error.message)
     }
   }
 
@@ -175,7 +177,7 @@ const Login = () => {
                 <span>or</span>
               </div>
             </div>
- {/*
+            {/*
             <div className="facebook-signin-option" onClick={() => alert("This feature not valid yet, please register with gmail")}>
               <div className="facebook-signin-icon">
                 <FaFacebook className="facebook-icon" />
@@ -189,7 +191,7 @@ const Login = () => {
               </div>
               <span className="google-signup-title">Sign in with Google</span>
             </div>
-*/}
+          */}
             <div className="mt-2 fw-semibold" style={{ fontSize: "1.6rem" }}>
               {"Don't have an account? "}
               <Link href="/register">

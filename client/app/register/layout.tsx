@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 
 const Register = () => {
-  
+
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -34,6 +34,11 @@ const Register = () => {
       });
 
       const data = await res.json();
+      if(!data.success){
+         alert(data.message)
+         return;
+      }
+      
       alert(data.message);
       // Clear form after successful registration
       setEmail("");
@@ -48,8 +53,11 @@ const Register = () => {
   return (
     <>
       <div id="register">
+
         <div className="register-content">
           <form onSubmit={handleRegistration} className="register-form">
+            <h2 className="register-title">Register</h2>
+            <p className="register-subtitle">Register with email, number & password</p>
             <div className="form-group">
               <label htmlFor="exampleInputEmail1">Email</label>
               <input
@@ -107,7 +115,7 @@ const Register = () => {
                 <span>or</span>
               </div>
             </div>
-             {/*  <div className="facebook-signin-option"  onClick={()=>alert("This feature not valid yet, please register with gmail")}>
+            {/*  <div className="facebook-signin-option"  onClick={()=>alert("This feature not valid yet, please register with gmail")}>
               <div className="facebook-signin-icon">
                 <FaFacebook className="facebook-icon" />
               </div>

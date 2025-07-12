@@ -37,7 +37,7 @@
     font-weight: 500;
 }
 
-#single-product-page .single-product-details .category {
+#single-product-page .single-product-details .category,.supplier {
  font-size: 1.8rem;
  font-weight: 600;
 }
