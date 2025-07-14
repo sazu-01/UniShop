@@ -188,7 +188,7 @@ const Shipping = () => {
                         ...prev,
                         city: selectedCity,
                         area: "",
-                        delivery_charge: selectedCity === "Dhaka" ? 70 : 120,
+                        delivery_charge: selectedCity === "ঢাকা" ? 70 : 120,
                       }));
                     }}
 

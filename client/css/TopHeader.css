@@ -2,6 +2,9 @@
 .topheader {
   width: 100%;
   background-color: var(--shop-bg-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .topheader-content {

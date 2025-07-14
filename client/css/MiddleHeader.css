@@ -3,6 +3,9 @@
     background-color: #fff;
     padding: 1.7rem 0rem;
     width: 100%;
+    position: sticky;
+    top: 40px;
+    z-index : 10;
 }
 
 .middle-header-content{

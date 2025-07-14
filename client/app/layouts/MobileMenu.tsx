@@ -35,7 +35,7 @@ const MobileMenu = () => {
 
         <Link href="">
          <MobileMenuNavigation />
-          <span style={{fontSize:"1.2rem"}}>Navigation</span>
+          <span style={{fontSize:"1.2rem"}}>Categories</span>
         </Link>
 
         <Link href="/checkout/cart">
