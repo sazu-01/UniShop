@@ -24,6 +24,7 @@ export default function AdminProducts() {
     inStock: 0,
     brand: "",
     price: 0,
+    images: [] as (File | string)[],
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -37,6 +38,7 @@ export default function AdminProducts() {
       inStock: product.inStock,
       brand: product.brand,
       price: product.price,
+      images: [],
     });
     setIsUpdateModalOpen(true);
   };
@@ -46,12 +48,12 @@ export default function AdminProducts() {
     const fetchCategories = async () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/all-category`, {
-          method : "GET",
-          credentials : "include",
+          method: "GET",
+          credentials: "include",
         });
 
         const data = await res.json();
-       
+
         setCategories(data.payload.categories);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -79,10 +81,10 @@ export default function AdminProducts() {
     try {
       setLoading(true);
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/delete-product/${slug}`, {
-         method : "DELETE",
-         credentials : "include"
+        method: "DELETE",
+        credentials: "include"
       });
-       const data = await res.json();
+      const data = await res.json();
       if (data.success) {
         alert("Product deleted successfully");
       } else {
@@ -96,7 +98,6 @@ export default function AdminProducts() {
     }
   };
 
-  // Handle updating a product
   const handleUpdateProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedProduct?.slug) return;
@@ -105,22 +106,33 @@ export default function AdminProducts() {
       setLoading(true);
       setError("");
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/update-product/${selectedProduct.slug}`,{
+      const formData = new FormData();
+      formData.append("title", updateFormData.title);
+      formData.append("category", updateFormData.category);
+      formData.append("inStock", updateFormData.inStock.toString());
+      formData.append("brand", updateFormData.brand);
+      formData.append("price", updateFormData.price.toString());
 
-        method : "PUT",
-        credentials : "include",
-        headers : {
-          'Content-Type' : 'application/json'
-        },
-        body : JSON.stringify(updateFormData)
-        });
+      // Append multiple images (optional)
+      updateFormData.images.forEach((image) => {
+        formData.append("images", image); // 
+      });
 
-        const data = await res.json()
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/products/update-product/${selectedProduct.slug}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          body: formData, // no headers needed for FormData
+        }
+      );
+
+      const data = await res.json();
 
       if (data.success) {
         alert("Product updated successfully");
         setIsUpdateModalOpen(false);
-        // You might want to refresh the products list here
+        // Optional: refresh products list here
       } else {
         setError(data.message || "Failed to update product");
       }
@@ -132,18 +144,24 @@ export default function AdminProducts() {
     }
   };
 
+
   return (
     <>
       <div className="products-grid">
         {products?.map((product, index) => (
           <div key={index} className="product-card">
             <div className="product-image-container">
-              <Image
-                src={product.images[0]}
-                alt={product.title}
-                layout="fill"
-                className="product-image"
-              />
+              {typeof product.images[0] === "string" && product.images[0] !== "" ? (
+                <Image
+                  src={product.images[0]}
+                  alt={product.title}
+                  layout="fill"
+                  className="product-image"
+                />
+              ) : (
+                <div className="no-image-placeholder">No image</div> // fallback UI
+              )}
+
             </div>
             <div className="product-details">
               <h3 className="product-title">{product.title}</h3>
@@ -199,6 +217,44 @@ export default function AdminProducts() {
                   required
                 />
               </div>
+
+              <div className="form-row">
+                <label className="form-label">Images</label>
+
+                {/* Show current images */}
+                {selectedProduct?.images && selectedProduct.images.length > 0 && (
+                  <div className="current-images">
+                    <p>Current images:</p>
+                    <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                      {selectedProduct.images.map((img, idx) => (
+                        <img
+                          key={idx}
+                          src={img}
+                          alt={`Current ${idx}`}
+                          style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  name="images"
+                  onChange={(e) =>
+                    setUpdateFormData((prev) => ({
+                      ...prev,
+                      images: e.target.files ? Array.from(e.target.files) : [],
+                    }))
+                  }
+                  className="form-input"
+                />
+                <small>Leave empty to keep current images, or select new images to replace all current images.</small>
+              </div>
+
+
 
               <div className="form-row">
                 <label className="form-label">Category</label>

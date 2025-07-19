@@ -91,15 +91,17 @@ const GetSingleProductBySlug = async (req, res, next) => {
 };
 
 const updateProductBySlug = async (req, res, next) => {
+  
   try {
+
     const { title, category, inStock, brand, price } =
       req.body;
-
+    
     const { slug } = req.params;
-
+ 
     //checking if an image is uploaded with the request
-    const image = req.file?.path;
-
+    const images = req.files?.map((file) => file.path) || [];
+ 
     //creating an object with updated product data
     const updateObj = {
       title,
@@ -108,9 +110,10 @@ const updateProductBySlug = async (req, res, next) => {
       brand,
       price,
       slug,
-      image,
+      images,
     };
-
+    
+   
     //calling the update product service with the updated product data
     const updatedProduct = await UpdateProductService(updateObj);
 

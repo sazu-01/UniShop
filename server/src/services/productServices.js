@@ -74,6 +74,7 @@ export const GetProductService = async (slug) => {
 
 export const UpdateProductService = async (updateObj) => {
   try {
+ 
     let {
       title,
       category,
@@ -81,17 +82,47 @@ export const UpdateProductService = async (updateObj) => {
       brand,
       price,
       slug,
+      images
     } = updateObj;
 
     let update = {};
     let options = { new: true };
     let filter = { slug };
-
+    
     //update the title and slug if the title is provided
     if (title) {
       update.title = title;
       update.slug = slugify(title);
     }
+
+
+    //if the images field are provided then remove the current images and upload provided images
+   if(images && images.length > 0) {
+
+     //Get the current image url from product data 
+      const product = await GetProductService(slug);    
+      const arrayOfImages = product.images;
+
+    //remove current images from cloudinary
+     await Promise.allSettled(arrayOfImages.map( async (image) => {
+        const publicId = await publicIdWithouthExtensionFromUrl(image);
+        await deleteFileFromCloudinary("unishop/images/products", publicId)
+     }));
+    
+    const uploadedImages = await Promise.all(
+      images.map(async (image) => {
+        const response = await cloudinary.uploader.upload(image, {
+          folder : "unishop/images/products"
+        });
+        return response.secure_url;
+      })
+    );
+
+    //assign the new images to product image
+    update.images = uploadedImages;
+    
+   }
+
     // Properties to update directly
     const propertiesToUpdate = {
       category,

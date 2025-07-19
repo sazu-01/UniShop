@@ -5,7 +5,7 @@ import multer from "multer";
 
 const maxImageSize = 3145728;
 
-const allowedFileTypes = ["image/jpg", "image/jpeg", "image/png"];
+const allowedFileTypes = ["image/jpg", "image/jpeg", "image/png", "image/webp"];
 
 const userStorage = multer.diskStorage({
 

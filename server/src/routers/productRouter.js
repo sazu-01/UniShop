@@ -30,7 +30,7 @@ productRouter.get("/all-product", GetAllProducts);
 
 productRouter.get("/:slug", GetSingleProductBySlug);
 
-productRouter.put("/update-product/:slug",uploadProductImg.single("image"),
+productRouter.put("/update-product/:slug",uploadProductImg.array("images"),
 IsLoggedIn,IsAdmin,updateProductBySlug);
 
 productRouter.delete(
