@@ -37,6 +37,7 @@ export interface cartItem {
     title : string,
     slug : any,
     images: string[],
+    size : string[],
   }
   
 export interface stateType {

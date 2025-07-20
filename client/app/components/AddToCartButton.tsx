@@ -1,10 +1,6 @@
 
 'use client'
 
-//packages
-import Link from "next/link";
-
-
 //hook
 import { useAppDispatch } from "../lib/hook";
 
@@ -14,10 +10,12 @@ import { cartItem } from "@/app/types/SliceTypes";
 
 interface demoType {
   data: cartItem,
-  productInCart : boolean
+  productInCart: boolean,
+  hasSize: boolean,
+  selectedSize: string
 }
 
-const AddToCartButton: React.FC<demoType> = ({ data, productInCart }) => {
+const AddToCartButton: React.FC<demoType> = ({ data, productInCart, hasSize, selectedSize }) => {
 
 
   //destructure the product object
@@ -27,17 +25,19 @@ const AddToCartButton: React.FC<demoType> = ({ data, productInCart }) => {
 
   //add product to the cart in the redux store 
   const AddProductToCart = () => {
-    dispatch(AddToCart({ _id, price, productQuantity, title, slug, images }))
+    if (hasSize && selectedSize.length === 0) {
+      return alert("please select a size");
+    }
+    dispatch(AddToCart({ _id, price, productQuantity, title, slug, images, selectedSize }))
   }
-  
+
+
   return (
     <>
       {/*if the current singleproduct is aleready on cart render link if not then AddToCart component*/}
-      {productInCart ? <Link href={`/checkout/cart`}>
-        <button className="add-to-cart" >go to cart</button>
-      </Link> : <Link href={`/checkout/cart`}>
-        <button className="add-to-cart" onClick={AddProductToCart}>add to cart</button>
-      </Link>
+      {productInCart ?
+        <button className="add-to-cart" >GO TO CART</button>
+        : <button className="add-to-cart" onClick={AddProductToCart}>ADD TO CART</button>
       }
 
     </>

@@ -25,7 +25,7 @@ export default function Slug() {
   const { cart } = useAppSelector((state) => state.cart);
   const { productQuantity } = useAppSelector((state) => state.productQuantity);
   const { user } = useAppSelector((state) => state.auth);
-
+  const [selectedSize, setSelectedSize] = useState<string>("");
   
 
   useEffect(() => {
@@ -45,11 +45,12 @@ export default function Slug() {
   useEffect(() => {
     if (SingleProduct) {
       const isProductInCart = cart.some(
-        (item) => item._id === SingleProduct._id
+        (item) => item._id === SingleProduct._id 
       );
       setProductInCart(isProductInCart);
     }
-  }, [SingleProduct, cart]);
+  }, [SingleProduct, cart, selectedSize]);
+
 
   if (!SingleProduct) {
     return (
@@ -68,8 +69,10 @@ export default function Slug() {
     );
   }
 
-  const { _id, title, price, category, images, brand } =
+  const { _id, title, price, category, images, brand, size } =
     SingleProduct;
+
+  const hasSize = size && size.length > 0;  
 
   return (
     <>
@@ -92,6 +95,28 @@ export default function Slug() {
               <AiFillStar />
               <AiOutlineStar />
             </div>
+            {/* Size Selection */}
+            {hasSize && (
+              <div className="size-selection">
+                <p className="size-label">Select Size:</p>
+                <div className="d-flex flex-row">
+                  {size.map((s, i) => (
+                    <button
+                      key={i}
+                      className={`size-option border ${
+                        selectedSize === s 
+                          ? 'selected-size' 
+                          : 'bg-light'
+                      }`}
+                      onClick={() => setSelectedSize(s)}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+
+              </div>
+            )} 
             <div className="price"><b>TK. {price}</b></div>
             {/*Quantity component for select quantity of product*/}
             <Quantity />
@@ -99,6 +124,8 @@ export default function Slug() {
               {/*AddToCart component for add product in cart*/}
               <AddToCart
                 productInCart={productInCart}
+                hasSize={hasSize}
+                selectedSize={selectedSize}
                 data={{
                   _id,
                   price,
@@ -106,6 +133,7 @@ export default function Slug() {
                   title,
                   slug,
                   images,
+                  size
                 }}
               />
             </div>

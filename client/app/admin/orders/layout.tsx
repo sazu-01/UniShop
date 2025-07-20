@@ -15,7 +15,7 @@ type Cart = {
  slug : string;
  images : string[];
  quantity : string;
- 
+ selectedSize : string;
 }
 
  type Order = {
@@ -133,7 +133,7 @@ export default function OrdersLayout() {
                               </div>
                             </td>
                             <td>
-                              <Link href={`/product/${item.slug}`} className="product-title-mobile">{item.title}</Link>
+                              <Link href={`/product/${item.slug}`} className="product-title-mobile">{item.title}  {item.selectedSize && <span>({item.selectedSize})</span>}</Link>
                             </td>
                             <td className="text-end" style={{fontSize:"1.6rem"}}>TK. {item.price}</td>
                             <td className="text-end text-center">{item.productQuantity}</td>
