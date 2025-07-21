@@ -24,6 +24,7 @@
     "react-bootstrap": "^2.10.7",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
+    "react-inner-image-zoom": "^4.0.1",
     "react-redux": "^9.2.0",
     "react-slick": "^0.30.3",
     "redux-persist": "^6.0.0",
@@ -35,6 +36,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-inner-image-zoom": "^3.0.3",
     "eslint": "^9",
     "eslint-config-next": "15.1.4",
     "typescript": "^5"

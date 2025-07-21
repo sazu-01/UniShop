@@ -11,11 +11,6 @@
     padding: 1rem;
 }
 
-#images img{
-    width: 45rem;
-    height: auto;
-}
-
 #images .thumbnails .thumb-img{
     width: 8rem;
     height: auto;
