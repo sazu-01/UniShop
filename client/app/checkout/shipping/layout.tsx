@@ -1,7 +1,8 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-
+import { ResetCart } from "@/app/lib/features/cartSlice";
+import { useAppDispatch } from "@/app/lib/hook";
 //hook
 import { useAppSelector } from "@/app/lib/hook";
 
@@ -29,7 +30,7 @@ type ShippingFormData = {
 const Shipping = () => {
   //extract cart state from redux store
   const { cart } = useAppSelector((state) => state.cart);
-
+  const dispatch = useAppDispatch();
   // Combined form state
   const [formData, setFormData] = useState<ShippingFormData>({
     name: "",
@@ -40,7 +41,7 @@ const Shipping = () => {
     area: "",
     details_address: "",
     delivery_charge: 0,
-    paymentMethod : null
+    paymentMethod: null
   });
 
 
@@ -58,16 +59,16 @@ const Shipping = () => {
     }));
   };
 
-  
+
   let subtotal: number = 0;
 
   //calculate the subtotal price of the order
-  cart.forEach((c : any) => {
+  cart.forEach((c: any) => {
     subtotal += c.price * c.productQuantity;
   });
 
 
-   // Handle payment method selection
+  // Handle payment method selection
   const handlePaymentSelect = (method: "cod" | "bkash" | null) => {
     setFormData((prev) => ({
       ...prev,
@@ -78,7 +79,7 @@ const Shipping = () => {
   // Handle order confirmation
   const handleConfirmOrder = async (e: FormEvent) => {
     e.preventDefault();
-    
+    if(cart.length < 1) return alert('please select product first')
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/create-order`, {
         method: "POST",
@@ -95,25 +96,36 @@ const Shipping = () => {
       const data = await res.json();
 
       if (data.success) {
-        localStorage.removeItem("cart");
+        dispatch(ResetCart());
+        setFormData({
+          name: "",
+          email: "",
+          number: "",
+          alternative_number: "",
+          city: "",
+          area: "",
+          details_address: "",
+          delivery_charge: 0,
+          paymentMethod: null
+        })
         alert("Order placed successfully, we will contact with you as soon as possible");
       } else {
-       alert(data.message);
+        alert(data.message);
       }
     } catch (error) {
       console.log(error);
     }
   };
-  
 
-  
-  
+
+
+
   return (
     <>
       <div className="shipping-page">
         <div className="shipping-page-inner">
-          
- 
+
+
           {/*shipping form part start */}
           <div className="shipping-address">
             <form action="" id="shipping-form" onSubmit={handleConfirmOrder}>
@@ -234,17 +246,17 @@ const Shipping = () => {
                   ></textarea>
                 </div>
               </div>
-              <Payment 
-               selected={formData.paymentMethod}
-               onPaymentSelect={handlePaymentSelect}
+              <Payment
+                selected={formData.paymentMethod}
+                onPaymentSelect={handlePaymentSelect}
               />
 
-            <button
-            type="submit"
-            className="confirm-order-btn"
-          >
-            Confirm Order
-          </button>
+              <button
+                type="submit"
+                className="confirm-order-btn"
+              >
+                Confirm Order
+              </button>
             </form>
           </div>
 
