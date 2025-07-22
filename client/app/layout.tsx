@@ -25,12 +25,21 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) 
+}>) {
 
- {
-  
   return (
     <html lang="en">
+      <head>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-YVCFPKQ10K"></script>
+      <script>
+     {`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-YVCFPKQ10K');
+    `}
+      </script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         style={{ backgroundColor: "#F6F6F6", scrollBehavior: "smooth" }}
@@ -38,7 +47,7 @@ export default function RootLayout({
         <StoreProvider>
           <GlobalDataProvider>
             <LayoutWrapper>
-            {children}
+              {children}
             </LayoutWrapper>
           </GlobalDataProvider>
         </StoreProvider>
