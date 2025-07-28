@@ -227,11 +227,13 @@ export default function AdminProducts() {
                     <p>Current images:</p>
                     <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                       {selectedProduct.images.map((img, idx) => (
-                        <img
+                        <Image
                           key={idx}
                           src={img}
+                          width={50}
+                          height={50}
                           alt={`Current ${idx}`}
-                          style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                          style={{objectFit: 'cover' }}
                         />
                       ))}
                     </div>
