@@ -25,6 +25,7 @@ export default function AdminProducts() {
     brand: "",
     price: 0,
     images: [] as (File | string)[],
+    specification: [{ key: "", value: "" }],
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -39,6 +40,7 @@ export default function AdminProducts() {
       brand: product.brand,
       price: product.price,
       images: [],
+      specification: product.specification || [{ key: "", value: "" }],
     });
     setIsUpdateModalOpen(true);
   };
@@ -112,6 +114,7 @@ export default function AdminProducts() {
       formData.append("inStock", updateFormData.inStock.toString());
       formData.append("brand", updateFormData.brand);
       formData.append("price", updateFormData.price.toString());
+      formData.append("specification", JSON.stringify(updateFormData.specification));
 
       // Append multiple images (optional)
       updateFormData.images.forEach((image) => {
@@ -233,7 +236,7 @@ export default function AdminProducts() {
                           width={50}
                           height={50}
                           alt={`Current ${idx}`}
-                          style={{objectFit: 'cover' }}
+                          style={{ objectFit: 'cover' }}
                         />
                       ))}
                     </div>
@@ -314,6 +317,59 @@ export default function AdminProducts() {
                   required
                 />
               </div>
+
+              <div className="form-row">
+                <label className="form-label">Specification</label>
+                {updateFormData.specification.map((spec, index) => (
+                  <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "8px" }}>
+                    <input
+                      type="text"
+                      placeholder="Key"
+                      value={spec.key}
+                      onChange={(e) => {
+                        const updated = [...updateFormData.specification];
+                        updated[index].key = e.target.value;
+                        setUpdateFormData(prev => ({ ...prev, specification: updated }));
+                      }}
+                      className="form-input"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Value"
+                      value={spec.value}
+                      onChange={(e) => {
+                        const updated = [...updateFormData.specification];
+                        updated[index].value = e.target.value;
+                        setUpdateFormData(prev => ({ ...prev, specification: updated }));
+                      }}
+                      className="form-input"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = updateFormData.specification.filter((_, i) => i !== index);
+                        setUpdateFormData(prev => ({ ...prev, specification: updated }));
+                      }}
+                      className="remove-size-button"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setUpdateFormData(prev => ({
+                      ...prev,
+                      specification: [...prev.specification, { key: "", value: "" }]
+                    }))
+                  }
+                  className="add-size-button"
+                >
+                  + Add Spec
+                </button>
+              </div>
+
 
               <div className="form-actions">
                 <button

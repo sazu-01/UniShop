@@ -21,7 +21,7 @@ const CreateProductController = async (req, res, next) => {
       req.body;
 
     //checking if images are uploaded with the request
-    const images = req.files?.map((file)=> file.path);
+    const images = req.files?.map((file) => file.path);
 
     // Handle size as an array (multer parses it as either array or single value)
     if (size && !Array.isArray(size)) {
@@ -31,10 +31,10 @@ const CreateProductController = async (req, res, next) => {
 
     let normalizedSpecification = [];
 
-    if(typeof specification === "string"){
-       normalizedSpecification = JSON.parse(specification)
-    }else if(Array.isArray(specification)){
-       normalizedSpecification = specification;
+    if (typeof specification === "string") {
+      normalizedSpecification = JSON.parse(specification)
+    } else if (Array.isArray(specification)) {
+      normalizedSpecification = specification;
     }
 
     //creating an object with product data
@@ -47,7 +47,7 @@ const CreateProductController = async (req, res, next) => {
       brand,
       price,
       size,
-      specification : normalizedSpecification
+      specification: normalizedSpecification
     };
 
     //call the createproduct service with product data
@@ -100,17 +100,25 @@ const GetSingleProductBySlug = async (req, res, next) => {
 };
 
 const updateProductBySlug = async (req, res, next) => {
-  
+
   try {
 
-    const { title, category, inStock, brand, price } =
+    let { title, category, inStock, brand, price, specification } =
       req.body;
-    
+
     const { slug } = req.params;
- 
+
     //checking if an image is uploaded with the request
     const images = req.files?.map((file) => file.path) || [];
- 
+
+
+    if (specification) {
+      if (typeof specification === "string") {
+        specification = JSON.parse(specification)
+      }
+    }
+
+
     //creating an object with updated product data
     const updateObj = {
       title,
@@ -120,9 +128,10 @@ const updateProductBySlug = async (req, res, next) => {
       price,
       slug,
       images,
+      specification
     };
-    
-   
+
+
     //calling the update product service with the updated product data
     const updatedProduct = await UpdateProductService(updateObj);
 
@@ -150,7 +159,7 @@ const DeleteProductBySlug = async (req, res, next) => {
       message: "delete product successfully",
       payload: { deletedProduct },
     });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export {

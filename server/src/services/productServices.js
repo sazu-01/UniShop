@@ -82,7 +82,8 @@ export const UpdateProductService = async (updateObj) => {
       brand,
       price,
       slug,
-      images
+      images,
+      specification
     } = updateObj;
 
     let update = {};
@@ -129,6 +130,7 @@ export const UpdateProductService = async (updateObj) => {
       inStock,
       brand,
       price,
+      specification
     };
 
     // Update properties directly

@@ -64,7 +64,11 @@ export interface ProductType {
     inStock : number,
     price : number,
     status : boolean,
-    productQuantity : number
+    productQuantity : number,
+    specification : {
+        key : string,
+        value : string
+    }[]
 }
 
 //define initialState interface
