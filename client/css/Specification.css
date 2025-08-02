@@ -1,0 +1,37 @@
+
+#specification-container {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.specification-heading {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.specification-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.specification-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 1.6rem;
+}
+
+.spec-key {
+  font-weight: 500;
+  color: #444;
+  width: 35%;
+}
+
+.spec-value {
+  color: #666;
+  width: 65%;
+}

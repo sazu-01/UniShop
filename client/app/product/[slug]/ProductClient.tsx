@@ -12,6 +12,7 @@ import React from "react";
 import Quantity from "@/app/components/Quantity";
 import "@/css/SingleProduct.css";
 import Skeleton from "@/app/components/Skeleton";
+import Specification from "@/app/components/Specification";
 
 interface ProductClientProps {
   slug: string;
@@ -72,7 +73,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
     );
   }
 
-  const { _id, title, price, category, images, brand, size } =
+  const { _id, title, price, category, images, brand, size, specification } =
     SingleProduct;
 
   const hasSize = size && size.length > 0;  
@@ -143,6 +144,8 @@ export default function ProductClient({ slug }: ProductClientProps) {
               />
             </div>
           </div>
+
+          <Specification specification={specification} />
         </div>
       </div>
     </>

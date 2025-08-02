@@ -9,5 +9,10 @@ export interface singleProductType {
     brand : string,
     category : {slug : string},
     images : string[],
-    quantity : number
+    quantity : number,
+    specification : {
+        key : string, 
+        value : string
+    }[],
+  
 }

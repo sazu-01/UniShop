@@ -54,6 +54,17 @@ const productSchema = new Schema(
       type : [String]
     },
 
+     specification : [{
+      key : {
+        type : String,
+        required : [true, "specification key is required"]
+      },
+
+      value : {
+        type : String,
+        required : [true, "specification value is required"]
+      }
+     }]
   },
   { timestamps: true }
 );

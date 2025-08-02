@@ -39,6 +39,8 @@ export default function CreateProduct() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [newSize, setNewSize] = useState("");
+    const [specification, setSpecification] = useState<{key : string, value: string}[]>([]);
+    const [newSpec, setNewSpec] = useState({key : "", value : ""}); 
 
     const commonSizes = ["XS", "S", "M", "L", "XL", "XXL"];
     
@@ -138,6 +140,8 @@ export default function CreateProduct() {
                     productFormData.append(key, formData[key]);
                 }
             });
+
+            productFormData.append("specification", JSON.stringify(specification));
 
               // Append multiple images
               imageFiles.forEach((file) => {
@@ -375,6 +379,59 @@ export default function CreateProduct() {
                     <option value="in-stock">In Stock</option>
                 </select>
             </div>
+
+
+            <div className="form-row">
+  <label className="form-label">Specifications</label>
+  <div className="specification-input">
+    <input
+      type="text"
+      value={newSpec.key}
+      onChange={(e) => setNewSpec((prev) => ({ ...prev, key: e.target.value }))}
+      className="form-input mb-4"
+      placeholder="Key (e.g., Material)"
+    />
+    <input
+      type="text"
+      value={newSpec.value}
+      onChange={(e) => setNewSpec((prev) => ({ ...prev, value: e.target.value }))}
+      className="form-input mb-4"
+      placeholder="Value (e.g., Cotton)"
+    />
+    <button
+      type="button"
+      className="add-size-button"
+      onClick={() => {
+        if (newSpec.key && newSpec.value) {
+          setSpecification((prev) => [...prev, newSpec]);
+          setNewSpec({ key: "", value: "" });
+        }
+      }}
+    >
+      Add Spec
+    </button>
+  </div>
+
+  {specification.length > 0 && (
+    <ul className="spec-list">
+      {specification.map((spec, index) => (
+        <li key={index}>
+          {spec.key}: {spec.value}
+          <button
+            type="button"
+            onClick={() =>
+              setSpecification((prev) => prev.filter((_, i) => i !== index))
+            }
+            className="remove-size-button"
+          >
+            ×
+          </button>
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
 
             
 

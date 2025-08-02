@@ -17,7 +17,7 @@ import {
 
 const CreateProductController = async (req, res, next) => {
   try {
-    const { title, category, inStock, brand, price, size } =
+    const { title, category, inStock, brand, price, size, specification } =
       req.body;
 
     //checking if images are uploaded with the request
@@ -27,6 +27,14 @@ const CreateProductController = async (req, res, next) => {
     if (size && !Array.isArray(size)) {
       // If only one size is provided, convert it to an array
       size = [size];
+    }
+
+    let normalizedSpecification = [];
+
+    if(typeof specification === "string"){
+       normalizedSpecification = JSON.parse(specification)
+    }else if(Array.isArray(specification)){
+       normalizedSpecification = specification;
     }
 
     //creating an object with product data
@@ -39,6 +47,7 @@ const CreateProductController = async (req, res, next) => {
       brand,
       price,
       size,
+      specification : normalizedSpecification
     };
 
     //call the createproduct service with product data
