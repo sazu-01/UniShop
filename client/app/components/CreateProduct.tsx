@@ -9,9 +9,9 @@ import "@/css/AdminProductDashbaord.css"
 interface productFormData {
     title: string;
     category: string;
-    inStock: string;
     brand: string;
     price: string;
+    pId: string,
     status: 'add-to-cart' | 'not-available' | 'in-stock';
     size : string[],
 }
@@ -26,10 +26,10 @@ export default function CreateProduct() {
     const [formData, setFormData] = useState<productFormData>({
         title: "",
         category: "", // This will store the category ObjectId
-        inStock: "",
         brand: "",
         price: "",
         status: "add-to-cart",
+        pId : "",
         size : []
     });
 
@@ -162,9 +162,9 @@ export default function CreateProduct() {
                 setFormData({
                     title: "",
                     category: "",
-                    inStock: "",
                     brand: "",
                     price: "",
+                    pId: "",
                     status: "add-to-cart",
                     size : [],
                 });
@@ -333,19 +333,19 @@ export default function CreateProduct() {
                     onChange={handleChange}
                     className="form-input"
                     placeholder="Enter product brand"
-                    required
                 />
             </div>
 
+
             <div className="form-row">
-                <label className="form-label">In Stock</label>
+                <label className="form-label">Product Id</label>
                 <input
-                    type="number"
-                    name="inStock"
-                    value={formData.inStock}
+                    type="text"
+                    name="pId"
+                    value={formData.pId}
                     onChange={handleChange}
                     className="form-input"
-                    placeholder="how many products are in stock"
+                    placeholder="Enter product Id"
                     required
                 />
             </div>

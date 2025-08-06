@@ -21,9 +21,9 @@ export default function AdminProducts() {
   const [updateFormData, setUpdateFormData] = useState({
     title: "",
     category: "",
-    inStock: 0,
     brand: "",
     price: 0,
+    pId: "",
     images: [] as (File | string)[],
     specification: [{ key: "", value: "" }],
   });
@@ -36,10 +36,10 @@ export default function AdminProducts() {
     setUpdateFormData({
       title: product.title,
       category: product.category._id,
-      inStock: product.inStock,
       brand: product.brand,
       price: product.price,
       images: [],
+      pId: product.pId || "",
       specification: product.specification || [{ key: "", value: "" }],
     });
     setIsUpdateModalOpen(true);
@@ -111,8 +111,8 @@ export default function AdminProducts() {
       const formData = new FormData();
       formData.append("title", updateFormData.title);
       formData.append("category", updateFormData.category);
-      formData.append("inStock", updateFormData.inStock.toString());
       formData.append("brand", updateFormData.brand);
+      formData.append("pId", updateFormData.pId);      
       formData.append("price", updateFormData.price.toString());
       formData.append("specification", JSON.stringify(updateFormData.specification));
 
@@ -287,22 +287,21 @@ export default function AdminProducts() {
                   value={updateFormData.brand}
                   onChange={handleUpdateChange}
                   className="form-input"
-                  required
                 />
               </div>
 
               <div className="form-row">
-                <label className="form-label">In Stock</label>
+                <label className="form-label">Product Id</label>
                 <input
-                  type="number"
-                  name="inStock"
-                  value={updateFormData.inStock}
+                  type="text"
+                  name="pId"
+                  value={updateFormData.pId}
                   onChange={handleUpdateChange}
                   className="form-input"
-                  min="0"
                   required
                 />
               </div>
+
 
               <div className="form-row">
                 <label className="form-label">Price</label>

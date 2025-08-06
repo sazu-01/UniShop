@@ -28,7 +28,6 @@ export default function ProductClient({ slug }: ProductClientProps) {
 
   const { cart } = useAppSelector((state) => state.cart);
   const { productQuantity } = useAppSelector((state) => state.productQuantity);
-  const { user } = useAppSelector((state) => state.auth);
   const [selectedSize, setSelectedSize] = useState<string>("");
   
 
@@ -73,13 +72,12 @@ export default function ProductClient({ slug }: ProductClientProps) {
     );
   }
 
-  const { _id, title, price, category, images, brand, size, specification } =
+  const { _id, title, price, category, images, brand, size, specification, pId } =
     SingleProduct;
 
   const hasSize = size && size.length > 0;  
   
  
-  
   return (
     <>
       <div id="single-product-page">
@@ -93,7 +91,8 @@ export default function ProductClient({ slug }: ProductClientProps) {
             <p className="category">
               see more : <Link href={`/${category?.slug}`}>{category?.slug}</Link>
             </p>
-            {user?.isAdmin &&  <p className="supplier">supplier: {brand}</p>} 
+            {brand && <p className="supplier">Brand: {brand}</p>}
+            {SingleProduct?.pId && <p>product Id: {pId}</p>}
             <div className="star">
               <AiFillStar />
               <AiFillStar />

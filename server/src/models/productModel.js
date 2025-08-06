@@ -32,12 +32,6 @@ const productSchema = new Schema(
 
     brand: {
       type: String,
-      required: [true, "brand must be provided"],
-    },
-
-    inStock: {
-      type: Number,
-      required : [true, "inStock must be provided"]
     },
 
     price: {
@@ -52,6 +46,11 @@ const productSchema = new Schema(
     
     size : {
       type : [String]
+    },
+
+    pId : {
+      type : String,
+      required: [true, "product id must be provided"],
     },
 
      specification : [{

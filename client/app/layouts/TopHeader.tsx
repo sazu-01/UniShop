@@ -25,7 +25,7 @@ const TopHeader = () => {
 
           <div className="topheader-contact-item">
             <BiSolidPhoneCall className="topheader-icon" />
-            <span>01864977806</span>
+            <span>01600930467</span>
           </div>
 
           <div className="topheader-contact-item">

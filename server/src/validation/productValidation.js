@@ -22,9 +22,7 @@ export const validateProduct = [
 
   body("category").notEmpty().withMessage("category is required"),
 
-  body("brand").notEmpty().withMessage("brand is reqired"),
-
-  body("inStock").notEmpty().withMessage("In Stock is required"),
-
   body("price").notEmpty().withMessage("price is required"),
+
+  body("pId").notEmpty().withMessage("product id is required"),
 ];

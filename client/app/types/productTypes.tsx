@@ -10,6 +10,7 @@ export interface singleProductType {
     category : {slug : string},
     images : string[],
     quantity : number,
+    pId: string,
     specification : {
         key : string, 
         value : string

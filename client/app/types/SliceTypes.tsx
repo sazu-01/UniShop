@@ -61,9 +61,9 @@ export interface ProductType {
     images : string[],
     category : Category,
     brand : string,
-    inStock : number,
     price : number,
     status : boolean,
+    pId: string,
     productQuantity : number,
     specification : {
         key : string,
