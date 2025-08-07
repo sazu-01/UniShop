@@ -78,7 +78,7 @@ export const UpdateProductService = async (updateObj) => {
     let {
       title,
       category,
-      brand,
+      suplr,
       price,
       slug,
       images,
@@ -127,7 +127,7 @@ export const UpdateProductService = async (updateObj) => {
     // Properties to update directly
     const propertiesToUpdate = {
       category,
-      brand,
+      suplr,
       price,
       pId,
       specification

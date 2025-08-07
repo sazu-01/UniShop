@@ -9,16 +9,16 @@ import "@/css/AdminProductDashbaord.css"
 interface productFormData {
     title: string;
     category: string;
-    brand: string;
+    suplr: string;
     price: string;
     pId: string,
     status: 'add-to-cart' | 'not-available' | 'in-stock';
-    size : string[],
+    size: string[],
 }
 
 interface Category {
-    _id : string,
-    name : string,
+    _id: string,
+    name: string,
 }
 
 export default function CreateProduct() {
@@ -26,11 +26,11 @@ export default function CreateProduct() {
     const [formData, setFormData] = useState<productFormData>({
         title: "",
         category: "", // This will store the category ObjectId
-        brand: "",
+        suplr: "", //full form supplier
         price: "",
         status: "add-to-cart",
-        pId : "",
-        size : []
+        pId: "",
+        size: []
     });
 
     const [categories, setCategories] = useState<Category[]>([]);
@@ -39,13 +39,13 @@ export default function CreateProduct() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [newSize, setNewSize] = useState("");
-    const [specification, setSpecification] = useState<{key : string, value: string}[]>([]);
-    const [newSpec, setNewSpec] = useState({key : "", value : ""}); 
+    const [specification, setSpecification] = useState<{ key: string, value: string }[]>([]);
+    const [newSpec, setNewSpec] = useState({ key: "", value: "" });
 
     const commonSizes = ["XS", "S", "M", "L", "XL", "XXL"];
-    
-       // Add function to add common size
-       const addCommonSize = (size: string) => {
+
+    // Add function to add common size
+    const addCommonSize = (size: string) => {
         if (!formData.size.includes(size)) {
             setFormData(prev => ({
                 ...prev,
@@ -53,7 +53,7 @@ export default function CreateProduct() {
             }));
         }
     };
-    
+
     // Add function to add custom size
     const addCustomSize = () => {
         if (newSize && !formData.size.includes(newSize)) {
@@ -64,7 +64,7 @@ export default function CreateProduct() {
             setNewSize(""); // Clear input after adding
         }
     };
-    
+
     // Remove size function
     const removeSize = (sizeToRemove: string) => {
         setFormData(prev => ({
@@ -77,9 +77,9 @@ export default function CreateProduct() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/all-category`,{
-                    method : "GET",
-                    credentials : "include",
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/all-category`, {
+                    method: "GET",
+                    credentials: "include",
                 });
 
                 const data = await res.json();
@@ -94,11 +94,11 @@ export default function CreateProduct() {
     }, []);
 
 
-    const handleChange = (e : ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const {name, value} = e.target;
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name] : value
+            [name]: value
         }))
     }
 
@@ -107,20 +107,20 @@ export default function CreateProduct() {
         if (files.length > 0) {
             // Update image files
             setImageFiles(prevFiles => [...prevFiles, ...files]);
-            
+
             // Create preview URLs for the new images
             const newImageUrls = files.map(file => URL.createObjectURL(file));
             setSelectedImages(prevImages => [...prevImages, ...newImageUrls]);
         }
     };
 
-   // Add function to remove images
-   const removeImage = (index: number) => {
-    setSelectedImages(prevImages => prevImages.filter((_, i) => i !== index));
-    setImageFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
-};
+    // Add function to remove images
+    const removeImage = (index: number) => {
+        setSelectedImages(prevImages => prevImages.filter((_, i) => i !== index));
+        setImageFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+    };
 
-    const handleSubmit = async (e : FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         setError("");
@@ -143,15 +143,15 @@ export default function CreateProduct() {
 
             productFormData.append("specification", JSON.stringify(specification));
 
-              // Append multiple images
-              imageFiles.forEach((file) => {
+            // Append multiple images
+            imageFiles.forEach((file) => {
                 productFormData.append('images', file);
             });
 
             const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/create-product`, {
-                method : "POST",
-                credentials : "include",
-                body : productFormData
+                method: "POST",
+                credentials: "include",
+                body: productFormData
             });
 
             const data = await res.json()
@@ -162,18 +162,18 @@ export default function CreateProduct() {
                 setFormData({
                     title: "",
                     category: "",
-                    brand: "",
+                    suplr: "",
                     price: "",
                     pId: "",
                     status: "add-to-cart",
-                    size : [],
+                    size: [],
                 });
                 setSelectedImages([]);
                 setImageFiles([]);
             } else {
                 setError(data.message || "Failed to create product");
             }
-        } catch (error : any) {
+        } catch (error: any) {
             console.error(error);
             setError(error.response?.data?.message || "Error creating product");
         } finally {
@@ -184,7 +184,7 @@ export default function CreateProduct() {
     return (
         <form className="create-product-form" onSubmit={handleSubmit}>
             <h2 className="form-title">Create New Product</h2>
-            
+
             {error && <div className="error-message">{error}</div>}
 
             <div className="form-row">
@@ -224,7 +224,7 @@ export default function CreateProduct() {
                                 </div>
                             </div>
                         ))}
-                        
+
                         {/* Upload button */}
                         <div className="image-upload-box">
                             <div className="image-upload-text">
@@ -260,7 +260,7 @@ export default function CreateProduct() {
                             </button>
                         ))}
                     </div>
-                    
+
                     <div className="custom-size-input">
                         <input
                             type="text"
@@ -278,7 +278,7 @@ export default function CreateProduct() {
                             Add
                         </button>
                     </div>
-                    
+
                     {formData.size.length > 0 && (
                         <div className="selected-sizes">
                             <label>Selected Sizes:</label>
@@ -313,9 +313,9 @@ export default function CreateProduct() {
                 >
                     <option value="">Select a category</option>
                     {categories.map((category) => (
-                        <option 
-                            key={category?._id} 
-                            value={category?._id} 
+                        <option
+                            key={category?._id}
+                            value={category?._id}
                         >
                             {category?.name}
                         </option>
@@ -325,14 +325,14 @@ export default function CreateProduct() {
 
 
             <div className="form-row">
-                <label className="form-label">Brand</label>
+                <label className="form-label">Supplier</label>
                 <input
                     type="text"
-                    name="brand"
-                    value={formData.brand}
+                    name="suplr"
+                    value={formData.suplr}
                     onChange={handleChange}
                     className="form-input"
-                    placeholder="Enter product brand"
+                    placeholder="Enter product supplier"
                 />
             </div>
 
@@ -367,7 +367,7 @@ export default function CreateProduct() {
 
             <div className="form-row">
                 <label className="form-label">Status</label>
-                <select 
+                <select
                     name="status"
                     value={formData.status}
                     onChange={handleChange}
@@ -382,62 +382,59 @@ export default function CreateProduct() {
 
 
             <div className="form-row">
-  <label className="form-label">Specifications</label>
-  <div className="specification-input">
-    <input
-      type="text"
-      value={newSpec.key}
-      onChange={(e) => setNewSpec((prev) => ({ ...prev, key: e.target.value }))}
-      className="form-input mb-4"
-      placeholder="Key (e.g., Material)"
-    />
-    <input
-      type="text"
-      value={newSpec.value}
-      onChange={(e) => setNewSpec((prev) => ({ ...prev, value: e.target.value }))}
-      className="form-input mb-4"
-      placeholder="Value (e.g., Cotton)"
-    />
-    <button
-      type="button"
-      className="add-size-button"
-      onClick={() => {
-        if (newSpec.key && newSpec.value) {
-          setSpecification((prev) => [...prev, newSpec]);
-          setNewSpec({ key: "", value: "" });
-        }
-      }}
-    >
-      Add Spec
-    </button>
-  </div>
+                <label className="form-label">Specifications</label>
+                <div className="specification-input">
+                    <input
+                        type="text"
+                        value={newSpec.key}
+                        onChange={(e) => setNewSpec((prev) => ({ ...prev, key: e.target.value }))}
+                        className="form-input mb-4"
+                        placeholder="Key (e.g., Material)"
+                    />
+                    <input
+                        type="text"
+                        value={newSpec.value}
+                        onChange={(e) => setNewSpec((prev) => ({ ...prev, value: e.target.value }))}
+                        className="form-input mb-4"
+                        placeholder="Value (e.g., Cotton)"
+                    />
+                    <button
+                        type="button"
+                        className="add-size-button"
+                        onClick={() => {
+                            if (newSpec.key && newSpec.value) {
+                                setSpecification((prev) => [...prev, newSpec]);
+                                setNewSpec({ key: "", value: "" });
+                            }
+                        }}
+                    >
+                        Add Spec
+                    </button>
+                </div>
 
-  {specification.length > 0 && (
-    <ul className="spec-list">
-      {specification.map((spec, index) => (
-        <li key={index}>
-          {spec.key}: {spec.value}
-          <button
-            type="button"
-            onClick={() =>
-              setSpecification((prev) => prev.filter((_, i) => i !== index))
-            }
-            className="remove-size-button"
-          >
-            ×
-          </button>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+                {specification.length > 0 && (
+                    <ul className="spec-list">
+                        {specification.map((spec, index) => (
+                            <li key={index}>
+                                {spec.key}: {spec.value}
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setSpecification((prev) => prev.filter((_, i) => i !== index))
+                                    }
+                                    className="remove-size-button"
+                                >
+                                    ×
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
 
-
-            
-
-            <button 
-                type="submit" 
-                className="submit-button" 
+            <button
+                type="submit"
+                className="submit-button"
                 disabled={loading}
             >
                 {loading ? "Creating..." : "Create Product"}

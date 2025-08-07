@@ -6,7 +6,7 @@ export interface singleProductType {
     slug : string | undefined,
     size : string[],
     price : number,
-    brand : string,
+    suplr : string, //supplier
     category : {slug : string},
     images : string[],
     quantity : number,

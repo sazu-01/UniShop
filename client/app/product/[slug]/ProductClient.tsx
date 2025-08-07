@@ -25,10 +25,14 @@ export default function ProductClient({ slug }: ProductClientProps) {
     null
   );
   const [productInCart, setProductInCart] = useState(false);
-
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  
+  
   const { cart } = useAppSelector((state) => state.cart);
   const { productQuantity } = useAppSelector((state) => state.productQuantity);
-  const [selectedSize, setSelectedSize] = useState<string>("");
+  const { user } = useAppSelector((state) => state.auth);
+
+
   
 
   useEffect(() => {
@@ -72,7 +76,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
     );
   }
 
-  const { _id, title, price, category, images, brand, size, specification, pId } =
+  const { _id, title, price, category, images, suplr, size, specification, pId } =
     SingleProduct;
 
   const hasSize = size && size.length > 0;  
@@ -91,8 +95,8 @@ export default function ProductClient({ slug }: ProductClientProps) {
             <p className="category">
               see more : <Link href={`/${category?.slug}`}>{category?.slug}</Link>
             </p>
-            {brand && <p className="supplier">Brand: {brand}</p>}
-            {SingleProduct?.pId && <p>product Id: {pId}</p>}
+            {user?.isAdmin &&  <p className="supplier">supplier: {suplr}</p>}
+            {SingleProduct?.pId && <p>Product Id: {pId}</p>}
             <div className="star">
               <AiFillStar />
               <AiFillStar />

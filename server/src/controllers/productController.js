@@ -17,7 +17,7 @@ import {
 
 const CreateProductController = async (req, res, next) => {
   try {
-    const { title, category, brand, price, size, pId, specification } =
+    const { title, category, suplr, price, size, pId, specification } =
       req.body;
 
     //checking if images are uploaded with the request
@@ -43,7 +43,7 @@ const CreateProductController = async (req, res, next) => {
       slug: slugify(title),
       images,
       category,
-      brand,
+      suplr,
       price,
       size,
       pId,
@@ -103,7 +103,7 @@ const updateProductBySlug = async (req, res, next) => {
 
   try {
 
-    let { title, category, brand, price, pId, specification } =
+    let { title, category, suplr, price, pId, specification } =
       req.body;
 
     const { slug } = req.params;
@@ -123,7 +123,7 @@ const updateProductBySlug = async (req, res, next) => {
     const updateObj = {
       title,
       category,
-      brand,
+      suplr, //supplier
       price,
       slug,
       images,

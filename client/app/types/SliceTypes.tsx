@@ -60,7 +60,7 @@ export interface ProductType {
     slug : string | undefined,
     images : string[],
     category : Category,
-    brand : string,
+    suplr : string,
     price : number,
     status : boolean,
     pId: string,
@@ -80,7 +80,6 @@ export interface Products {
 
 
 //product quantity slice type
-
 export interface productQuantity {
     productQuantity: number;
 }

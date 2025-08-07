@@ -30,7 +30,7 @@ const productSchema = new Schema(
       required: [true, "category must be provided"],
     },
 
-    brand: {
+    suplr: {
       type: String,
     },
 

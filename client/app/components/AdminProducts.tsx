@@ -21,7 +21,7 @@ export default function AdminProducts() {
   const [updateFormData, setUpdateFormData] = useState({
     title: "",
     category: "",
-    brand: "",
+    suplr: "",
     price: 0,
     pId: "",
     images: [] as (File | string)[],
@@ -36,7 +36,7 @@ export default function AdminProducts() {
     setUpdateFormData({
       title: product.title,
       category: product.category._id,
-      brand: product.brand,
+      suplr: product.suplr,
       price: product.price,
       images: [],
       pId: product.pId || "",
@@ -111,7 +111,7 @@ export default function AdminProducts() {
       const formData = new FormData();
       formData.append("title", updateFormData.title);
       formData.append("category", updateFormData.category);
-      formData.append("brand", updateFormData.brand);
+      formData.append("suplr", updateFormData.suplr);
       formData.append("pId", updateFormData.pId);      
       formData.append("price", updateFormData.price.toString());
       formData.append("specification", JSON.stringify(updateFormData.specification));
@@ -280,11 +280,11 @@ export default function AdminProducts() {
               </div>
 
               <div className="form-row">
-                <label className="form-label">Brand</label>
+                <label className="form-label">supllier</label>
                 <input
                   type="text"
-                  name="brand"
-                  value={updateFormData.brand}
+                  name="suplr"
+                  value={updateFormData.suplr}
                   onChange={handleUpdateChange}
                   className="form-input"
                 />
