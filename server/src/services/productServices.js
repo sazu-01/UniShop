@@ -83,6 +83,10 @@ export const UpdateProductService = async (updateObj) => {
       slug,
       images,
       pId,
+      size,
+      color,
+      ytLink,
+      description,
       specification
     } = updateObj;
 
@@ -130,6 +134,10 @@ export const UpdateProductService = async (updateObj) => {
       suplr,
       price,
       pId,
+      size,
+      color,
+      ytLink,
+      description,
       specification
     };
 

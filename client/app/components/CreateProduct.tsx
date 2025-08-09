@@ -14,6 +14,9 @@ interface productFormData {
     pId: string,
     status: 'add-to-cart' | 'not-available' | 'in-stock';
     size: string[],
+    color: string[],
+    ytLink: string,
+    description: string
 }
 
 interface Category {
@@ -30,7 +33,10 @@ export default function CreateProduct() {
         price: "",
         status: "add-to-cart",
         pId: "",
-        size: []
+        size: [],
+        color: [],
+        ytLink: "",
+        description: "",
     });
 
     const [categories, setCategories] = useState<Category[]>([]);
@@ -41,7 +47,7 @@ export default function CreateProduct() {
     const [newSize, setNewSize] = useState("");
     const [specification, setSpecification] = useState<{ key: string, value: string }[]>([]);
     const [newSpec, setNewSpec] = useState({ key: "", value: "" });
-
+    const [newColor, setNewColor] = useState("");
     const commonSizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
     // Add function to add common size
@@ -72,6 +78,26 @@ export default function CreateProduct() {
             size: prev.size.filter(size => size !== sizeToRemove)
         }));
     };
+
+
+const addColor = () => {
+    if (newColor && !formData.color.includes(newColor)) {
+        setFormData(prev => ({
+            ...prev,
+            color: [...prev.color, newColor]
+        }));
+        setNewColor("");
+    }
+};
+
+const removeColor = (colorToRemove: string) => {
+    setFormData(prev => ({
+        ...prev,
+        color: prev.color.filter(c => c !== colorToRemove)
+    }));
+};
+
+
 
     // Fetch categories when component mounts
     useEffect(() => {
@@ -126,20 +152,23 @@ export default function CreateProduct() {
         setError("");
 
         try {
+
             // Create FormData object to handle file upload
             const productFormData = new FormData();
 
             // Append all form fields to FormData
-            (Object.keys(formData) as Array<keyof productFormData>).forEach(key => {
-                if (key === 'size') {
-                    // Handle size array specially
-                    formData.size.forEach(size => {
-                        productFormData.append('size', size);
+            (Object.keys(formData) as Array<keyof typeof formData>).forEach(key => {
+                const value = formData[key];
+
+                if (Array.isArray(value)) {
+                    value.forEach((item) => {
+                        productFormData.append(key, item);
                     });
-                } else {
-                    productFormData.append(key, formData[key]);
+                } else if (value !== undefined && value !== null) {
+                    productFormData.append(key, value as string);
                 }
             });
+
 
             productFormData.append("specification", JSON.stringify(specification));
 
@@ -167,6 +196,9 @@ export default function CreateProduct() {
                     pId: "",
                     status: "add-to-cart",
                     size: [],
+                    color: [],
+                    ytLink: "",
+                    description : ""
                 });
                 setSelectedImages([]);
                 setImageFiles([]);
@@ -242,6 +274,50 @@ export default function CreateProduct() {
                     </div>
                 </div>
             </div>
+
+
+
+            <div className="form-row">
+                <label className="form-label">Colors</label>
+                <div className="custom-color-input">
+                    <input
+                        type="text"
+                        value={newColor}
+                        onChange={(e) => setNewColor(e.target.value)}
+                        className="form-input"
+                        placeholder="Add color (e.g. Red)"
+                    />
+                    <button
+                        type="button"
+                        onClick={addColor}
+                        className="add-size-button"
+                        disabled={!newColor}
+                    >
+                        Add
+                    </button>
+                </div>
+
+                {formData.color.length > 0 && (
+                    <div className="selected-colors">
+                        <label>Selected Colors:</label>
+                        <div className="color-tags">
+                            {formData.color.map((clr) => (
+                                <div key={clr} className="size-tag">
+                                    {clr}
+                                    <button
+                                        type="button"
+                                        onClick={() => removeColor(clr)}
+                                        className="remove-size-button"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+
 
 
 
@@ -378,6 +454,30 @@ export default function CreateProduct() {
                     <option value="not-available">Not Available</option>
                     <option value="in-stock">In Stock</option>
                 </select>
+            </div>
+
+            <div className="form-row">
+                <label className="form-label">Youtube Video Demo</label>
+                <input
+                    type="text"
+                    name="ytLink"
+                    value={formData.ytLink}
+                    onChange={handleChange}
+                    className="form-input"
+                    placeholder="Enter product supplier"
+                />
+            </div>
+
+          <div className="form-row">
+                <label className="form-label">Description</label>
+                <input
+                    type="text"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    className="form-input"
+                    placeholder="Enter product supplier"
+                />
             </div>
 
 

@@ -48,9 +48,21 @@ const productSchema = new Schema(
       type : [String]
     },
 
+    color : {
+      type : [String]
+    },
+
     pId : {
       type : String,
       required: [true, "product id must be provided"],
+    },
+
+    ytLink : {
+      type : String
+    },
+
+    description: {
+      type: String
     },
 
      specification : [{

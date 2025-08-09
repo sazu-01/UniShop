@@ -17,16 +17,22 @@ import {
 
 const CreateProductController = async (req, res, next) => {
   try {
-    const { title, category, suplr, price, size, pId, specification } =
+    const { title, category, suplr, price, size, color, pId, ytLink, description, specification } =
       req.body;
 
     //checking if images are uploaded with the request
     const images = req.files?.map((file) => file.path);
 
-    // Handle size as an array (multer parses it as either array or single value)
+    // Handle size & color as an array (multer parses it as either array or single value)
+
     if (size && !Array.isArray(size)) {
       // If only one size is provided, convert it to an array
       size = [size];
+    }
+
+    if (color && !Array.isArray(color)) {
+      // If only one color is provided, convert it to an array
+      color = [color];
     }
 
     let normalizedSpecification = [];
@@ -45,8 +51,11 @@ const CreateProductController = async (req, res, next) => {
       category,
       suplr,
       price,
-      size,
       pId,
+      size,
+      color,
+      ytLink,
+      description,
       specification: normalizedSpecification
     };
 
@@ -103,8 +112,8 @@ const updateProductBySlug = async (req, res, next) => {
 
   try {
 
-    let { title, category, suplr, price, pId, specification } =
-      req.body;
+    let { title, category, suplr, price, pId, size, color, ytLink, description, specification } =
+    req.body;
 
     const { slug } = req.params;
 
@@ -112,10 +121,15 @@ const updateProductBySlug = async (req, res, next) => {
     const images = req.files?.map((file) => file.path) || [];
 
 
-    if (specification) {
-      if (typeof specification === "string") {
-        specification = JSON.parse(specification)
-      }
+    if (specification && typeof specification === "string") {
+      specification = JSON.parse(specification)
+    }
+
+    if (size && typeof size === "string") {
+      size = JSON.parse(size);
+    }
+    if (color && typeof color === "string") {
+      color = JSON.parse(color);
     }
 
 
@@ -128,6 +142,10 @@ const updateProductBySlug = async (req, res, next) => {
       slug,
       images,
       pId,
+      size,
+      color,
+      ytLink,
+      description,
       specification
     };
 

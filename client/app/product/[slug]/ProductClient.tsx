@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import Images from "@/app/components/Images";
 import AddToCart from "@/app/components/AddToCartButton";
 import { singleProductType } from "@/app/types/productTypes";
-import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { useAppSelector } from "@/app/lib/hook";
 import React from "react";
 import Quantity from "@/app/components/Quantity";
@@ -26,14 +25,14 @@ export default function ProductClient({ slug }: ProductClientProps) {
   );
   const [productInCart, setProductInCart] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string>("");
-  
-  
+  const [selectedColorIndex, setSelectedColorIndex] = useState<number>(0);
+  const [colorClickCount, setColorClickCount] = useState<number>(0);
+  const [colorName, setColorName] = useState("");
+
   const { cart } = useAppSelector((state) => state.cart);
   const { productQuantity } = useAppSelector((state) => state.productQuantity);
   const { user } = useAppSelector((state) => state.auth);
 
-
-  
 
   useEffect(() => {
     const fetchSingleProduct = async () => {
@@ -52,7 +51,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
   useEffect(() => {
     if (SingleProduct) {
       const isProductInCart = cart.some(
-        (item) => item._id === SingleProduct._id 
+        (item) => item._id === SingleProduct._id
       );
       setProductInCart(isProductInCart);
     }
@@ -76,18 +75,31 @@ export default function ProductClient({ slug }: ProductClientProps) {
     );
   }
 
-  const { _id, title, price, category, images, suplr, size, specification, pId } =
+  const { _id, title, price, category, images, suplr, size, color, specification, pId, ytLink } =
     SingleProduct;
 
-  const hasSize = size && size.length > 0;  
-  
+  const hasSize = size && size.length > 0;
+  const hasColor = color && color.length > 0;
+
+  const handleIndex = (index: number) => {
+    setSelectedColorIndex(index);
+    setColorClickCount(prev => prev + 1);
+    setColorName(color[index]);
+  }
+
+
+ const getEmbedLink = (link: string) => {
+  const match = link.match(/(?:youtu\.be\/|v=)([a-zA-Z0-9_-]{11})/);
+  return match ? `https://www.youtube.com/embed/${match[1]}?rel=0` : link;
+};
+
  
   return (
     <>
       <div id="single-product-page">
         <div className="single-product">
           {/*component for images*/}
-          <Images imgs={images} />
+          <Images imgs={images} selectedColorIndex={selectedColorIndex} colorClickCount={colorClickCount} />
 
           {/*render single product details */}
           <div className="single-product-details">
@@ -95,15 +107,35 @@ export default function ProductClient({ slug }: ProductClientProps) {
             <p className="category">
               see more : <Link href={`/${category?.slug}`}>{category?.slug}</Link>
             </p>
-            {user?.isAdmin &&  <p className="supplier">supplier: {suplr}</p>}
+            {user?.isAdmin && <p className="supplier">supplier: {suplr}</p>}
             {SingleProduct?.pId && <p>Product Id: {pId}</p>}
-            <div className="star">
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
-              <AiFillStar />
-              <AiOutlineStar />
-            </div>
+
+
+            {/* Color Selection */}
+            {hasColor && (
+              <div className="color-selection mt-3">
+                <p className="size-label">Select Color: {colorName}</p>
+                <div className="d-flex flex-row gap-2">
+                  {color.map((clr, index) => (
+
+                    <button
+                      key={index}
+                      className={`color-circle border ${selectedColorIndex === index ? 'selected-color' : ''}`}
+                      style={{
+                        width: "30px",
+                        height: "30px",
+                        borderRadius: "50%",
+                        backgroundColor: clr,
+                        outline: "none",
+                      }}
+                      title={clr}
+                      onClick={() => handleIndex(index)}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Size Selection */}
             {hasSize && (
               <div className="size-selection">
@@ -112,11 +144,10 @@ export default function ProductClient({ slug }: ProductClientProps) {
                   {size.map((s, i) => (
                     <button
                       key={i}
-                      className={`size-option border ${
-                        selectedSize === s 
-                          ? 'selected-size' 
-                          : 'bg-light'
-                      }`}
+                      className={`size-option border ${selectedSize === s
+                        ? 'selected-size'
+                        : 'bg-light'
+                        }`}
                       onClick={() => setSelectedSize(s)}
                     >
                       {s}
@@ -125,7 +156,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
                 </div>
 
               </div>
-            )} 
+            )}
             <div className="price"><b>TK. {price}</b></div>
             {/*Quantity component for select quantity of product*/}
             <Quantity />
@@ -142,14 +173,30 @@ export default function ProductClient({ slug }: ProductClientProps) {
                   title,
                   slug,
                   images,
-                  size
+                  size,
+                  color
                 }}
               />
             </div>
+                    
           </div>
+          
 
           <Specification specification={specification} />
         </div>
+      
+      <div className="ratio ratio-16x9 mb-4">
+        {ytLink && (
+          <iframe
+            src={getEmbedLink(ytLink)}
+            width="560"
+            height="315"
+            allowFullScreen
+            title="YouTube video player"
+            frameBorder="0"
+          />
+        )}
+</div>
       </div>
     </>
   );

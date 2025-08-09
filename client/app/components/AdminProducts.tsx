@@ -24,6 +24,10 @@ export default function AdminProducts() {
     suplr: "",
     price: 0,
     pId: "",
+    size: [""],
+    color: [""],
+    ytLink : "",
+    description: "",
     images: [] as (File | string)[],
     specification: [{ key: "", value: "" }],
   });
@@ -40,6 +44,10 @@ export default function AdminProducts() {
       price: product.price,
       images: [],
       pId: product.pId || "",
+      size: product.size || [""],
+      color: product.color || [""],
+      ytLink : product.ytLink || "",
+      description: product.description || "",
       specification: product.specification || [{ key: "", value: "" }],
     });
     setIsUpdateModalOpen(true);
@@ -112,8 +120,12 @@ export default function AdminProducts() {
       formData.append("title", updateFormData.title);
       formData.append("category", updateFormData.category);
       formData.append("suplr", updateFormData.suplr);
-      formData.append("pId", updateFormData.pId);      
+      formData.append("pId", updateFormData.pId);
+      formData.append("ytLink", updateFormData.ytLink);
+      formData.append("description", updateFormData.description);      
       formData.append("price", updateFormData.price.toString());
+      formData.append("size", JSON.stringify(updateFormData.size));
+      formData.append("color", JSON.stringify(updateFormData.color));
       formData.append("specification", JSON.stringify(updateFormData.specification));
 
       // Append multiple images (optional)
@@ -280,6 +292,92 @@ export default function AdminProducts() {
               </div>
 
               <div className="form-row">
+  <label className="form-label">Sizes</label>
+  {updateFormData.size.map((sz, index) => (
+    <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "8px" }}>
+      <input
+        type="text"
+        placeholder="Size"
+        value={sz}
+        onChange={(e) => {
+          const updated = [...updateFormData.size];
+          updated[index] = e.target.value;
+          setUpdateFormData(prev => ({ ...prev, size: updated }));
+        }}
+        className="form-input"
+      />
+      <button
+        type="button"
+        onClick={() => {
+          const updated = updateFormData.size.filter((_, i) => i !== index);
+          setUpdateFormData(prev => ({ ...prev, size: updated }));
+        }}
+        className="remove-size-button"
+      >
+        ×
+      </button>
+    </div>
+  ))}
+  <button
+    type="button"
+    onClick={() =>
+      setUpdateFormData(prev => ({
+        ...prev,
+        size: [...prev.size, ""]
+      }))
+    }
+    className="add-size-button"
+  >
+    + Add Size
+  </button>
+</div>
+
+
+
+<div className="form-row">
+  <label className="form-label">Colors</label>
+  {updateFormData.color.map((clr, index) => (
+    <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "8px" }}>
+      <input
+        type="text"
+        placeholder="Color"
+        value={clr}
+        onChange={(e) => {
+          const updated = [...updateFormData.color];
+          updated[index] = e.target.value;
+          setUpdateFormData(prev => ({ ...prev, color: updated }));
+        }}
+        className="form-input"
+      />
+      <button
+        type="button"
+        onClick={() => {
+          const updated = updateFormData.color.filter((_, i) => i !== index);
+          setUpdateFormData(prev => ({ ...prev, color: updated }));
+        }}
+        className="remove-size-button"
+      >
+        ×
+      </button>
+    </div>
+  ))}
+  <button
+    type="button"
+    onClick={() =>
+      setUpdateFormData(prev => ({
+        ...prev,
+        color: [...prev.color, ""]
+      }))
+    }
+    className="add-size-button"
+  >
+    + Add Color
+  </button>
+</div>
+
+
+
+              <div className="form-row">
                 <label className="form-label">supllier</label>
                 <input
                   type="text"
@@ -314,6 +412,28 @@ export default function AdminProducts() {
                   min="0"
                   step="0.01"
                   required
+                />
+              </div>
+
+              <div className="form-row">
+                <label className="form-label">youtube Video Demo</label>
+                <input
+                  type="text"
+                  name="ytLink"
+                  value={updateFormData.ytLink}
+                  onChange={handleUpdateChange}
+                  className="form-input"
+                />
+              </div>
+
+                <div className="form-row">
+                <label className="form-label">description</label>
+                <input
+                  type="text"
+                  name="description"
+                  value={updateFormData.description}
+                  onChange={handleUpdateChange}
+                  className="form-input"
                 />
               </div>
 
