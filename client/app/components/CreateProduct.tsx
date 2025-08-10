@@ -10,7 +10,8 @@ interface productFormData {
     title: string;
     category: string;
     suplr: string;
-    price: string;
+    retailPrice: string;
+    salePrice: string;
     pId: string,
     pType: string,
     status: 'add-to-cart' | 'not-available' | 'in-stock';
@@ -31,7 +32,8 @@ export default function CreateProduct() {
         title: "",
         category: "", // This will store the category ObjectId
         suplr: "", //short form supplier
-        price: "",
+        retailPrice: "",
+        salePrice: "",
         status: "add-to-cart",
         pId: "",
         pType: "",
@@ -194,7 +196,8 @@ const removeColor = (colorToRemove: string) => {
                     title: "",
                     category: "",
                     suplr: "",
-                    price: "",
+                    retailPrice: "",
+                    salePrice: "",
                     pId: "",
                     pType: "",
                     status: "add-to-cart",
@@ -430,11 +433,27 @@ const removeColor = (colorToRemove: string) => {
             </div>
 
             <div className="form-row">
-                <label className="form-label">Price</label>
+                <label className="form-label">Retail Price</label>
                 <input
                     type="number"
-                    name="price"
-                    value={formData.price}
+                    name="retailPrice"
+                    value={formData.retailPrice}
+                    onChange={handleChange}
+                    className="form-input"
+                    placeholder="Enter product price"
+                    min="0"
+                    step="0.01"
+                    required
+                />
+            </div>
+
+
+            <div className="form-row">
+                <label className="form-label">Sale Price</label>
+                <input
+                    type="number"
+                    name="salePrice"
+                    value={formData.salePrice}
                     onChange={handleChange}
                     className="form-input"
                     placeholder="Enter product price"

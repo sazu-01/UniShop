@@ -6,9 +6,9 @@ export interface singleProductType {
     slug : string | undefined,
     size : string[],
     color: string[],
-    price : number,
+    salePrice : number,
     suplr : string, //supplier
-    category : {slug : string},
+    category : {name: string, slug : string},
     images : string[],
     quantity : number,
     pId: string,

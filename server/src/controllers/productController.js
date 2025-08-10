@@ -17,8 +17,8 @@ import {
 
 const CreateProductController = async (req, res, next) => {
   try {
-    const { title, category, suplr, price, size, color, pId, pType, ytLink, description, specification } =
-      req.body;
+    const { title, category, suplr, retailPrice, salePrice, size, color, pId, pType, ytLink, featured,
+     description, specification } = req.body;
 
     //checking if images are uploaded with the request
     const images = req.files?.map((file) => file.path);
@@ -50,12 +50,14 @@ const CreateProductController = async (req, res, next) => {
       images,
       category,
       suplr,
-      price,
+      retailPrice,
+      salePrice,
       pId, //product id 
       size,
       color,
       ytLink, // youtube video demo link
       pType, //product type
+      featured,
       description,
       specification: normalizedSpecification
     };
@@ -113,8 +115,8 @@ const updateProductBySlug = async (req, res, next) => {
 
   try {
 
-    let { title, category, suplr, price, pId, pType, size, color, ytLink, description, specification } =
-    req.body;
+    let { title, category, suplr, retailPrice, salePrice, pId, pType, size, color, ytLink, featured,
+    description, specification } = req.body;
 
     const { slug } = req.params;
 
@@ -139,7 +141,8 @@ const updateProductBySlug = async (req, res, next) => {
       title,
       category,
       suplr, //supplier
-      price,
+      retailPrice,
+      salePrice,
       slug,
       images,
       pId,
@@ -147,6 +150,7 @@ const updateProductBySlug = async (req, res, next) => {
       color,
       ytLink,
       pType,
+      featured,
       description,
       specification
     };

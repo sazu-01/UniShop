@@ -32,7 +32,7 @@ export interface loginCredentilas {
 /*cart slice types */
 export interface cartItem {
     _id : string,
-    price : number,
+    salePrice : number,
     productQuantity : number,
     title : string,
     slug : any,
@@ -62,13 +62,15 @@ export interface ProductType {
     images : string[],
     category : Category,
     suplr : string,
-    price : number,
+    retailPrice : number,
+    salePrice : number,
     status : boolean,
     pId: string,
     pType: string,
     size: string[],
     color: string[],
     ytLink: string,
+    featured: boolean,
     description: string,
     productQuantity : number,
     specification : {

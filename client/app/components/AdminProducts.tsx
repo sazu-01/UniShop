@@ -22,12 +22,14 @@ export default function AdminProducts() {
     title: "",
     category: "",
     suplr: "",
-    price: 0,
+    retailPrice: 0,
+    salePrice: 0,
     pId: "",
     pType: "",
     size: [""],
     color: [""],
-    ytLink : "",
+    ytLink: "",
+    featured: false,
     description: "",
     images: [] as (File | string)[],
     specification: [{ key: "", value: "" }],
@@ -42,15 +44,17 @@ export default function AdminProducts() {
       title: product.title,
       category: product.category._id,
       suplr: product.suplr,
-      price: product.price,
+      retailPrice: product.retailPrice,
+      salePrice: product.salePrice,
       images: [],
       pId: product.pId || "",
       pType: product.pType || "",
       size: product.size || [""],
       color: product.color || [""],
-      ytLink : product.ytLink || "",
+      ytLink: product.ytLink || "",
       description: product.description || "",
       specification: product.specification || [{ key: "", value: "" }],
+      featured: product.featured || false,
     });
     setIsUpdateModalOpen(true);
   };
@@ -125,11 +129,13 @@ export default function AdminProducts() {
       formData.append("pId", updateFormData.pId);
       formData.append("pType", updateFormData.pType);
       formData.append("ytLink", updateFormData.ytLink);
-      formData.append("description", updateFormData.description);      
-      formData.append("price", updateFormData.price.toString());
+      formData.append("description", updateFormData.description);
+      formData.append("retailPrice", updateFormData.retailPrice.toString());
+      formData.append("salePrice", updateFormData.salePrice.toString());
       formData.append("size", JSON.stringify(updateFormData.size));
       formData.append("color", JSON.stringify(updateFormData.color));
       formData.append("specification", JSON.stringify(updateFormData.specification));
+      formData.append("featured", updateFormData.featured ? "true" : "false");
 
       // Append multiple images (optional)
       updateFormData.images.forEach((image) => {
@@ -162,7 +168,7 @@ export default function AdminProducts() {
     }
   };
 
-
+  console.log(updateFormData.featured)
   return (
     <>
       <div className="products-grid">
@@ -184,7 +190,7 @@ export default function AdminProducts() {
             <div className="product-details">
               <h3 className="product-title">{product.title}</h3>
               <div className="product-actions">
-                <span className="product-price">TK. {product.price}</span>
+                <span className="product-price">TK. {product.retailPrice}</span>
                 <div>
                   <button
                     className="action-button edit-button"
@@ -295,88 +301,88 @@ export default function AdminProducts() {
               </div>
 
               <div className="form-row">
-  <label className="form-label">Sizes</label>
-  {updateFormData.size.map((sz, index) => (
-    <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "8px" }}>
-      <input
-        type="text"
-        placeholder="Size"
-        value={sz}
-        onChange={(e) => {
-          const updated = [...updateFormData.size];
-          updated[index] = e.target.value;
-          setUpdateFormData(prev => ({ ...prev, size: updated }));
-        }}
-        className="form-input"
-      />
-      <button
-        type="button"
-        onClick={() => {
-          const updated = updateFormData.size.filter((_, i) => i !== index);
-          setUpdateFormData(prev => ({ ...prev, size: updated }));
-        }}
-        className="remove-size-button"
-      >
-        ×
-      </button>
-    </div>
-  ))}
-  <button
-    type="button"
-    onClick={() =>
-      setUpdateFormData(prev => ({
-        ...prev,
-        size: [...prev.size, ""]
-      }))
-    }
-    className="add-size-button"
-  >
-    + Add Size
-  </button>
-</div>
+                <label className="form-label">Sizes</label>
+                {updateFormData.size.map((sz, index) => (
+                  <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "8px" }}>
+                    <input
+                      type="text"
+                      placeholder="Size"
+                      value={sz}
+                      onChange={(e) => {
+                        const updated = [...updateFormData.size];
+                        updated[index] = e.target.value;
+                        setUpdateFormData(prev => ({ ...prev, size: updated }));
+                      }}
+                      className="form-input"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = updateFormData.size.filter((_, i) => i !== index);
+                        setUpdateFormData(prev => ({ ...prev, size: updated }));
+                      }}
+                      className="remove-size-button"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setUpdateFormData(prev => ({
+                      ...prev,
+                      size: [...prev.size, ""]
+                    }))
+                  }
+                  className="add-size-button"
+                >
+                  + Add Size
+                </button>
+              </div>
 
 
 
-<div className="form-row">
-  <label className="form-label">Colors</label>
-  {updateFormData.color.map((clr, index) => (
-    <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "8px" }}>
-      <input
-        type="text"
-        placeholder="Color"
-        value={clr}
-        onChange={(e) => {
-          const updated = [...updateFormData.color];
-          updated[index] = e.target.value;
-          setUpdateFormData(prev => ({ ...prev, color: updated }));
-        }}
-        className="form-input"
-      />
-      <button
-        type="button"
-        onClick={() => {
-          const updated = updateFormData.color.filter((_, i) => i !== index);
-          setUpdateFormData(prev => ({ ...prev, color: updated }));
-        }}
-        className="remove-size-button"
-      >
-        ×
-      </button>
-    </div>
-  ))}
-  <button
-    type="button"
-    onClick={() =>
-      setUpdateFormData(prev => ({
-        ...prev,
-        color: [...prev.color, ""]
-      }))
-    }
-    className="add-size-button"
-  >
-    + Add Color
-  </button>
-</div>
+              <div className="form-row">
+                <label className="form-label">Colors</label>
+                {updateFormData.color.map((clr, index) => (
+                  <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "8px" }}>
+                    <input
+                      type="text"
+                      placeholder="Color"
+                      value={clr}
+                      onChange={(e) => {
+                        const updated = [...updateFormData.color];
+                        updated[index] = e.target.value;
+                        setUpdateFormData(prev => ({ ...prev, color: updated }));
+                      }}
+                      className="form-input"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = updateFormData.color.filter((_, i) => i !== index);
+                        setUpdateFormData(prev => ({ ...prev, color: updated }));
+                      }}
+                      className="remove-size-button"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setUpdateFormData(prev => ({
+                      ...prev,
+                      color: [...prev.color, ""]
+                    }))
+                  }
+                  className="add-size-button"
+                >
+                  + Add Color
+                </button>
+              </div>
 
 
 
@@ -405,11 +411,11 @@ export default function AdminProducts() {
 
 
               <div className="form-row">
-                <label className="form-label">Price</label>
+                <label className="form-label">update retail price</label>
                 <input
                   type="number"
-                  name="price"
-                  value={updateFormData.price}
+                  name="retailPrice"
+                  value={updateFormData.retailPrice}
                   onChange={handleUpdateChange}
                   className="form-input"
                   min="0"
@@ -418,7 +424,21 @@ export default function AdminProducts() {
                 />
               </div>
 
-               <div className="form-row">
+              <div className="form-row">
+                <label className="form-label">update Sale price</label>
+                <input
+                  type="number"
+                  name="salePrice"
+                  value={updateFormData.salePrice}
+                  onChange={handleUpdateChange}
+                  className="form-input"
+                  min="0"
+                  step="0.01"
+                  required
+                />
+              </div>
+
+              <div className="form-row">
                 <label className="form-label">update product type</label>
                 <input
                   type="text"
@@ -440,7 +460,27 @@ export default function AdminProducts() {
                 />
               </div>
 
-                <div className="form-row">
+              <div className="form-row">
+                <label className="form-label">Featured Product</label>
+                <select
+                  name="featured"
+                  value={updateFormData.featured ? "true" : "false"}
+                  onChange={(e) =>
+                    setUpdateFormData((prev) => ({
+                      ...prev,
+                      featured: e.target.value === "true",
+                    }))
+                  }
+                  className="form-select"
+                >
+                  <option value="false">No (Default)</option>
+                  <option value="true">Yes</option>
+                </select>
+              </div>
+
+
+
+              <div className="form-row">
                 <label className="form-label">description</label>
                 <input
                   type="text"

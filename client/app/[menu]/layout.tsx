@@ -7,7 +7,7 @@ import { useAppSelector } from '../lib/hook';
 import Skeleton from '../components/Skeleton';
 import Link from 'next/link';
 import Image from 'next/image';
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+
 
 import "@/css/CategoryPageLayout.css"
 
@@ -49,7 +49,7 @@ export default function CategoryProductLayout() {
    <div className="category-page-container">
      <div className="category-page-products">
        {filterProduct?.map((product, index) => {
-         const { slug, images, title, price } = product;
+         const { slug, images, title, salePrice } = product;
          return (
            <div key={index} className="product-card">
              <Link href={`/product/${slug}`}>
@@ -71,14 +71,7 @@ export default function CategoryProductLayout() {
                    {title.length > 40 ? title.slice(0, 40) + "..." : title}
                  </h3>
                </Link>
-               <div className="product-rating">
-                 <AiFillStar />
-                 <AiFillStar />
-                 <AiFillStar />
-                 <AiFillStar />
-                 <AiOutlineStar />
-               </div>
-               <p className="product-price">Tk. {price}</p>
+               <p className="product-price">Tk. {salePrice}</p>
              </div>
            </div>
          );

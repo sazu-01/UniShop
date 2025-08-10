@@ -34,9 +34,15 @@ const productSchema = new Schema(
       type: String,
     },
 
-    price: {
+    retailPrice: {
       type: Number,
-      required: [true, "price must be provided"],
+      required: [true, "retail price must be provided"],
+    },
+
+    salePrice: {
+      type: Number,
+      required: [true, "sale price must be provided"],
+      default : 0
     },
 
     status: {
@@ -63,6 +69,11 @@ const productSchema = new Schema(
 
     ytLink : {
       type : String
+    },
+    
+    featured: {
+      type: Boolean,
+      default: false,
     },
 
     description: {

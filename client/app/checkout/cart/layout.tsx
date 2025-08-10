@@ -22,7 +22,7 @@ const Cart = () => {
 
   //calculate the subtotal price of the order
   cart.forEach((c) => {
-    subtotal += c.price * c.productQuantity;
+    subtotal += c.salePrice * c.productQuantity;
   });
 
  const delivery_charge = 0;

@@ -79,7 +79,8 @@ export const UpdateProductService = async (updateObj) => {
       title,
       category,
       suplr,
-      price,
+      retailPrice,
+      salePrice,
       slug,
       images,
       pId,
@@ -87,6 +88,7 @@ export const UpdateProductService = async (updateObj) => {
       size,
       color,
       ytLink,
+      featured,
       description,
       specification
     } = updateObj;
@@ -133,12 +135,14 @@ export const UpdateProductService = async (updateObj) => {
     const propertiesToUpdate = {
       category,
       suplr,
-      price,
+      retailPrice,
+      salePrice,
       pId,
       size,
       color,
       ytLink,
       pType,
+      featured,
       description,
       specification
     };

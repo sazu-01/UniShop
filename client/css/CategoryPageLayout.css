@@ -54,14 +54,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.product-rating {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 1.6rem;
-  margin-bottom: 0.75rem;
-  color: #eab308;
-}
+
 .product-price {
   font-size: 1.6rem;
   font-weight: 700;
