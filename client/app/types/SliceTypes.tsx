@@ -65,6 +65,7 @@ export interface ProductType {
     price : number,
     status : boolean,
     pId: string,
+    pType: string,
     size: string[],
     color: string[],
     ytLink: string,

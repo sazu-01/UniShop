@@ -12,6 +12,7 @@ interface productFormData {
     suplr: string;
     price: string;
     pId: string,
+    pType: string,
     status: 'add-to-cart' | 'not-available' | 'in-stock';
     size: string[],
     color: string[],
@@ -29,10 +30,11 @@ export default function CreateProduct() {
     const [formData, setFormData] = useState<productFormData>({
         title: "",
         category: "", // This will store the category ObjectId
-        suplr: "", //full form supplier
+        suplr: "", //short form supplier
         price: "",
         status: "add-to-cart",
         pId: "",
+        pType: "",
         size: [],
         color: [],
         ytLink: "",
@@ -194,6 +196,7 @@ const removeColor = (colorToRemove: string) => {
                     suplr: "",
                     price: "",
                     pId: "",
+                    pType: "",
                     status: "add-to-cart",
                     size: [],
                     color: [],
@@ -464,7 +467,7 @@ const removeColor = (colorToRemove: string) => {
                     value={formData.ytLink}
                     onChange={handleChange}
                     className="form-input"
-                    placeholder="Enter product supplier"
+                    placeholder="Enter product video demo link"
                 />
             </div>
 
@@ -476,7 +479,19 @@ const removeColor = (colorToRemove: string) => {
                     value={formData.description}
                     onChange={handleChange}
                     className="form-input"
-                    placeholder="Enter product supplier"
+                    placeholder="Enter product description"
+                />
+            </div>
+
+            <div className="form-row">
+                <label className="form-label">Product Type</label>
+                <input
+                    type="text"
+                    name="pType"
+                    value={formData.pType}
+                    onChange={handleChange}
+                    className="form-input"
+                    placeholder="Enter product product type"
                 />
             </div>
 

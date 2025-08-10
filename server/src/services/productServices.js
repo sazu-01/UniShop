@@ -83,6 +83,7 @@ export const UpdateProductService = async (updateObj) => {
       slug,
       images,
       pId,
+      pType,
       size,
       color,
       ytLink,
@@ -137,6 +138,7 @@ export const UpdateProductService = async (updateObj) => {
       size,
       color,
       ytLink,
+      pType,
       description,
       specification
     };

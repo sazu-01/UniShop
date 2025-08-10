@@ -24,6 +24,7 @@ export default function AdminProducts() {
     suplr: "",
     price: 0,
     pId: "",
+    pType: "",
     size: [""],
     color: [""],
     ytLink : "",
@@ -44,6 +45,7 @@ export default function AdminProducts() {
       price: product.price,
       images: [],
       pId: product.pId || "",
+      pType: product.pType || "",
       size: product.size || [""],
       color: product.color || [""],
       ytLink : product.ytLink || "",
@@ -121,6 +123,7 @@ export default function AdminProducts() {
       formData.append("category", updateFormData.category);
       formData.append("suplr", updateFormData.suplr);
       formData.append("pId", updateFormData.pId);
+      formData.append("pType", updateFormData.pType);
       formData.append("ytLink", updateFormData.ytLink);
       formData.append("description", updateFormData.description);      
       formData.append("price", updateFormData.price.toString());
@@ -412,6 +415,17 @@ export default function AdminProducts() {
                   min="0"
                   step="0.01"
                   required
+                />
+              </div>
+
+               <div className="form-row">
+                <label className="form-label">update product type</label>
+                <input
+                  type="text"
+                  name="pType"
+                  value={updateFormData.pType}
+                  onChange={handleUpdateChange}
+                  className="form-input"
                 />
               </div>
 

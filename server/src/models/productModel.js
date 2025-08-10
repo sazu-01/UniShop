@@ -57,6 +57,10 @@ const productSchema = new Schema(
       required: [true, "product id must be provided"],
     },
 
+    pType: {
+      type: String,
+    },
+
     ytLink : {
       type : String
     },
