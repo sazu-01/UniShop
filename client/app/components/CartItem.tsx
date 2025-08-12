@@ -20,7 +20,7 @@ import { cartItem } from '@/app/types/SliceTypes';
 const CartItem: React.FC<{ product: cartItem }> = ({ product }) => {
 
     //destructure the product properties
-    const { _id, images, title, salePrice, productQuantity } = product;
+    const { _id, images, title, discountPrice, productQuantity } = product;
 
     const dispatch = useAppDispatch();
 
@@ -50,7 +50,7 @@ const CartItem: React.FC<{ product: cartItem }> = ({ product }) => {
                      {/*quantity & price section */}
                     <div className="cart-quantity-price">
                         <div className="price">
-                            <div>= {salePrice * productQuantity}</div>
+                            <div>= {discountPrice * productQuantity}</div>
                         </div>
         
 

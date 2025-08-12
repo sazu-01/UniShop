@@ -87,7 +87,7 @@ const MiddleHeader = () => {
                     </div>
 
                     <div className="price">
-                      <p>TK.{product.salePrice}</p>
+                      <p>TK.{product.discountPrice}</p>
                     </div>
                   </Link>
                 ))

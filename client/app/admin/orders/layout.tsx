@@ -9,7 +9,7 @@ import "@/css/AdminOrderDashbaord.css"
 
 type Cart = {
  _id : string;
- salePrice : number;
+ discountPrice : number;
  productQuantity : number;
  title : string;
  slug : string;
@@ -135,9 +135,9 @@ export default function OrdersLayout() {
                             <td>
                               <Link href={`/product/${item.slug}`} className="product-title-mobile">{item.title}  {item.selectedSize && <span>({item.selectedSize})</span>}</Link>
                             </td>
-                            <td className="text-end" style={{fontSize:"1.6rem"}}>TK. {item.salePrice}</td>
+                            <td className="text-end" style={{fontSize:"1.6rem"}}>TK. {item.discountPrice}</td>
                             <td className="text-end text-center">{item.productQuantity}</td>
-                            <td className="text-end fw-bold">TK. {item.salePrice * item.productQuantity}</td>
+                            <td className="text-end fw-bold">TK. {item.discountPrice * item.productQuantity}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -207,7 +207,7 @@ export default function OrdersLayout() {
                     <div className="summary-item">
                       <span>Subtotal</span>
                       <span className="amount">
-                        TK. {order.cart.reduce((total, item) => total + (item.salePrice * item.productQuantity), 0)}
+                        TK. {order.cart.reduce((total, item) => total + (item.discountPrice * item.productQuantity), 0)}
                       </span>
                     </div>
                     <div className="summary-item">
@@ -218,7 +218,7 @@ export default function OrdersLayout() {
                       <span>Total</span>
                       <span className="total-amount">
                         TK. {order.cart.reduce((total, item) => 
-                          total + (item.salePrice * item.productQuantity), 0) + parseInt(order.delivery_charge)}
+                          total + (item.discountPrice * item.productQuantity), 0) + parseInt(order.delivery_charge)}
                       </span>
                     </div>
                   </div>

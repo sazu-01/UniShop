@@ -145,11 +145,6 @@
     opacity: 1;
 }
 
-.pro-content .rating {
-    font-size: 12px;
-    color: rgb(255, 205, 78);
-}
-
 /* Responsive Design */
 @media (max-width: 1200px) {
     .products-grid {

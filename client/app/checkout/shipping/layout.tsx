@@ -64,7 +64,7 @@ const Shipping = () => {
 
   //calculate the subtotal salePrie of the order
   cart.forEach((c: any) => {
-    subtotal += c.salePrice * c.productQuantity;
+    subtotal += c.discountPrice * c.productQuantity;
   });
 
 

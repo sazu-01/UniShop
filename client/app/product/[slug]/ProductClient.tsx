@@ -75,7 +75,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
     );
   }
 
-  const { _id, title, salePrice, category, images, suplr, size, color, specification, pId, ytLink } =
+  const { _id, title, discountPrice, category, images, suplr, size, color, specification, pId, ytLink } =
     SingleProduct;
 
   const hasSize = size && size.length > 0;
@@ -157,7 +157,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
 
               </div>
             )}
-            <div className="price"><b>TK. {salePrice}
+            <div className="price"><b>TK. {discountPrice}
               </b></div>
             {/*Quantity component for select quantity of product*/}
             <Quantity />
@@ -169,7 +169,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
                 selectedSize={selectedSize}
                 data={{
                   _id,
-                  salePrice,
+                  discountPrice,
                   productQuantity,
                   title,
                   slug,

@@ -42,7 +42,15 @@ const productSchema = new Schema(
     salePrice: {
       type: Number,
       required: [true, "sale price must be provided"],
-      default : 0
+    },
+
+    discount : {
+      type: Number,
+      default : 0,
+    },
+
+    discountPrice : {
+      type : Number,
     },
 
     status: {
@@ -94,6 +102,20 @@ const productSchema = new Schema(
   },
   { timestamps: true }
 );
+
+
+productSchema.pre("save", function (next) {
+  if (this.salePrice && this.discount) {
+    this.discountPrice = Math.floor(
+      this.salePrice - (this.salePrice * this.discount / 100)
+    );
+  } else {
+    this.discountPrice = this.salePrice;
+  }
+  next();
+});
+
+
 
 const Product = model("Product", productSchema);
 

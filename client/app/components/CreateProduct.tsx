@@ -12,6 +12,7 @@ interface productFormData {
     suplr: string;
     retailPrice: string;
     salePrice: string;
+    discount: string,
     pId: string,
     pType: string,
     status: 'add-to-cart' | 'not-available' | 'in-stock';
@@ -34,6 +35,7 @@ export default function CreateProduct() {
         suplr: "", //short form supplier
         retailPrice: "",
         salePrice: "",
+        discount: "",
         status: "add-to-cart",
         pId: "",
         pType: "",
@@ -198,6 +200,7 @@ const removeColor = (colorToRemove: string) => {
                     suplr: "",
                     retailPrice: "",
                     salePrice: "",
+                    discount: "",
                     pId: "",
                     pType: "",
                     status: "add-to-cart",
@@ -323,8 +326,6 @@ const removeColor = (colorToRemove: string) => {
                     </div>
                 )}
             </div>
-
-
 
 
             <div className="form-row">
@@ -462,6 +463,24 @@ const removeColor = (colorToRemove: string) => {
                     required
                 />
             </div>
+
+
+            <div className="form-row">
+                <label className="form-label">Discount</label>
+                <input
+                    type="number"
+                    name="discount"
+                    value={formData.discount}
+                    onChange={handleChange}
+                    className="form-input"
+                    placeholder="Enter product price"
+                    min="0"
+                    step="0.01"
+                    required
+                />
+            </div>
+
+
 
             <div className="form-row">
                 <label className="form-label">Status</label>

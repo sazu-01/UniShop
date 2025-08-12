@@ -17,8 +17,6 @@ import "@/css/HomePageProducts.css";
 
 import { AddToCart } from "../lib/features/cartSlice";
 
-//icons
-import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 
 const HomePageProducts = () => {
 
@@ -108,7 +106,7 @@ const HomePageProducts = () => {
       </div>
       <div className="products-grid">
         {sortedProducts.map((pro: ProductType, index: number) => {
-          const { _id, title, slug, images, salePrice, productQuantity = 1 } = pro;
+          const { _id, title, slug, images, salePrice, discount, productQuantity = 1 } = pro;
           const inCart = isProductInCart(_id);
           return (
             <div key={index} className="product">
@@ -130,16 +128,10 @@ const HomePageProducts = () => {
                 </div>
                 <div className="pro-content">
                   <p className="title">{title}</p>
-                  <p className="rating">
-                    <FaStar />
-                    <FaStar />
-                    <FaStar /> <FaStarHalfAlt />
-                    <FaStarHalfAlt />
-                  </p>
                 </div>
               </Link>
               <div className="addcart">
-                <p className="price">TK. {salePrice}</p>
+                <p className="price">TK. {Math.round(salePrice - (salePrice * discount / 100))}</p>
                 {inCart ? (
                   <button className="home-page-addcart added">Added</button>
                 ) : (

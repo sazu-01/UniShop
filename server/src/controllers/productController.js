@@ -17,8 +17,8 @@ import {
 
 const CreateProductController = async (req, res, next) => {
   try {
-    const { title, category, suplr, retailPrice, salePrice, size, color, pId, pType, ytLink, featured,
-     description, specification } = req.body;
+    const { title, category, suplr, retailPrice, salePrice, discount, size, color, pId, pType, ytLink, 
+      featured, description, specification } = req.body;
 
     //checking if images are uploaded with the request
     const images = req.files?.map((file) => file.path);
@@ -43,6 +43,12 @@ const CreateProductController = async (req, res, next) => {
       normalizedSpecification = specification;
     }
 
+    //Calculate discountPrice
+    let discountPrice = salePrice;
+    if (discount && salePrice) {
+      discountPrice = Math.floor(salePrice - (salePrice * discount / 100));
+    }
+
     //creating an object with product data
     const productData = {
       title,
@@ -52,6 +58,8 @@ const CreateProductController = async (req, res, next) => {
       suplr,
       retailPrice,
       salePrice,
+      discount,
+      discountPrice,
       pId, //product id 
       size,
       color,
@@ -115,8 +123,8 @@ const updateProductBySlug = async (req, res, next) => {
 
   try {
 
-    let { title, category, suplr, retailPrice, salePrice, pId, pType, size, color, ytLink, featured,
-    description, specification } = req.body;
+    let { title, category, suplr, retailPrice, salePrice, discount, pId, pType, size, color, ytLink, 
+    featured, description, specification } = req.body;
 
     const { slug } = req.params;
 
@@ -135,6 +143,11 @@ const updateProductBySlug = async (req, res, next) => {
       color = JSON.parse(color);
     }
 
+    //Calculate discountPrice
+    let discountPrice = salePrice;
+    if (discount && salePrice) {
+      discountPrice = Math.floor(salePrice - (salePrice * discount / 100));
+    }
 
     //creating an object with updated product data
     const updateObj = {
@@ -143,6 +156,8 @@ const updateProductBySlug = async (req, res, next) => {
       suplr, //supplier
       retailPrice,
       salePrice,
+      discount,
+      discountPrice,
       slug,
       images,
       pId,

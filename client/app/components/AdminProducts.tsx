@@ -24,6 +24,7 @@ export default function AdminProducts() {
     suplr: "",
     retailPrice: 0,
     salePrice: 0,
+    discount: 0,
     pId: "",
     pType: "",
     size: [""],
@@ -46,6 +47,7 @@ export default function AdminProducts() {
       suplr: product.suplr,
       retailPrice: product.retailPrice,
       salePrice: product.salePrice,
+      discount: product.discount,
       images: [],
       pId: product.pId || "",
       pType: product.pType || "",
@@ -132,6 +134,7 @@ export default function AdminProducts() {
       formData.append("description", updateFormData.description);
       formData.append("retailPrice", updateFormData.retailPrice.toString());
       formData.append("salePrice", updateFormData.salePrice.toString());
+      formData.append("discount", updateFormData.discount.toString());      
       formData.append("size", JSON.stringify(updateFormData.size));
       formData.append("color", JSON.stringify(updateFormData.color));
       formData.append("specification", JSON.stringify(updateFormData.specification));
@@ -168,7 +171,7 @@ export default function AdminProducts() {
     }
   };
 
-  console.log(updateFormData.featured)
+
   return (
     <>
       <div className="products-grid">
@@ -430,6 +433,20 @@ export default function AdminProducts() {
                   type="number"
                   name="salePrice"
                   value={updateFormData.salePrice}
+                  onChange={handleUpdateChange}
+                  className="form-input"
+                  min="0"
+                  step="0.01"
+                  required
+                />
+              </div>
+
+                            <div className="form-row">
+                <label className="form-label">update discount</label>
+                <input
+                  type="number"
+                  name="discount"
+                  value={updateFormData.discount}
                   onChange={handleUpdateChange}
                   className="form-input"
                   min="0"

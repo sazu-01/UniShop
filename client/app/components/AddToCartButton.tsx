@@ -19,7 +19,7 @@ const AddToCartButton: React.FC<demoType> = ({ data, productInCart, hasSize, sel
 
 
   //destructure the product object
-  const { _id, salePrice, productQuantity, title, slug, images } = data;
+  const { _id, discountPrice, productQuantity, title, slug, images } = data;
 
   const dispatch = useAppDispatch();
 
@@ -28,7 +28,7 @@ const AddToCartButton: React.FC<demoType> = ({ data, productInCart, hasSize, sel
     if (hasSize && selectedSize.length === 0) {
       return alert("please select a size");
     }
-    dispatch(AddToCart({ _id, salePrice, productQuantity, title, slug, images, selectedSize }))
+    dispatch(AddToCart({ _id, discountPrice, productQuantity, title, slug, images, selectedSize }))
   }
 
 
