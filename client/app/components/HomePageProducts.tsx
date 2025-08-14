@@ -88,79 +88,87 @@ const HomePageProducts = () => {
       </>
     );
   }
-
+  const placeholder = "/placeholder.jpg";
   return (
     <>
 
-{filteredCategories.map(([categorySlug, categoryData]: any) => {
-  // Sort products so featured ones come first
-  const sortedProducts = [...categoryData.products].sort((a, b) => {
-    return (b.featured === true ? 1 : 0) - (a.featured === true ? 1 : 0);
-  });
+      {filteredCategories.map(([categorySlug, categoryData]: any) => {
+        // Sort products so featured ones come first
+        const sortedProducts = [...categoryData.products].sort((a, b) => {
+          return (b.featured === true ? 1 : 0) - (a.featured === true ? 1 : 0);
+        });
 
-  return (
-    <div key={categorySlug} id="home-page-products">
-      <div className="slide-header">
-        <p>{categoryData.name}</p>
-        <Link href={`/${categorySlug}`}>See all</Link>
-      </div>
-      <div className="products-grid">
-        {sortedProducts.map((pro: ProductType, index: number) => {
-          const { _id, title, slug, images, salePrice, discount, productQuantity = 1 } = pro;
-          const inCart = isProductInCart(_id);
-          return (
-            <div key={index} className="product">
-              <Link href={`/product/${slug}`}>
-                <div className="product-img">
-                  <Image
-                    src={`${images[0]}`}
-                    alt={title}
-                    width={300}
-                    height={300}
-                    className="home-pro-img"
-                    priority={index === 0}
-                    style={{
-                      objectFit: "cover",
-                      width: "100%",
-                      height: "auto",
-                    }}
-                  />
-                </div>
-                <div className="pro-content">
-                  <p className="title">{title}</p>
-                </div>
-              </Link>
-              <div className="addcart">
-                <p className="price">TK. {Math.round(salePrice - (salePrice * discount / 100))}</p>
-                {inCart ? (
-                  <button className="home-page-addcart added">Added</button>
-                ) : (
-                  <button
-                    className="home-page-addcart"
-                    onClick={() =>
-                      dispatch(
-                        AddToCart({
-                          _id,
-                          salePrice,
-                          title,
-                          slug,
-                          images,
-                          productQuantity,
-                        })
-                      )
-                    }
-                  >
-                    +Add
-                  </button>
-                )}
-              </div>
+        return (
+          <div key={categorySlug} id="home-page-products">
+            <div className="slide-header">
+              <p>{categoryData.name}</p>
+              <Link href={`/${categorySlug}`}>See all</Link>
             </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-})}
+            <div className="products-grid">
+              {sortedProducts.map((pro: ProductType, index: number) => {
+                const { _id, title, slug, images, salePrice, discountPrice, discount, productQuantity = 1 } = pro;
+                const inCart = isProductInCart(_id);
+
+                return (
+                  <div key={index} className="product">
+                    <Link href={`/product/${slug}`}>
+                      <div className="product-img">
+                        <Image
+                          src={
+                            Array.isArray(images) &&
+                              images.length > 0 &&
+                              Array.isArray(images[0].url) &&
+                              images[0].url.length > 0
+                              ? images[0].url[0] // first format
+                              : placeholder // fallback
+                          }
+                          alt={title}
+                          width={300}
+                          height={300}
+                          className="home-pro-img"
+                          priority={index === 0}
+                          style={{
+                            objectFit: "cover",
+                            width: "100%",
+                            height: "auto",
+                          }}
+                        />
+                      </div>
+                      <div className="pro-content">
+                        <p className="title">{title}</p>
+                      </div>
+                    </Link>
+                    <div className="addcart">
+                      <p className="price">TK. {Math.round(salePrice - (salePrice * discount / 100))}</p>
+                      {inCart ? (
+                        <button className="home-page-addcart added">Added</button>
+                      ) : (
+                        <button
+                          className="home-page-addcart"
+                          onClick={() =>
+                            dispatch(
+                              AddToCart({
+                                _id,
+                                discountPrice,
+                                title,
+                                slug,
+                                images,
+                                productQuantity,
+                              })
+                            )
+                          }
+                        >
+                          +Add
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
 
     </>
   );

@@ -5,9 +5,13 @@ export interface DemoTemplateProps {
 }
 
 //define images interface
-export interface ImageProps {
-  imgs : string[];
-  selectedColorIndex: number;
-  colorClickCount: number;
 
+export interface ProductImageGroup {
+  color?: string;
+  url: string[];
+}
+
+export interface ImageProps {
+  images: ProductImageGroup[];
+  selectedColor: string;
 }

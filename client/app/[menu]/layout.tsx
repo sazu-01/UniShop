@@ -14,8 +14,6 @@ import "@/css/CategoryPageLayout.css"
 export default function CategoryProductLayout() {
 
   const { menu } = useParams();
-  
-  
   const { products } = useAppSelector((state)=> state.products);
 
   const filterProduct = products?.filter((product)=> product.category.slug === menu);
@@ -59,7 +57,7 @@ export default function CategoryProductLayout() {
                   height={500}
                   priority={index === 0}
                    className="product-image"
-                   src={images[0]}
+                   src={images[0]?.url[0]}
                    alt={title}
                  />
                </div>

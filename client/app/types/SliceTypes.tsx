@@ -36,9 +36,8 @@ export interface cartItem {
     productQuantity : number,
     title : string,
     slug : any,
-    images: string[],
+    images: [{color : string , url: string[]}],
     size : string[],
-    color : string[],
   }
   
 export interface stateType {
@@ -59,7 +58,7 @@ export interface ProductType {
     _id : string,
     title : string,
     slug : string | undefined,
-    images : string[],
+    images : [ { color : string, url : string[]}],
     category : Category,
     suplr : string,
     retailPrice : number,
@@ -70,7 +69,6 @@ export interface ProductType {
     pId: string,
     pType: string,
     size: string[],
-    color: string[],
     ytLink: string,
     featured: boolean,
     description: string,

@@ -21,7 +21,7 @@ const CartItem: React.FC<{ product: cartItem }> = ({ product }) => {
 
     //destructure the product properties
     const { _id, images, title, discountPrice, productQuantity } = product;
-
+    
     const dispatch = useAppDispatch();
 
     //delete the product from cart
@@ -29,12 +29,14 @@ const CartItem: React.FC<{ product: cartItem }> = ({ product }) => {
         dispatch(DeletToCart(_id));
     }
 
+    
+
     return (
         <>
 
             <div id="cart-item">
                 {/*product image*/}
-                <Image src={images[0]} alt="" width={500} height={500} />
+                <Image src={images?.[0]?.url?.[0] || "/fallback.png"} alt="" width={500} height={500} />
                 <div className="product-details">
                     
                     {/*product title */}

@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Images from "@/app/components/Images";
 import AddToCart from "@/app/components/AddToCartButton";
 import { singleProductType } from "@/app/types/productTypes";
@@ -26,8 +27,6 @@ export default function ProductClient({ slug }: ProductClientProps) {
   const [productInCart, setProductInCart] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedColorIndex, setSelectedColorIndex] = useState<number>(0);
-  const [colorClickCount, setColorClickCount] = useState<number>(0);
-  const [colorName, setColorName] = useState("");
 
   const { cart } = useAppSelector((state) => state.cart);
   const { productQuantity } = useAppSelector((state) => state.productQuantity);
@@ -75,31 +74,29 @@ export default function ProductClient({ slug }: ProductClientProps) {
     );
   }
 
-  const { _id, title, discountPrice, category, images, suplr, size, color, specification, pId, ytLink } =
+  const { _id, title, discountPrice, category, images, suplr, size, specification, pId, ytLink } =
     SingleProduct;
 
   const hasSize = size && size.length > 0;
-  const hasColor = color && color.length > 0;
-
-  const handleIndex = (index: number) => {
-    setSelectedColorIndex(index);
-    setColorClickCount(prev => prev + 1);
-    setColorName(color[index]);
-  }
+  const hasColor = images && images.length > 1 && images.some(img => img.color && img.color.trim() !== "");
 
 
- const getEmbedLink = (link: string) => {
-  const match = link.match(/(?:youtu\.be\/|v=)([a-zA-Z0-9_-]{11})/);
-  return match ? `https://www.youtube.com/embed/${match[1]}?rel=0` : link;
-};
+  const getEmbedLink = (link: string) => {
+    const match = link.match(/(?:youtu\.be\/|v=)([a-zA-Z0-9_-]{11})/);
+    return match ? `https://www.youtube.com/embed/${match[1]}?rel=0` : link;
+  };
 
- 
+
   return (
     <>
       <div id="single-product-page">
         <div className="single-product">
-          {/*component for images*/}
-          <Images imgs={images} selectedColorIndex={selectedColorIndex} colorClickCount={colorClickCount} />
+
+
+          <Images
+            images={images}
+            selectedColor={images[selectedColorIndex]?.color}
+          />
 
           {/*render single product details */}
           <div className="single-product-details">
@@ -110,31 +107,52 @@ export default function ProductClient({ slug }: ProductClientProps) {
             {user?.isAdmin && <p className="supplier">supplier: {suplr}</p>}
             {SingleProduct?.pId && <p>Product Id: {pId}</p>}
 
-
-            {/* Color Selection */}
             {hasColor && (
               <div className="color-selection mt-3">
-                <p className="size-label">Select Color: {colorName}</p>
-                <div className="d-flex flex-row gap-2">
-                  {color.map((clr, index) => (
-
-                    <button
+                <p className="size-label">
+                  Select Color: {images[selectedColorIndex]?.color || "Default"}
+                </p>
+                <div className="d-flex flex-row gap-2 flex-wrap">
+                  {images.map((imgSet, index) => (
+                    <div
                       key={index}
-                      className={`color-circle border ${selectedColorIndex === index ? 'selected-color' : ''}`}
-                      style={{
-                        width: "30px",
-                        height: "30px",
-                        borderRadius: "50%",
-                        backgroundColor: clr,
-                        outline: "none",
-                      }}
-                      title={clr}
-                      onClick={() => handleIndex(index)}
-                    />
+                      className={`color-image-option ${selectedColorIndex === index ? 'selected-color-image' : ''}`}
+                      onClick={() => setSelectedColorIndex(index)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <Image
+                        width={60}
+                        height={60}
+                        src={imgSet.url[0]}
+                        alt={imgSet.color || `Option ${index + 1}`}
+                        style={{
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                          border: selectedColorIndex === index
+                            ? "3px solid #007bff"
+                            : "2px solid #ddd",
+                          transition: "all 0.3s ease"
+                        }}
+                        title={imgSet.color || `Option ${index + 1}`}
+                      />
+                      {imgSet.color && (
+                        <p
+                          style={{
+                            fontSize: "12px",
+                            textAlign: "center",
+                            margin: "4px 0 0 0",
+                            color: selectedColorIndex === index ? "#007bff" : "#666"
+                          }}
+                        >
+                          {imgSet.color}
+                        </p>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
             )}
+
 
             {/* Size Selection */}
             {hasSize && (
@@ -158,7 +176,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
               </div>
             )}
             <div className="price"><b>TK. {discountPrice}
-              </b></div>
+            </b></div>
             {/*Quantity component for select quantity of product*/}
             <Quantity />
             <div className="single-product-button">
@@ -175,29 +193,28 @@ export default function ProductClient({ slug }: ProductClientProps) {
                   slug,
                   images,
                   size,
-                  color
                 }}
               />
             </div>
-                    
+
           </div>
-          
+
 
           <Specification specification={specification} />
         </div>
-      
-      <div className="ratio ratio-16x9 mb-4">
-        {ytLink && (
-          <iframe
-            src={getEmbedLink(ytLink)}
-            width="560"
-            height="315"
-            allowFullScreen
-            title="YouTube video player"
-            frameBorder="0"
-          />
-        )}
-</div>
+
+        <div className="ratio ratio-16x9 mb-4">
+          {ytLink && (
+            <iframe
+              src={getEmbedLink(ytLink)}
+              width="560"
+              height="315"
+              allowFullScreen
+              title="YouTube video player"
+              frameBorder="0"
+            />
+          )}
+        </div>
       </div>
     </>
   );

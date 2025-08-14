@@ -10,7 +10,7 @@ export interface singleProductType {
     discount : number,
     suplr : string, //supplier
     category : {name: string, slug : string},
-    images : string[],
+    images : [ { color : string, url : string[]}],
     quantity : number,
     pId: string,
     ytLink?: string,

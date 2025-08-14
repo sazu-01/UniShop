@@ -75,7 +75,7 @@ const MiddleHeader = () => {
                   >
                     <div className="img-div">
                       <Image
-                        src={product.images[0]}
+                        src={product.images[0].url[0]}
                         alt=""
                         width={50}
                         height={50}

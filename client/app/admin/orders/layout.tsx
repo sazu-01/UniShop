@@ -13,7 +13,7 @@ type Cart = {
  productQuantity : number;
  title : string;
  slug : string;
- images : string[];
+ images : [{color: string, url: string[]}];
  quantity : string;
  selectedSize : string;
 }
@@ -124,7 +124,7 @@ export default function OrdersLayout() {
                             <td>
                               <div className="product-image-wrapper">
                                 <Image
-                                  src={item.images[0]}
+                                  src={item.images[0].url[0]}
                                   alt={item.title}
                                   className="product-image img-fluid"
                                   width={100}

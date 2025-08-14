@@ -11,6 +11,7 @@ import "@/css/AdminProductDashbaord.css";
 
 
 export default function AdminProducts() {
+
   const { products } = useAppSelector((state) => state.products);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
@@ -28,7 +29,6 @@ export default function AdminProducts() {
     pId: "",
     pType: "",
     size: [""],
-    color: [""],
     ytLink: "",
     featured: false,
     description: "",
@@ -37,6 +37,80 @@ export default function AdminProducts() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Image upload states
+  const [imageUploadMode, setImageUploadMode] = useState<'simple' | 'color'>('simple');
+  const [colorImages, setColorImages] = useState<{ color: string; files: File[] }[]>([]);
+  const [simpleImages, setSimpleImages] = useState<File[]>([]);
+  const [currentColor, setCurrentColor] = useState("");
+
+
+  // Simple image upload handlers
+  const handleSimpleImageUpload = (files: FileList | null) => {
+
+    if (!files) return;
+    const newFiles = Array.from(files);
+    const fileNames = new Set(simpleImages.map(f => f.name));
+
+    const uniqueFiles = newFiles.filter(f => !fileNames.has(f.name));
+    setSimpleImages(prev => [...prev, ...uniqueFiles]);
+  };
+
+
+  const removeSimpleImage = (index: number) => {
+    setSimpleImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+
+  // Color image handlers
+  const addColorGroup = () => {
+    if (!currentColor.trim()) return;
+    setColorImages(prev => [...prev, { color: currentColor.trim(), files: [] }]);
+    setCurrentColor("");
+  };
+
+
+  const handleColorImageUpload = (index: number, files: FileList | null) => {
+
+    if (!files) return;
+
+    setColorImages(prev => {
+      const updated = [...prev];
+      const newFiles = Array.from(files);
+      const fileNames = new Set(updated[index].files.map(f => f.name));
+      const uniqueFiles = newFiles.filter(f => !fileNames.has(f.name));
+      updated[index].files.push(...uniqueFiles);
+      return updated;
+    });
+  };
+
+
+
+  const removeColorGroup = (index: number) => {
+    setColorImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+
+  const removeImageFromColorGroup = (groupIndex: number, imageIndex: number) => {
+    setColorImages(prev => {
+      const updated = [...prev];
+      updated[groupIndex].files = updated[groupIndex].files.filter((_, i) => i !== imageIndex);
+      return updated;
+    });
+  };
+
+
+
+  // Switch between upload modes
+  const switchImageMode = (mode: 'simple' | 'color') => {
+    setImageUploadMode(mode);
+    if (mode === 'simple') {
+      setColorImages([]);
+      setCurrentColor("");
+    } else {
+      setSimpleImages([]);
+    }
+  };
 
   // Handle opening the update modal
   const openUpdateModal = (product: ProductType) => {
@@ -52,14 +126,22 @@ export default function AdminProducts() {
       pId: product.pId || "",
       pType: product.pType || "",
       size: product.size || [""],
-      color: product.color || [""],
       ytLink: product.ytLink || "",
       description: product.description || "",
       specification: product.specification || [{ key: "", value: "" }],
       featured: product.featured || false,
     });
+
+    
+    // Reset image states
+    setImageUploadMode('simple');
+    setColorImages([]);
+    setSimpleImages([]);
+    setCurrentColor("");
     setIsUpdateModalOpen(true);
   };
+
+  
 
   // Fetch categories from the backend
   useEffect(() => {
@@ -136,14 +218,44 @@ export default function AdminProducts() {
       formData.append("salePrice", updateFormData.salePrice.toString());
       formData.append("discount", updateFormData.discount.toString());      
       formData.append("size", JSON.stringify(updateFormData.size));
-      formData.append("color", JSON.stringify(updateFormData.color));
       formData.append("specification", JSON.stringify(updateFormData.specification));
       formData.append("featured", updateFormData.featured ? "true" : "false");
 
-      // Append multiple images (optional)
-      updateFormData.images.forEach((image) => {
-        formData.append("images", image); // 
-      });
+       // Handle images based on upload mode
+      if (imageUploadMode === 'color' && colorImages.length > 0) {
+
+        // Handle color-grouped images
+        const colorImagesMeta = colorImages.map(ci => ({
+          color: ci.color,
+          files: ci.files.map(f => f.name)
+        }));
+
+        formData.append("colorImages", JSON.stringify(colorImagesMeta));
+
+        
+        colorImages.forEach(ci => {
+          ci.files.forEach(file => {
+            formData.append("images", file);
+          });
+        });
+
+      } else if (imageUploadMode === 'simple' && simpleImages.length > 0) {
+
+        // Handle simple images
+        const simpleImagesMeta = [{
+          color: "", // Empty color for simple images
+          files: simpleImages.map(f => f.name)
+        }];
+
+        formData.append("colorImages", JSON.stringify(simpleImagesMeta));
+
+        simpleImages.forEach(file => {
+          formData.append("images", file);
+
+        });
+
+      }
+
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/products/update-product/${selectedProduct.slug}`,
@@ -159,6 +271,11 @@ export default function AdminProducts() {
       if (data.success) {
         alert("Product updated successfully");
         setIsUpdateModalOpen(false);
+         // Reset states
+
+        setColorImages([]);
+
+        setSimpleImages([]);
         // Optional: refresh products list here
       } else {
         setError(data.message || "Failed to update product");
@@ -178,15 +295,16 @@ export default function AdminProducts() {
         {products?.map((product, index) => (
           <div key={index} className="product-card">
             <div className="product-image-container">
-              {typeof product.images[0] === "string" && product.images[0] !== "" ? (
+
+  {product.images?.[0]?.url?.[0] ? (
                 <Image
-                  src={product.images[0]}
+                  src={product.images[0].url[0]}
                   alt={product.title}
                   layout="fill"
                   className="product-image"
                 />
               ) : (
-                <div className="no-image-placeholder">No image</div> // fallback UI
+                <div className="no-image-placeholder">No image</div>
               )}
 
             </div>
@@ -245,46 +363,122 @@ export default function AdminProducts() {
                 />
               </div>
 
-              <div className="form-row">
-                <label className="form-label">Images</label>
+             {/*image upload section*/}
 
-                {/* Show current images */}
-                {selectedProduct?.images && selectedProduct.images.length > 0 && (
-                  <div className="current-images">
-                    <p>Current images:</p>
-                    <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-                      {selectedProduct.images.map((img, idx) => (
-                        <Image
-                          key={idx}
-                          src={img}
-                          width={50}
-                          height={50}
-                          alt={`Current ${idx}`}
-                          style={{ objectFit: 'cover' }}
-                        />
-                      ))}
-                    </div>
+                 {/* Image Upload Section */}
+
+              <div className="form-row">
+                <label className="form-label">Update Product Images (Optional)</label>
+                {/* Image Upload Mode Selector */}
+                <div className="image-mode-selector">
+                  <button
+                    type="button"
+                    className={`mode-button ${imageUploadMode === 'simple' ? 'active' : ''}`}
+                    onClick={() => switchImageMode('simple')}
+                  >
+                    Simple Images
+                  </button>
+                  <button
+                    type="button"
+                    className={`mode-button ${imageUploadMode === 'color' ? 'active' : ''}`}
+                    onClick={() => switchImageMode('color')}
+                  >
+                    Color Grouped Images
+                  </button>
+                </div>
+
+                {/* Simple Image Upload */}
+                {imageUploadMode === 'simple' && (
+                  <div className="simple-image-upload">
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={(e) => handleSimpleImageUpload(e.target.files)}
+                      className="form-input"
+                    />
+
+                    {simpleImages.length > 0 && (
+                      <div className="uploaded-images">
+                        <h4>New Images:</h4>
+                        <div className="image-list">
+                          {simpleImages.map((file, index) => (
+                            <div key={index} className="image-item">
+                              <span className="image-name">{file.name}</span>
+                              <button
+                                type="button"
+                                onClick={() => removeSimpleImage(index)}
+                                className="remove-button"
+                              >
+                                ×
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  name="images"
-                  onChange={(e) =>
-                    setUpdateFormData((prev) => ({
-                      ...prev,
-                      images: e.target.files ? Array.from(e.target.files) : [],
-                    }))
-                  }
-                  className="form-input"
-                />
-                <small>Leave empty to keep current images, or select new images to replace all current images.</small>
+                {/* Color Grouped Image Upload */}
+                {imageUploadMode === 'color' && (
+                  <div className="color-image-upload">
+                    <div className="add-color-section">
+                      <input
+                        type="text"
+                        value={currentColor}
+                        onChange={(e) => setCurrentColor(e.target.value)}
+                        placeholder="Enter color name"
+                        className="form-input"
+                      />
+
+                      <button type="button" onClick={addColorGroup} className="add-button">
+                        Add Color
+                      </button>
+                    </div>
+
+                    
+
+                    {colorImages.map((ci, index) => (
+                      <div key={index} className="color-group">
+                        <div className="color-header">
+                          <h4>Color: {ci.color}</h4>
+                          <button type="button" onClick={() => removeColorGroup(index)} className="remove-button">
+                            Remove Color
+                          </button>
+                        </div>
+                        <input
+                          type="file"
+                          multiple
+                          accept="image/*"
+                          onChange={(e) => handleColorImageUpload(index, e.target.files)}
+                          className="form-input"
+                        />
+
+                        {ci.files.length > 0 && (
+                          <div className="color-images">
+                            {ci.files.map((file, idx) => (
+                              <div key={idx} className="image-item">
+                                <span className="image-name">{file.name}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => removeImageFromColorGroup(index, idx)}
+                                  className="remove-button"
+                                >
+                                  ×
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
 
-
+              {/*category section */}
               <div className="form-row">
                 <label className="form-label">Category</label>
                 <select
@@ -343,50 +537,6 @@ export default function AdminProducts() {
                   + Add Size
                 </button>
               </div>
-
-
-
-              <div className="form-row">
-                <label className="form-label">Colors</label>
-                {updateFormData.color.map((clr, index) => (
-                  <div key={index} style={{ display: "flex", gap: "10px", marginBottom: "8px" }}>
-                    <input
-                      type="text"
-                      placeholder="Color"
-                      value={clr}
-                      onChange={(e) => {
-                        const updated = [...updateFormData.color];
-                        updated[index] = e.target.value;
-                        setUpdateFormData(prev => ({ ...prev, color: updated }));
-                      }}
-                      className="form-input"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const updated = updateFormData.color.filter((_, i) => i !== index);
-                        setUpdateFormData(prev => ({ ...prev, color: updated }));
-                      }}
-                      className="remove-size-button"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={() =>
-                    setUpdateFormData(prev => ({
-                      ...prev,
-                      color: [...prev.color, ""]
-                    }))
-                  }
-                  className="add-size-button"
-                >
-                  + Add Color
-                </button>
-              </div>
-
 
 
               <div className="form-row">

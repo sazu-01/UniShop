@@ -2,7 +2,6 @@
 
 "use client";
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import Image from 'next/image';
 
 import "@/css/AdminProductDashbaord.css"
 
@@ -17,7 +16,6 @@ interface productFormData {
     pType: string,
     status: 'add-to-cart' | 'not-available' | 'in-stock';
     size: string[],
-    color: string[],
     ytLink: string,
     description: string
 }
@@ -40,21 +38,85 @@ export default function CreateProduct() {
         pId: "",
         pType: "",
         size: [],
-        color: [],
         ytLink: "",
         description: "",
     });
 
     const [categories, setCategories] = useState<Category[]>([]);
-    const [selectedImages, setSelectedImages] = useState<string[]>([]);
-    const [imageFiles, setImageFiles] = useState<File[]>([]);
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [newSize, setNewSize] = useState("");
     const [specification, setSpecification] = useState<{ key: string, value: string }[]>([]);
     const [newSpec, setNewSpec] = useState({ key: "", value: "" });
-    const [newColor, setNewColor] = useState("");
     const commonSizes = ["XS", "S", "M", "L", "XL", "XXL"];
+    const [colorImages, setColorImages] = useState<{ color: string; files: File[] }[]>([]);
+    const [currentColor, setCurrentColor] = useState("");
+    const [simpleImages, setSimpleImages] = useState<File[]>([]);
+    const [imageUploadMode, setImageUploadMode] = useState<'simple' | 'color'>('simple');
+
+
+    // Simple image upload handlers
+    const handleSimpleImageUpload = (files: FileList | null) => {
+        if (!files) return;
+        const newFiles = Array.from(files);
+        const fileNames = new Set(simpleImages.map(f => f.name));
+        const uniqueFiles = newFiles.filter(f => !fileNames.has(f.name));
+        setSimpleImages(prev => [...prev, ...uniqueFiles]);
+    };
+
+    const removeSimpleImage = (index: number) => {
+        setSimpleImages(prev => prev.filter((_, i) => i !== index));
+    };
+
+    // Add a new color group
+    const addColorGroup = () => {
+        if (!currentColor.trim()) return;
+        setColorImages(prev => [...prev, { color: currentColor.trim(), files: [] }]);
+        setCurrentColor("");
+    };
+
+    // Add images to a color group
+    const handleColorImageUpload = (index: number, files: FileList | null) => {
+        if (!files) return;
+        setColorImages(prev => {
+            const updated = [...prev];
+            const newFiles = Array.from(files);
+            const fileNames = new Set(updated[index].files.map(f => f.name));
+            const uniqueFiles = newFiles.filter(f => !fileNames.has(f.name));
+            updated[index].files.push(...uniqueFiles);
+            return updated;
+        });
+    };
+
+
+    // Remove a color group
+    const removeColorGroup = (index: number) => {
+        setColorImages(prev => prev.filter((_, i) => i !== index));
+    };
+
+
+    const removeImageFromColorGroup = (groupIndex: number, imageIndex: number) => {
+        setColorImages(prev => {
+            const updated = [...prev];
+            updated[groupIndex].files = updated[groupIndex].files.filter((_, i) => i !== imageIndex);
+            return updated;
+        });
+    };
+
+
+    // Switch between upload modes
+    const switchImageMode = (mode: 'simple' | 'color') => {
+        setImageUploadMode(mode);
+        // Clear the other mode's data when switching
+        if (mode === 'simple') {
+            setColorImages([]);
+            setCurrentColor("");
+        } else {
+            setSimpleImages([]);
+        }
+    };
+
 
     // Add function to add common size
     const addCommonSize = (size: string) => {
@@ -86,25 +148,6 @@ export default function CreateProduct() {
     };
 
 
-const addColor = () => {
-    if (newColor && !formData.color.includes(newColor)) {
-        setFormData(prev => ({
-            ...prev,
-            color: [...prev.color, newColor]
-        }));
-        setNewColor("");
-    }
-};
-
-const removeColor = (colorToRemove: string) => {
-    setFormData(prev => ({
-        ...prev,
-        color: prev.color.filter(c => c !== colorToRemove)
-    }));
-};
-
-
-
     // Fetch categories when component mounts
     useEffect(() => {
         const fetchCategories = async () => {
@@ -134,66 +177,58 @@ const removeColor = (colorToRemove: string) => {
         }))
     }
 
-    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(e.target.files || []);
-        if (files.length > 0) {
-            // Update image files
-            setImageFiles(prevFiles => [...prevFiles, ...files]);
-
-            // Create preview URLs for the new images
-            const newImageUrls = files.map(file => URL.createObjectURL(file));
-            setSelectedImages(prevImages => [...prevImages, ...newImageUrls]);
-        }
-    };
-
-    // Add function to remove images
-    const removeImage = (index: number) => {
-        setSelectedImages(prevImages => prevImages.filter((_, i) => i !== index));
-        setImageFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
-    };
-
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
-        setError("");
+        const formDataObj = new FormData();
+
+        if (imageUploadMode === 'color') {
+            // Handle color-grouped images (existing logic)
+            const colorImagesMeta = colorImages.map(ci => ({
+                color: ci.color,
+                files: ci.files.map(f => f.name)
+            }));
+            formDataObj.append("colorImages", JSON.stringify(colorImagesMeta));
+
+            colorImages.forEach(ci => {
+                ci.files.forEach(file => {
+                    formDataObj.append("images", file);
+                });
+            });
+        } else {
+            // Handle simple images (no color grouping)
+            const simpleImagesMeta = [{
+                color: "", // Empty color for simple images
+                files: simpleImages.map(f => f.name)
+            }];
+            formDataObj.append("colorImages", JSON.stringify(simpleImagesMeta));
+
+            simpleImages.forEach(file => {
+                formDataObj.append("images", file);
+            });
+        }
+
+        // Append other form fields
+        (Object.keys(formData) as Array<keyof typeof formData>).forEach(key => {
+            const value = formData[key];
+            if (Array.isArray(value)) {
+                value.forEach(item => formDataObj.append(key, item));
+            } else {
+                formDataObj.append(key, value as string);
+            }
+        });
+        formDataObj.append("specification", JSON.stringify(specification));
 
         try {
-
-            // Create FormData object to handle file upload
-            const productFormData = new FormData();
-
-            // Append all form fields to FormData
-            (Object.keys(formData) as Array<keyof typeof formData>).forEach(key => {
-                const value = formData[key];
-
-                if (Array.isArray(value)) {
-                    value.forEach((item) => {
-                        productFormData.append(key, item);
-                    });
-                } else if (value !== undefined && value !== null) {
-                    productFormData.append(key, value as string);
-                }
-            });
-
-
-            productFormData.append("specification", JSON.stringify(specification));
-
-            // Append multiple images
-            imageFiles.forEach((file) => {
-                productFormData.append('images', file);
-            });
-
             const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/create-product`, {
                 method: "POST",
                 credentials: "include",
-                body: productFormData
+                body: formDataObj
             });
-
-            const data = await res.json()
+            const data = await res.json();
 
             if (data.success) {
                 alert("Product created successfully!");
-                // Reset form
                 setFormData({
                     title: "",
                     category: "",
@@ -205,21 +240,20 @@ const removeColor = (colorToRemove: string) => {
                     pType: "",
                     status: "add-to-cart",
                     size: [],
-                    color: [],
                     ytLink: "",
-                    description : ""
+                    description: "",
                 });
-                setSelectedImages([]);
-                setImageFiles([]);
+                setColorImages([]);
+                setSimpleImages([]);
+                setSpecification([]);
             } else {
                 setError(data.message || "Failed to create product");
             }
-        } catch (error: any) {
-            console.error(error);
-            setError(error.response?.data?.message || "Error creating product");
-        } finally {
-            setLoading(false);
+        } catch (error) {
+            setError("Network error occurred");
+            console.log(error)
         }
+        setLoading(false);
     };
 
     return (
@@ -241,93 +275,115 @@ const removeColor = (colorToRemove: string) => {
                 />
             </div>
 
+
             <div className="form-row">
                 <label className="form-label">Product Images</label>
-                <div className="image-upload-container">
-                    {/* Display existing images */}
-                    <div className="image-preview-grid">
-                        {selectedImages.map((image, index) => (
-                            <div key={index} className="image-preview-item">
-                                <div className="image-preview-wrapper">
-                                    <Image
-                                        src={image}
-                                        alt={`Preview ${index + 1}`}
-                                        layout="fill"
-                                        objectFit="cover"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => removeImage(index)}
-                                        className="remove-image-button"
-                                    >
-                                        ×
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
 
-                        {/* Upload button */}
-                        <div className="image-upload-box">
-                            <div className="image-upload-text">
-                                <span>+ Add Images</span>
-                            </div>
-                            <input
-                                type="file"
-                                onChange={handleImageChange}
-                                accept="image/*"
-                                multiple
-                                style={{ opacity: 0, position: "absolute", inset: 0 }}
-                                required={imageFiles.length === 0}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div className="form-row">
-                <label className="form-label">Colors</label>
-                <div className="custom-color-input">
-                    <input
-                        type="text"
-                        value={newColor}
-                        onChange={(e) => setNewColor(e.target.value)}
-                        className="form-input"
-                        placeholder="Add color (e.g. Red)"
-                    />
+                {/* Image Upload Mode Selector */}
+                <div className="image-mode-selector">
                     <button
                         type="button"
-                        onClick={addColor}
-                        className="add-size-button"
-                        disabled={!newColor}
+                        className={`mode-button ${imageUploadMode === 'simple' ? 'active' : ''}`}
+                        onClick={() => switchImageMode('simple')}
                     >
-                        Add
+                        Simple Images
+                    </button>
+                    <button
+                        type="button"
+                        className={`mode-button ${imageUploadMode === 'color' ? 'active' : ''}`}
+                        onClick={() => switchImageMode('color')}
+                    >
+                        Color Grouped Images
                     </button>
                 </div>
 
-                {formData.color.length > 0 && (
-                    <div className="selected-colors">
-                        <label>Selected Colors:</label>
-                        <div className="color-tags">
-                            {formData.color.map((clr) => (
-                                <div key={clr} className="size-tag">
-                                    {clr}
-                                    <button
-                                        type="button"
-                                        onClick={() => removeColor(clr)}
-                                        className="remove-size-button"
-                                    >
-                                        ×
+                {/* Simple Image Upload */}
+                {imageUploadMode === 'simple' && (
+                    <div className="simple-image-upload">
+                        <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onChange={(e) => handleSimpleImageUpload(e.target.files)}
+                            className="form-input"
+                        />
+                        {simpleImages.length > 0 && (
+                            <div className="uploaded-images">
+                                <h4>Uploaded Images:</h4>
+                                <div className="image-list">
+                                    {simpleImages.map((file, index) => (
+                                        <div key={index} className="image-item">
+                                            <span className="image-name">{file.name}</span>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeSimpleImage(index)}
+                                                className="remove-button"
+                                            >
+                                                ×
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Color Grouped Image Upload */}
+                {imageUploadMode === 'color' && (
+                    <div className="color-image-upload">
+                        <div className="add-color-section">
+                            <input
+                                type="text"
+                                value={currentColor}
+                                onChange={(e) => setCurrentColor(e.target.value)}
+                                placeholder="Enter color name"
+                                className="form-input"
+                            />
+                            <button type="button" onClick={addColorGroup} className="add-button">
+                                Add Color
+                            </button>
+                        </div>
+
+                        {colorImages.map((ci, index) => (
+                            <div key={index} className="color-group">
+                                <div className="color-header">
+                                    <h4>Color: {ci.color}</h4>
+                                    <button type="button" onClick={() => removeColorGroup(index)} className="remove-button">
+                                        Remove Color
                                     </button>
                                 </div>
-                            ))}
-                        </div>
+                                <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*"
+                                    onChange={(e) => handleColorImageUpload(index, e.target.files)}
+                                    className="form-input"
+                                />
+                                {ci.files.length > 0 && (
+                                    <div className="color-images">
+                                        {ci.files.map((file, idx) => (
+                                            <div key={idx} className="image-item">
+                                                <span className="image-name">{file.name}</span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeImageFromColorGroup(index, idx)}
+                                                    className="remove-button"
+                                                >
+                                                    ×
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
 
 
+            {/* size selection */}
             <div className="form-row">
                 <label className="form-label">Sizes</label>
                 <div className="size-selection">
@@ -509,7 +565,7 @@ const removeColor = (colorToRemove: string) => {
                 />
             </div>
 
-          <div className="form-row">
+            <div className="form-row">
                 <label className="form-label">Description</label>
                 <input
                     type="text"

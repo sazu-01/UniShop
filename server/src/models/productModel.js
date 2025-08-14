@@ -19,9 +19,18 @@ const productSchema = new Schema(
 
     images: [
       {
-        type: String,
-        required: [true, "image must be provided"],
-      },
+        color: {
+          type: String,
+          required: false,
+          default: "",
+        },
+        url: [
+          {
+            type: String,
+            required: [true, "Image URL must be provided"],
+          }
+        ]
+      }
     ],
 
     category: {
@@ -44,30 +53,26 @@ const productSchema = new Schema(
       required: [true, "sale price must be provided"],
     },
 
-    discount : {
+    discount: {
       type: Number,
-      default : 0,
+      default: 0,
     },
 
-    discountPrice : {
-      type : Number,
+    discountPrice: {
+      type: Number,
     },
 
     status: {
       type: Boolean,
       default: true,
     },
-    
-    size : {
-      type : [String]
+
+    size: {
+      type: [String]
     },
 
-    color : {
-      type : [String]
-    },
-
-    pId : {
-      type : String,
+    pId: {
+      type: String,
       required: [true, "product id must be provided"],
     },
 
@@ -75,10 +80,10 @@ const productSchema = new Schema(
       type: String,
     },
 
-    ytLink : {
-      type : String
+    ytLink: {
+      type: String
     },
-    
+
     featured: {
       type: Boolean,
       default: false,
@@ -88,32 +93,20 @@ const productSchema = new Schema(
       type: String
     },
 
-     specification : [{
-      key : {
-        type : String,
-        required : [true, "specification key is required"]
+    specification: [{
+      key: {
+        type: String,
+        required: [true, "specification key is required"]
       },
 
-      value : {
-        type : String,
-        required : [true, "specification value is required"]
+      value: {
+        type: String,
+        required: [true, "specification value is required"]
       }
-     }]
+    }]
   },
   { timestamps: true }
 );
-
-
-productSchema.pre("save", function (next) {
-  if (this.salePrice && this.discount) {
-    this.discountPrice = Math.floor(
-      this.salePrice - (this.salePrice * this.discount / 100)
-    );
-  } else {
-    this.discountPrice = this.salePrice;
-  }
-  next();
-});
 
 
 
