@@ -63,8 +63,8 @@ const Footer = () => {
               <h3>Contact Us</h3>
               <div className="">
                 <p className="address">70 Mugda, Madina bag, Dhaka 1214, Bangladesh</p>
-                <p className="phone">Phone: 0889202456</p>
-                <p className="Email">Email: admin@unishop.com</p>
+                <p className="phone">Whatsapp: 01600930467</p>
+                <p className="Email">Email: unishop72@gmail.com</p>
                 <div className="footer-input-section">
                   <input type="text" />
                   <button>  <SiMinutemailer /></button>
@@ -81,7 +81,7 @@ const Footer = () => {
             {/*social media icons*/}
             <div className="footer-icons">
               <li> <Link href='https://www.facebook.com/unishop.cloth' target="blank"> <FaFacebookF className="icon" /> </Link> </li>
-              <li><Link href='https://www.youtube.com/@unishop-cloth' target="blank">  <FaYoutube className="icon" /></Link> </li>
+              <li><Link href='https://www.youtube.com/@unishopofficial' target="blank">  <FaYoutube className="icon" /></Link> </li>
               <li><Link href='https://mail.google.com/mail/?view=cm&fs=1&to=unishop72@gmail.com' target="blank">  <CgMail className="icon" /></Link> </li>
               <li><Link href='https://www.instagram.com/unishop.bd' target="blank">  <AiFillInstagram className="icon" /></Link> </li>
               <li> <Link href='https://www.tiktok.com/@unishop.cloth' target="blank"> <FaTiktok className="icon" /></Link> </li>

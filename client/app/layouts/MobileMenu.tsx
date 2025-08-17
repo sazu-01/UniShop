@@ -40,7 +40,8 @@ const MobileMenu = () => {
 
         <Link href="/checkout/cart">
           <AiOutlineShoppingCart className="cart-icon" />
-          <span className="responsive-cart-length">{cart.length}</span>
+          {cart.length !== 0 ? <span className="responsive-cart-length">{cart.length}</span> : "" }
+
           <span style={{fontSize:'1.2rem'}}>Cart</span>
         </Link>
 

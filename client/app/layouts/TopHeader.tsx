@@ -6,8 +6,7 @@ import Link from "next/link";
 import "@/css/TopHeader.css";
 
 //icons
-import { BiSolidPhoneCall } from "react-icons/bi";
-import { IoIosMail } from "react-icons/io";
+import { IoIosMail, IoLogoWhatsapp } from "react-icons/io";
 
 
 const TopHeader = () => {
@@ -24,8 +23,8 @@ const TopHeader = () => {
         <div className="topheader-left">
 
           <div className="topheader-contact-item">
-            <BiSolidPhoneCall className="topheader-icon" />
-            <span>01600930467</span>
+            <IoLogoWhatsapp className="topheader-icon" />
+            <span>01600930467 (Whatsapp Message)</span>
           </div>
 
           <div className="topheader-contact-item">

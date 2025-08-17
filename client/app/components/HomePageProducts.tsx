@@ -4,14 +4,9 @@
 import Link from "next/link";
 import Image from "next/image";
 
-//hook
-import { useAppSelector, useAppDispatch } from "../lib/hook";
-
 //type
 import { ProductType } from "@/app/types/SliceTypes";
 
-//actions
-import { AddToCart } from "../lib/features/cartSlice";
 
 //component
 import Skeleton from "./Skeleton";
@@ -26,13 +21,6 @@ type Props = {
 
 const HomePageProducts = ({ products }: Props) => {
 
- 
-  const dispatch = useAppDispatch();
-  const { cart } = useAppSelector((state) => state.cart);
-  
-  const isProductInCart = (productId: string) => {
-    return cart.some((item) => item._id === productId);
-  };
 
   // Group products by category and filter those that have at least 5 products
   const categorizedProducts =
@@ -80,10 +68,6 @@ const HomePageProducts = ({ products }: Props) => {
                   <Skeleton width="80%" height="1.5rem" className="mb-3" />
                   <Skeleton width="50%" height="1rem" className="mb-2" />
                 </div>
-                <div className="addcart">
-                  <Skeleton width="4rem" height="1.2rem" />
-                  <Skeleton width="3rem" height="1.8rem" />
-                </div>
               </div>
             ))}
           </div>
@@ -109,9 +93,7 @@ const HomePageProducts = ({ products }: Props) => {
             </div>
             <div className="products-grid">
               {sortedProducts.map((pro: ProductType, index: number) => {
-                const { _id, title, slug, images, salePrice, discountPrice, discount, productQuantity = 1 } = pro;
-                const inCart = isProductInCart(_id);
-
+                const { title, slug, images, salePrice, discount, } = pro;
                 return (
                   <div key={index} className="product">
                     <Link href={`/product/${slug}`}>
@@ -138,33 +120,11 @@ const HomePageProducts = ({ products }: Props) => {
                         />
                       </div>
                       <div className="pro-content">
-                        <p className="title">{title}</p>
+                        {title.length > 32 ? <p className="title">{title.slice(0,32)}...</p> :
+                        <p className="title">{title}</p>}
+                        <p className="price">TK. {Math.round(salePrice - (salePrice * discount / 100))}</p>
                       </div>
                     </Link>
-                    <div className="addcart">
-                      <p className="price">TK. {Math.round(salePrice - (salePrice * discount / 100))}</p>
-                      {inCart ? (
-                        <button className="home-page-addcart added">Added</button>
-                      ) : (
-                        <button
-                          className="home-page-addcart"
-                          onClick={() =>
-                            dispatch(
-                              AddToCart({
-                                _id,
-                                discountPrice,
-                                title,
-                                slug,
-                                images,
-                                productQuantity,
-                              })
-                            )
-                          }
-                        >
-                          +Add
-                        </button>
-                      )}
-                    </div>
                   </div>
                 );
               })}

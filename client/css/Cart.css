@@ -8,7 +8,8 @@
   display: flex;
   flex-wrap: wrap;
   height: unset;
-  margin: 2rem 6.5rem;
+  margin: 0rem 6.5rem;
+  padding: 2rem 0rem;
 }
 
 #cart-content{
@@ -36,7 +37,7 @@
 
 @media (max-width:990px) {
    .cart-page-inner {
-        margin: 1rem 1.5rem;
+        margin: 0rem 1.5rem;
     }
     
     .cart-page .total {
