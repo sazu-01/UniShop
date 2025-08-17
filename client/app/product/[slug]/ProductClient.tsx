@@ -11,19 +11,14 @@ import { useAppSelector } from "@/app/lib/hook";
 import React from "react";
 import Quantity from "@/app/components/Quantity";
 import "@/css/SingleProduct.css";
-import Skeleton from "@/app/components/Skeleton";
 import Specification from "@/app/components/Specification";
 
 interface ProductClientProps {
-  slug: string;
+  product: singleProductType; // Changed from slug to product
 }
 
-export default function ProductClient({ slug }: ProductClientProps) {
+export default function ProductClient({ product }: ProductClientProps) {
 
-
-  const [SingleProduct, setSingleProduct] = useState<singleProductType | null>(
-    null
-  );
   const [productInCart, setProductInCart] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedColorIndex, setSelectedColorIndex] = useState<number>(0);
@@ -34,48 +29,17 @@ export default function ProductClient({ slug }: ProductClientProps) {
 
 
   useEffect(() => {
-    const fetchSingleProduct = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/${slug}`);
-        const data = await res.json();
-        setSingleProduct(data?.payload?.singleProduct);
-      } catch (error: any) {
-        console.log(error.response?.data?.message);
-      }
-    };
-
-    fetchSingleProduct();
-  }, [slug]);
-
-  useEffect(() => {
-    if (SingleProduct) {
+   
       const isProductInCart = cart.some(
-        (item) => item._id === SingleProduct._id
+        (item) => item._id === product._id
       );
       setProductInCart(isProductInCart);
-    }
-  }, [SingleProduct, cart, selectedSize]);
+    
+  }, [product, cart, selectedSize]);
 
-
-  if (!SingleProduct) {
-    return (
-      <div id="single-product-page">
-        <div className="single-product">
-          <Skeleton width="45rem" height="30rem" className="skeleton-image" />
-          <div className="single-product-details">
-            <Skeleton width="60%" height="2.8rem" className="" />
-            <Skeleton width="40%" height="1.6rem" className="mt-5" />
-            <Skeleton width="50%" height="1.6rem" className="mt-5" />
-            <Skeleton width="30%" height="1.6rem" className="mt-5" />
-            <Skeleton width="75%" height="3rem" className="mt-5" />
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const { _id, title, discountPrice, category, images, suplr, size, specification, pId, ytLink } =
-    SingleProduct;
+    product;
 
   const hasSize = size && size.length > 0;
   const hasColor = images && images.length > 1 && images.some(img => img.color && img.color.trim() !== "");
@@ -91,8 +55,6 @@ export default function ProductClient({ slug }: ProductClientProps) {
     <>
       <div id="single-product-page">
         <div className="single-product">
-
-
           <Images
             images={images}
             selectedColor={images[selectedColorIndex]?.color}
@@ -105,7 +67,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
               see more : <Link href={`/${category?.slug}`}>{category?.slug}</Link>
             </p>
             {user?.isAdmin && <p className="supplier">supplier: {suplr}</p>}
-            {SingleProduct?.pId && <p>Product Id: {pId}</p>}
+            {product?.pId && <p>Product Id: {pId}</p>}
 
             {hasColor && (
               <div className="color-selection mt-3">
@@ -144,7 +106,6 @@ export default function ProductClient({ slug }: ProductClientProps) {
                             color: selectedColorIndex === index ? "#007bff" : "#666"
                           }}
                         >
-                          {imgSet.color}
                         </p>
                       )}
                     </div>
@@ -190,7 +151,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
                   discountPrice,
                   productQuantity,
                   title,
-                  slug,
+                  slug : product.slug,
                   images,
                   size,
                 }}

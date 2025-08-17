@@ -16,8 +16,7 @@ export const getProduct = createAsyncThunk("products/getproduct",
     async() =>{
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/all-product`);
-                const data = await res.json();
-                
+            const data = await res.json();  
             return data.payload.products;
         } catch (error:any) {
              console.log(error.response?.data?.message);
@@ -30,7 +29,20 @@ export const getProduct = createAsyncThunk("products/getproduct",
 const productSlice = createSlice({
     name : "products",
     initialState,
-    reducers : {},
+    reducers : {
+      // New reducer to set products from SSR
+        setProductsFromSSR: (state, action) => {
+            state.products = action.payload;
+            state.isLoading = false;
+            state.error = null;
+        },
+        // Clear products
+        clearProducts: (state) => {
+            state.products = null;
+            state.isLoading = false;
+            state.error = null;
+        }
+    },
     extraReducers(builder) {
       builder
        .addCase(getProduct.pending,(state)=>{
@@ -51,4 +63,5 @@ const productSlice = createSlice({
   
 })
 
+export const { setProductsFromSSR, clearProducts}  = productSlice.actions;
 export default productSlice.reducer; 

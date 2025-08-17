@@ -2,7 +2,6 @@
 
 //packages
 import Link from "next/link";
-
 import Image from "next/image";
 
 //hook
@@ -10,23 +9,27 @@ import { useAppSelector, useAppDispatch } from "../lib/hook";
 
 //type
 import { ProductType } from "@/app/types/SliceTypes";
+
+//actions
+import { AddToCart } from "../lib/features/cartSlice";
+
+//component
 import Skeleton from "./Skeleton";
 
 //css
 import "@/css/HomePageProducts.css";
 
-import { AddToCart } from "../lib/features/cartSlice";
 
+type Props = {
+  products : ProductType[];
+}
 
-const HomePageProducts = () => {
+const HomePageProducts = ({ products }: Props) => {
 
-
+ 
   const dispatch = useAppDispatch();
-
-  //get products from product reducer
-  const { products } = useAppSelector((state) => state.products);
   const { cart } = useAppSelector((state) => state.cart);
-
+  
   const isProductInCart = (productId: string) => {
     return cart.some((item) => item._id === productId);
   };

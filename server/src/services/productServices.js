@@ -57,11 +57,15 @@ export const CreateProductService = async (productData) => {
 export const GetAllProductsService = async () => {
   try {
     //get all the products from database
-    const products = await Products.find()
-      .populate("category") // Populate the category field with category data
-
+    const products = await Products.find({status : true})
+      .populate({
+        path: 'category',
+        select : 'name slug'         
+      }) // Populate the category field with category data
+      .lean() // Return plain js object instead of mongoose heavy documents
+     
     //if no products are found, throw an error
-    if (!products) throw HttpError(404, "no products found");
+    if (!products || products.length === 0) throw HttpError(404, "no products found");
 
     return { products };
   } catch (error) {
