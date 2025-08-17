@@ -35,7 +35,7 @@ const Cart = () => {
         src="/empty-cart.png"
         width={300}
         height={300}
-        style={{height : "auto"}}
+        style={{width: "auto", height: "auto", maxWidth: "300px"}}
         alt="dasd"
           />
       <p>

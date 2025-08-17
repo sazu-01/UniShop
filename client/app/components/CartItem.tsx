@@ -56,7 +56,7 @@ const CartItem: React.FC<{ product: cartItem }> = ({ product }) => {
                         </div>
         
 
-                         <div className=''><p>quantity: {productQuantity}</p></div>
+                         <div className='quantity'><p>quantity: {productQuantity}</p></div>
                     </div>
                   {/*quantity & price section end*/}
                 </div>
