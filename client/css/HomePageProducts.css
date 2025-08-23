@@ -107,14 +107,17 @@
     text-decoration: underline;
 }
 
-.price {
+#home-page-products .price {
     margin: 0;
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: 700;
     color: rgba(0, 0, 0, 0.7);
     margin-top: 1rem;
 }
 
+.sale-price {
+    font-size: 1.4rem;
+}
 
 /* Responsive Design */
 @media (max-width: 1200px) {
@@ -153,6 +156,11 @@
     #home-page-products .price{
         font-size: 1.5rem;
         margin-top: 0.5rem;
+    }
+
+    
+    #home-page-products .sale-price{
+        font-size: 1.1rem;
     }
 
 }   

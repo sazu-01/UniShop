@@ -7,6 +7,7 @@ export interface singleProductType {
     size : string[],
     color: string[],
     discountPrice : number,
+    salePrice : number,
     discount : number,
     suplr : string, //supplier
     category : {name: string, slug : string},

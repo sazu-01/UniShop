@@ -56,10 +56,15 @@
 }
 
 .product-price {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #2d3748;
 }
+
+.sale-price {
+  font-size: 1.4rem;
+}
+
 .no-products-container {
   width: 100%;
   min-height: 400px;
@@ -115,5 +120,9 @@
   
   .no-products-message {
       padding: 15px 25px;
+  }
+
+  .sale-price {
+    font-size: 1.1rem;
   }
 }

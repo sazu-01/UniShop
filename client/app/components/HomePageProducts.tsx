@@ -93,7 +93,7 @@ const HomePageProducts = ({ products }: Props) => {
             </div>
             <div className="products-grid">
               {sortedProducts.map((pro: ProductType, index: number) => {
-                const { title, slug, images, salePrice, discount, } = pro;
+                const { title, slug, images,salePrice, discountPrice} = pro;
                 return (
                   <div key={index} className="product">
                     <Link href={`/product/${slug}`}>
@@ -122,7 +122,7 @@ const HomePageProducts = ({ products }: Props) => {
                       <div className="pro-content">
                         {title.length > 32 ? <p className="title">{title.slice(0,32)}...</p> :
                         <p className="title">{title}</p>}
-                        <p className="price">TK. {Math.round(salePrice - (salePrice * discount / 100))}</p>
+                        <p className="price">TK. {discountPrice} <span className="sale-price"><del> {salePrice}</del></span> </p>
                       </div>
                     </Link>
                   </div>
