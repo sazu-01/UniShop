@@ -5,6 +5,8 @@ import StoreProvider from "./StoreProvide";
 import GlobalDataProvider from "./components/GlobalDataProvider";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LayoutWrapper from "./components/LayoutWrapper";
+import "swiper/css";
+import "swiper/css/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

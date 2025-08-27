@@ -3,6 +3,11 @@
 //packages
 import Link from "next/link";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, FreeMode } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/free-mode";
 
 //type
 import { ProductType } from "@/app/types/SliceTypes";
@@ -86,50 +91,85 @@ const HomePageProducts = ({ products }: Props) => {
         });
 
         return (
-          <div key={categorySlug} id="home-page-products">
-            <div className="slide-header">
-              <p>{categoryData.name}</p>
-              <Link href={`/${categorySlug}`}>See all</Link>
-            </div>
-            <div className="products-grid">
-              {sortedProducts.map((pro: ProductType, index: number) => {
-                const { title, slug, images,salePrice, discountPrice} = pro;
-                return (
-                  <div key={index} className="product">
-                    <Link href={`/product/${slug}`}>
-                      <div className="product-img">
-                        <Image
-                          src={
-                            Array.isArray(images) &&
-                              images.length > 0 &&
-                              Array.isArray(images[0].url) &&
-                              images[0].url.length > 0
-                              ? images[0].url[0] // first format
-                              : placeholder // fallback
-                          }
-                          alt={title}
-                          width={300}
-                          height={300}
-                          className="home-pro-img"
-                          priority={index === 0}
-                          style={{
-                            objectFit: "cover",
-                            width: "100%",
-                            height: "auto",
-                          }}
-                        />
-                      </div>
-                      <div className="pro-content">
-                        {title.length > 32 ? <p className="title">{title.slice(0,32)}...</p> :
-                        <p className="title">{title}</p>}
-                        <p className="price">TK. {discountPrice} <span className="sale-price"><del> {salePrice}</del></span> </p>
-                      </div>
-                    </Link>
-                  </div>
-                );
-              })}
-            </div>
+
+
+   <div key={categorySlug} id="home-page-products">
+  <div className="slide-header">
+    <p>{categoryData.name}</p>
+    <Link href={`/${categorySlug}`}>See all</Link>
+  </div>
+
+  <Swiper
+    modules={[Navigation, FreeMode]}
+    navigation
+    freeMode={true}
+    spaceBetween={20}
+    slidesPerView={4}
+    slidesPerGroup={4}
+    speed={400}
+    breakpoints={{
+      1200: {
+        slidesPerView: 4,
+        slidesPerGroup: 4,
+      },
+      768: {
+        slidesPerView: 3,
+        slidesPerGroup: 3,
+      },
+      0: {
+        slidesPerView: 2,
+        slidesPerGroup: 2,
+      },
+    }}
+  >
+    {sortedProducts.map((pro: ProductType, index: number) => {
+      const { title, slug, images, salePrice, discountPrice } = pro;
+      return (
+        <SwiperSlide key={index}>
+          <div className="product">
+            <Link href={`/product/${slug}`}>
+              <div className="product-img">
+                <Image
+                  src={
+                    Array.isArray(images) &&
+                    images.length > 0 &&
+                    Array.isArray(images[0].url) &&
+                    images[0].url.length > 0
+                      ? images[0].url[0]
+                      : placeholder
+                  }
+                  alt={title}
+                  width={300}
+                  height={300}
+                  className="home-pro-img"
+                  priority={index === 0}
+                  style={{
+                    objectFit: "cover",
+                    width: "100%",
+                    height: "auto",
+                  }}
+                />
+              </div>
+              <div className="pro-content">
+                {title.length > 32 ? (
+                  <p className="title">{title.slice(0, 32)}...</p>
+                ) : (
+                  <p className="title">{title}</p>
+                )}
+                <p className="price">
+                  TK. {discountPrice}{" "}
+                  <span className="sale-price">
+                    <del>{salePrice}</del>
+                  </span>
+                </p>
+              </div>
+            </Link>
           </div>
+        </SwiperSlide>
+      );
+    })}
+  </Swiper>
+</div>
         );
       })}
 
