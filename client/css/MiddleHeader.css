@@ -256,6 +256,10 @@
 }
 
 @media(max-width:768px){
+
+   .middle-header-content{
+    margin: 0 0.5rem;
+   }
     .middle-header-icons{
         display: none;
     }
