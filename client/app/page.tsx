@@ -2,6 +2,7 @@
 
 import HomePageProducts from "./components/HomePageProducts";
 import HomeCarousel  from "./layouts/HomeCarousel";
+import PopularCategories from "./layouts/PopularCategories";
 import { ProductType } from "./types/SliceTypes";
 
 async function getProducts(): Promise<ProductType[]> {
@@ -18,6 +19,7 @@ export default async function Home() {
   return (
     <>
    <HomeCarousel  /> 
+   <PopularCategories />
    <HomePageProducts products={products} />
     </>
 

@@ -50,7 +50,8 @@ export interface stateType {
 export interface Category {
     _id : string,
     name : string,
-    slug : string
+    slug : string,
+    popular: boolean,
 }
   
 //define product interface

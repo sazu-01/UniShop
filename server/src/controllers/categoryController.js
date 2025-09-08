@@ -36,7 +36,7 @@ const CreateCategoryController = async (req, res, next) => {
 const GetAllCategoryController = async (req, res, next) => {
     try {
         //retrieve all categories from the database 
-        const categories = await Category.find({}).select("name slug").lean();
+        const categories = await Category.find({}).select("name slug popular").lean();
 
         //return success response with all categories
         return SuccessResponse(res, {
@@ -54,7 +54,7 @@ const GetCategoryBySlug = async (req, res, next) => {
         const { slug } = req.params;
 
         //find a category in the database by its slug
-        const findBySlug = await Category.findOne({ slug }).select("name slug").lean();
+        const findBySlug = await Category.findOne({ slug }).select("name slug popular").lean();
 
         //if category not found, throw a 404 error
         if (!findBySlug) throw HttpError(404, "category not found");
