@@ -1,7 +1,6 @@
-"use client";
 
+"use client"
 //packages
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Carousel } from "react-bootstrap";
 import Skeleton from "../components/Skeleton";
@@ -12,26 +11,14 @@ interface MediaItem {
   carouselImages: string[];
 }
 
-const HomeCarousel = () => {
-  const [media, setAllMedia] = useState<MediaItem[]>([]);
+interface HomeCarouselProps {
+  media: MediaItem[];
+}
 
-  //handle get carousel
-  const handleGetAllCarousel = async () => {
-    try {
-      const  res  = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/media/all-media`);
-      const data = await res.json();
-      setAllMedia(data.payload.allMedia);
-    } catch (error) {
-      console.log(`error in get carousel`, error);
-    }
-  };
+const HomeCarousel = ({media} : HomeCarouselProps) => {
 
 
-  useEffect(() => {
-    handleGetAllCarousel();
-  }, []);
-
-  if (!media[0]) {
+  if (!media || !media[0] || !media[0].carouselImages) {
     return (
       <Carousel>
         <Carousel.Item>

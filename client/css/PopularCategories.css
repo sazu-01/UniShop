@@ -2,6 +2,7 @@
 #popular-categories {
   width: 100%;
   padding: 2rem 0;
+  margin-top: 6rem;
 }
 
 #popular-categories .popular-categories-content {
@@ -18,10 +19,11 @@
 }
 
 #popular-categories .categories h2 {
-  margin: 0 0 1rem 0;
+  margin: 0 0 3rem 0;
   font-size: 1.8rem;
-  font-weight: 600;
-  color: #333;
+  font-weight: 700;
+  color: #111;
+  text-align: center;
 }
 
 #popular-categories .categories-grid {
@@ -76,6 +78,14 @@
 }
 
 
+/*larger size*/
+@media(min-width:1367px){
+#popular-categories .popular-categories-content {
+      max-width: 1366px;
+    margin: 0px auto;
+}
+}
+
 /* Tablet View */
 @media (max-width: 1024px) {
   #popular-categories .popular-categories-content {
@@ -101,6 +111,11 @@
 @media (max-width: 768px) {
   #popular-categories {
     padding: 1.5rem 0;
+    margin-top: 1rem;
+  }
+
+  #popular-categories .categories h2 {
+   margin: 0 0 1rem 0;
   }
   
   #popular-categories .popular-categories-content {
