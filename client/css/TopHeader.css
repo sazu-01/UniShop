@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
 .topheader {
   width: 100%;
   background-color: var(--shop-bg-color);
@@ -79,21 +81,18 @@
 }
 
 .responsive-logo a {
+  display: flex;
+  align-items: center;
   text-decoration: none;
   color: #fff;
-  font-size: 2.2rem;
-  font-weight: 600;
-  top: -0.6rem;
-  height: 46px;
-  position: relative;
+  font-size: 2rem;
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0.1ch;
 }
 
-.responsive-logo a::after {
-  content: ".";
-  font-size: 3rem;
-  color: var(--home-main-color);
-  position: relative;
-}
 
 /*responsive logo end*/
 
@@ -101,7 +100,7 @@
 
 @media (max-width: 990px) {
   .topheader-content {
-    margin: 0rem 2rem;
+    margin: 0rem 1rem;
   }
 }
 @media (max-width: 768px) {

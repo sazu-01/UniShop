@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -19,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Unishop - Best Clothing Shop in Bangladesh",
-  description: "Unishop is the best clothing ecommerce in bangladesh. up to 10% discount in all the products. make ensure the quality of cloth",
+  title: "Pacyfic - Best Clothing Shop in Bangladesh",
+  description: "Pacyfic is the best clothing e-commerce in bangladesh. make ensure the quality of cloth",
 };
 
 export default function RootLayout({
@@ -35,7 +36,7 @@ export default function RootLayout({
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-YVCFPKQ10K"></script>
         <script>
-    {`
+          {`
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());

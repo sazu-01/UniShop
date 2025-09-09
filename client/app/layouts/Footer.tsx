@@ -24,7 +24,7 @@ const Footer = () => {
             
             {/*brand details section*/}
             <div className="brand-details">
-              <Link href={``} className="logo">unishop</Link>
+              <Link href={``} className="logo">PACYFIC</Link>
 
               <p>Our journey began with a simple goal: to bring high quality fashion to everyone in Bangladesh at affordable prices. We believe clothing should not only make you look good but also make you feel confident.</p>
 
@@ -38,12 +38,12 @@ const Footer = () => {
             <div className="about-section">
               <h3>About us</h3>
               <Link href="/">About us</Link>
-              <Link href="/">Shopee Blogs</Link>
+              <Link href="/">Pacyfic Blogs</Link>
               <Link href="/">contact with us</Link>
-              <Link href="/">Shopee demo</Link>
+              <Link href="/">Pacyfic Blogs 2</Link>
               <Link href="/">privacy condition</Link>
               <Link href="/">contact with us</Link>
-              <Link href="/">shopee demo</Link>
+              <Link href="/">Pacyfic demo</Link>
             </div>
 
             {/*customer care section with navigation link*/}
@@ -77,7 +77,7 @@ const Footer = () => {
           <hr />
 
           <div className=" footer-bottom" >
-            <div><p>@ 2024 unishop. All rights reserved</p></div>
+            <div><p>@ 2024 pacyfic. All rights reserved</p></div>
             {/*social media icons*/}
             <div className="footer-icons">
               <li> <Link href='https://www.facebook.com/unishop.cloth' target="blank"> <FaFacebookF className="icon" /> </Link> </li>

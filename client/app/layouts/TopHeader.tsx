@@ -17,7 +17,7 @@ const TopHeader = () => {
       <div className="topheader-content">
 
         <div className="responsive-logo">
-          <Link href={`/`}>unishop</Link>
+        <Link href={`/`}>PACYFIC</Link>
         </div>
 
         <div className="topheader-left">

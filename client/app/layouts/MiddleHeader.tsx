@@ -49,7 +49,7 @@ const MiddleHeader = () => {
     <div className="middle-header">
       <div className="middle-header-content">
         <div className="middle-header-logo">
-          <Link href={`/`}>unishop</Link>
+          <Link href={`/`}>PACYFIC</Link>
         </div>
 
         <div className="middle-header-search-wrapper">

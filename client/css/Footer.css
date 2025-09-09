@@ -1,25 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
-
-#footer{
+#footer {
     background-color: var(--shop-bg-color);
     color: #FFFFFF;
     width: 100%;
 }
 
-#footer .footer-content{
+#footer .footer-content {
     margin: 0rem 7rem;
 }
 
 /*footer top design start*/
 
-#footer .footer-top{
+#footer .footer-top {
     display: grid;
     grid-template-columns: 2fr 1fr 1.5fr 1.5fr;
     padding: 8rem 0rem 5rem 0rem;
 }
 
-#footer .footer-top h3{
+#footer .footer-top h3 {
     font-size: 1.6rem;
     font-family: 'Nunito Sans';
     font-weight: 600;
@@ -27,51 +27,60 @@
 
 }
 
-#footer .care-section a , .about-section a , .contact-section a{
+#footer .care-section a,
+.about-section a,
+.contact-section a {
     display: block;
     color: #ffffff;
     text-decoration: none;
 }
 
-#footer .care-section,.about-section,.contact-section{
+#footer .care-section,
+.about-section,
+.contact-section {
     margin: 8px 15px;
 }
 
-#footer a:hover{
+#footer a:hover {
     text-decoration: underline;
 }
 
 
-#footer .brand-details a{
+#footer .brand-details a {
     font-size: 2.2rem;
     color: #FFFFFF;
     text-decoration: none;
+    font-family: "Oswald", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    letter-spacing: 0.1ch;
 }
 
-#footer .brand-details a:hover{
+#footer .brand-details a:hover {
     text-decoration: none;
 }
 
-#footer .brand-details p{
+#footer .brand-details p {
     padding: 5px 28px 5px 0px;
     margin: 10px 0px;
     color: #FFFFFF;
 }
 
-#footer .brand-details .footer-downlnad-btn button{
-  background-color:#FFFFFF;
-  color: black;
-  box-shadow: none;
-  border: none;
-  border-radius: 6px;
-  margin: 10px 10px 0px 0px;
-  padding: 8px 15px;
-  font-weight: 500;
-  font-size: 1.6rem;
+#footer .brand-details .footer-downlnad-btn button {
+    background-color: #FFFFFF;
+    color: black;
+    box-shadow: none;
+    border: none;
+    border-radius: 6px;
+    margin: 10px 10px 0px 0px;
+    padding: 8px 15px;
+    font-weight: 500;
+    font-size: 1.6rem;
 }
 
 
-#footer .contact-section div p{
+#footer .contact-section div p {
     margin-bottom: 12px;
     font-weight: 400;
     opacity: 0.9;
@@ -79,14 +88,14 @@
 }
 
 
-#footer .footer-input-section{
+#footer .footer-input-section {
     display: flex;
     align-items: center;
     margin-top: 1rem;
     position: relative;
 }
 
-#footer .footer-input-section button{
+#footer .footer-input-section button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,7 +108,7 @@
     border-radius: 0.3rem;
 }
 
-#footer .footer-input-section input{
+#footer .footer-input-section input {
     width: 100%;
     height: 4rem;
     padding: 0rem 4.5rem 0rem 1rem;
@@ -110,21 +119,21 @@
     font-weight: 500;
 }
 
-#footer .footer-input-section svg{
-  color: #fff;
-  font-size:2rem;
-  cursor: pointer;
+#footer .footer-input-section svg {
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
 }
 
 
-#footer hr{
+#footer hr {
     margin: 0rem 0rem;
     background-color: #fff;
 }
 
 
 /*footer bottom design start*/
-#footer .footer-bottom{
+#footer .footer-bottom {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -133,39 +142,39 @@
 }
 
 
-#footer .footer-bottom .footer-icons{
+#footer .footer-bottom .footer-icons {
     display: flex;
     justify-content: flex-end;
     padding-left: 0px;
 }
 
-  
-#footer .footer-bottom div{
+
+#footer .footer-bottom div {
     flex: 50%;
 }
 
-#footer .footer-bottom .footer-icons{
+#footer .footer-bottom .footer-icons {
     text-align: end;
 }
 
-#footer .footer-bottom .footer-icons li{
-  list-style-type: none;
-  background-color: #FFFFFF;
-  margin: 5px;
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  border-radius: 100%;
+#footer .footer-bottom .footer-icons li {
+    list-style-type: none;
+    background-color: #FFFFFF;
+    margin: 5px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 100%;
 }
 
-#footer .footer-bottom .footer-icons li a{
+#footer .footer-bottom .footer-icons li a {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 30px;
 }
 
-#footer .footer-bottom .footer-icons li a .icon{
+#footer .footer-bottom .footer-icons li a .icon {
     color: black;
 }
 
@@ -180,66 +189,74 @@
     }
 }
 
-@media(max-width:990px){
-    
-#footer .footer-top{
-    display: grid;
-    grid-template-columns:  1fr 1fr;
-    padding: 80px 40px;
+@media(max-width:990px) {
+
+    #footer .footer-top {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 80px 40px;
+    }
+
+    #footer .brand-details {
+        text-align: center;
+    }
+
+    #footer .about-section {
+        text-align: center;
+    }
+
+    #footer .care-section {
+        margin-top: 40px;
+        text-align: center;
+    }
+
+    #footer .contact-section {
+        margin-top: 40px;
+        text-align: center;
+    }
+
+    #footer .contact-section .footer-icons {
+        display: flex;
+        justify-content: center;
+    }
 }
 
-#footer .brand-details{
-    text-align: center;
-}
-#footer .about-section{
-    text-align: center;
-}
-#footer .care-section{
-    margin-top: 40px;
-    text-align: center;
-}
-#footer .contact-section{
-    margin-top: 40px;
-    text-align: center;
-}
 
-#footer .contact-section .footer-icons{
-    display: flex;
-    justify-content: center;
-}
-}
-
-
-@media(max-width:768px){
+@media(max-width:768px) {
 
     #footer .footer-content {
         margin: 0 1rem;
     }
-    #footer hr{
+
+    #footer hr {
         margin: 0rem 0rem;
     }
-    #footer .footer-top{
+
+    #footer .footer-top {
         display: grid;
         grid-template-columns: 1fr 1fr;
         padding: 80px 20px;
         grid-gap: 20px;
-        
+
     }
-    #footer .footer-bottom{
+
+    #footer .footer-bottom {
         flex-direction: column;
     }
+}
+
+@media(max-width:468px) {
+    #footer .footer-top {
+        grid-template-columns: 1fr;
+        text-align: center;
     }
 
-    @media(max-width:468px){
-        #footer .footer-top{
-            grid-template-columns: 1fr;
-            text-align: center  ;
-        }
-        #footer .care-section{
-            margin-top: 15px;
-        }
-        #footer .contact-section{
-            margin-top: 15px;
-        }
+    #footer .care-section {
+        margin-top: 15px;
+    }
 
-    }   
+    #footer .contact-section {
+        margin-top: 15px;
+    }
+
+}
