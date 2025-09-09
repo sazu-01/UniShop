@@ -1,6 +1,7 @@
 
 
-import HomePageProducts from "./components/HomePageProducts";
+import FeaturedProduct from "./layouts/FeaturedProduct";
+import FlashSale from "./layouts/FlashSale"
 import HomeCarousel  from "./layouts/HomeCarousel";
 import PopularCategories from "./layouts/PopularCategories";
 import { ProductType } from "./types/SliceTypes";
@@ -34,7 +35,8 @@ export default async function Home() {
     <>
    <HomeCarousel media={media} /> 
    <PopularCategories />
-   <HomePageProducts products={products} />
+   <FeaturedProduct products={products} />
+   <FlashSale products={products} />
     </>
 
   );

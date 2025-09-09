@@ -6,39 +6,18 @@
     max-width: 1366px;
     margin: 0 auto 0;
     padding: 5px 0px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
     background-color: #fdfcfc;
-    padding: 10px 20px;
+    padding: 20px 0px 0px 20px;
 }
 
 .slide-header p {
     margin-bottom: 0;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 600;
     text-transform: capitalize;
 }
 
-.slide-header a {
-    outline: none;
-    cursor: pointer;
-    font-weight: 600;
-    font-family: inherit;
-    background: transparent;
-    transition: 150ms ease-in-out;
-    padding: 5px 16px;
-    color: #000;
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    font-size: 14px;
-    border-radius: 5px;
-    text-decoration: none;
-    margin: 5px 0px;
-}
-
-.slide-header a:hover {
-    background-color: var(--shop-bg-color);
-    color: #fff;
-    transition: 150ms ease-in-out;
-}
 
 #home-page-products {
     width: 90%;
@@ -164,7 +143,7 @@
 
 @media (max-width: 480px) {
     .slide-header {
-        padding: 5px;
+        padding: 20px 0 0 10px;
     }
 
     #home-page-products .swiper {
