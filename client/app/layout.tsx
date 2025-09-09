@@ -34,14 +34,14 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YVCFPKQ10K"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-MS9ELN2427"></script>
         <script>
-          {`
-      window.dataLayer = window.dataLayer || [];
+      {`
+       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-YVCFPKQ10K');
-   `}
+      gtag('config', 'G-MS9ELN2427');
+      `}
         </script>
 
       </head>
