@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOptions = {
-    origin : ["http://localhost:3000", "https://unishopbd.vercel.app"],
+    origin : ["http://localhost:3000", "https://www.pacyficshop.com"],
     credentials  : true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
