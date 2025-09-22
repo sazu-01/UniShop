@@ -2,7 +2,7 @@
 import { Metadata } from "next"
 
 export const metadata : Metadata = {
-  title : "Unishop register page",
+  title : "Pacyfic register page",
   description : "This is register page of unishop"
 }
 

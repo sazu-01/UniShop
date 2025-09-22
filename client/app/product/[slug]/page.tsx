@@ -42,14 +42,14 @@ export async function generateMetadata({
     
     if (!product) {
       return {
-        title: 'Product Not Found - Unishop',
+        title: 'Product Not Found - Pacyfic',
         description: 'The requested product could not be found.',
       };
     }
     
     return {
-      title: `${product.title} - Unishop`,
-      description: `Buy ${product.title} at the best price. ${product.category?.name || 'Quality clothing'} from Unishop - Best Clothing Shop in Bangladesh.`,
+      title: `${product.title} - Pacyfic`,
+      description: `Buy ${product.title} at the best price. ${product.category?.name || 'Quality clothing'} from Pacyfic - Best Clothing Shop in Bangladesh.`,
       openGraph: {
         title: product.title,
         description: `Buy ${product.title} at the best price`,
@@ -59,8 +59,8 @@ export async function generateMetadata({
   } catch (error) {
     console.log(error);
     return {
-      title: 'Product - Unishop',
-      description: 'Quality clothing from Unishop - Best Clothing Shop in Bangladesh.',
+      title: 'Product - Pacyfic',
+      description: 'Quality clothing from Pacyfic - Best Clothing Shop in Bangladesh.',
     };
   }
 }

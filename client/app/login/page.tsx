@@ -3,7 +3,7 @@ import React from 'react'
 import type {Metadata} from "next";
 
 export const metadata: Metadata = {
-  title: "Unishop login page",
+  title: "Pacyfic login page",
   description: "login to shopping",
 };
 
