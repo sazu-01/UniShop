@@ -1,0 +1,31 @@
+.messenger-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.messenger-float:hover {
+    transform: scale(1.1);
+}
+
+.messenger-float .btn {
+    display: block;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.messenger-float img {
+    border-radius: 50%;
+    width: 60px !important;
+    height: 60px !important;
+}
+
+@media (max-width:768px) {
+    .messenger-float {
+        bottom: 60px;
+        right: 10px;
+    }
+}

@@ -4,6 +4,7 @@
 //hook
 import { useAppDispatch } from "../lib/hook";
 import Link from "next/link";
+import Image from "next/image";
 //action
 import { AddToCart } from "../lib/features/cartSlice";
 import { cartItem } from "@/app/types/SliceTypes";
@@ -36,8 +37,13 @@ const AddToCartButton: React.FC<demoType> = ({ data, productInCart, hasSize, sel
     <>
       {/*if the current singleproduct is aleready on cart render link if not then AddToCart component*/}
       {productInCart ?
-       <Link href={`/checkout/cart`}> <button className="add-to-cart" >GO TO CART</button> </Link>
-        : <button className="add-to-cart" onClick={AddProductToCart}>ADD TO CART</button>
+        <Link href={`/checkout/cart`}> <button className="add-to-cart" >GO TO CART</button> </Link>
+        :
+        <>
+          <button className="add-to-cart" onClick={AddProductToCart}>ADD TO CART</button>
+          <Link className="whatsapp-btn" href="https://api.whatsapp.com/send?phone=8801600930467" target="blank"> <Image src="/whatsapp.png" alt="" width={30} height={30} /> Whatsapp us</Link>
+        </>
+
       }
 
     </>

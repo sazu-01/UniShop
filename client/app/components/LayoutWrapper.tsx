@@ -3,6 +3,7 @@
 import Header from "../layouts/Header";
 import MobileMenu from "../layouts/MobileMenu";
 import Footer from "../layouts/Footer";
+import Messenger from "./Messenger";
 import { ReactNode } from "react";
 
 interface LayoutWrapperProps {
@@ -14,6 +15,7 @@ export default function LayoutWrapper({ children }: LayoutWrapperProps) {
     <>
       <Header />
       {children}
+      <Messenger />
       <Footer />
       <MobileMenu />
     </>

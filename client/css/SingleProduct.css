@@ -89,6 +89,10 @@
     font-weight: 500;
 }
 
+#single-product-page .single-product-details .single-product-button{
+  display: flex;
+}
+
 #single-product-page .single-product-details .add-to-cart{
     padding: 0.8rem 8rem;
     color: #fff;
@@ -98,6 +102,36 @@
     font-weight: 500;
     font-size: 1.6rem;
 }
+
+/* WhatsApp Button Styles */
+.whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 15px;
+    gap: 0.8rem;
+    padding: 0.8rem 8rem;
+    background-color: #25D366;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.4rem;
+    transition: all 0.3s ease;
+    border: 2px solid #25D366;
+}
+
+.whatsapp-btn:hover {
+    background-color: #128C7E;
+    border-color: #128C7E;
+    transform: translateY(-2px);
+    color: white;
+    text-decoration: none;
+}
+
+.whatsapp-btn img {
+    transition: transform 0.3s ease;
+}
+
+
 
 @media (min-width:1367px) {
     .single-product{
@@ -128,5 +162,9 @@
 
   #single-product-page {
     padding-bottom: 6rem; 
+  }
+
+  .whatsapp-btn{
+    margin-left: 0px;
   }
 }
