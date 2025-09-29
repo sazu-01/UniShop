@@ -42,7 +42,7 @@ const Login = () => {
   const [seePassword, setSeePassword] = useState(false);
   const isLoading = useAppSelector((state) => state.auth.isLoading);
 
-  const [formData, setFormData] = useState({ emailOrPhone: "", password: "" });
+  const [formData, setFormData] = useState({ phone: "", password: "" });
 
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -51,21 +51,14 @@ const Login = () => {
   //handle form submission
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(typeof formData.emailOrPhone);
     try {
       dispatch(signInStart());
 
       // Determine if it's an email or phone
       const payload: any = {
         password: formData.password,
+        phone: formData.phone
       };
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (emailRegex.test(formData.emailOrPhone)) {
-        payload.email = formData.emailOrPhone;
-      } else {
-        payload.phone = formData.emailOrPhone;
-      }
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
         method: 'POST',
@@ -92,7 +85,7 @@ const Login = () => {
 
       router.push(redirect);
 
-    } catch (error : any) {
+    } catch (error: any) {
       dispatch(signInFailure(error));
       alert(error.message)
     }
@@ -120,20 +113,19 @@ const Login = () => {
         <div className="login-content">
           <form onSubmit={handleLogin} className="login-form">
             <h2 className="login-title">Login</h2>
-            <p className="login-subtitle">Login with your email and password</p>
+            <p className="login-subtitle">Login with your number and password </p>
 
             <div className="form-group">
-              <label htmlFor="emailOrPhone">Email or Phone</label>
+              <label htmlFor="phone">Phone Number</label>
               <input
                 type="text"
                 onChange={handleChange}
                 className="input-field"
-                id="emailOrPhone"
-                placeholder="Enter your email or phone"
+                id="phone"
+                placeholder="Enter your phone number"
                 autoComplete="off"
                 required
               />
-
             </div>
 
             <div className="form-group" id="password">
@@ -177,21 +169,6 @@ const Login = () => {
                 <span>or</span>
               </div>
             </div>
-            {/*
-            <div className="facebook-signin-option" onClick={() => alert("This feature not valid yet, please register with gmail")}>
-              <div className="facebook-signin-icon">
-                <FaFacebook className="facebook-icon" />
-              </div>
-              <span>Sign in with Facebook</span>
-            </div>
-
-            <div className="google-signin-option" onClick={() => alert("This feature not valid yet, please register with gmail")}>
-              <div className="google-signin-icon">
-                <FcGoogle className="google-icon" />
-              </div>
-              <span className="google-signup-title">Sign in with Google</span>
-            </div>
-          */}
             <div className="mt-2 fw-semibold" style={{ fontSize: "1.6rem" }}>
               {"Don't have an account? "}
               <Link href="/register">

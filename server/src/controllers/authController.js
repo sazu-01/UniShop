@@ -11,19 +11,47 @@ import Users from "../models/userModel.js";
 import { SuccessResponse } from "../helpers/responseCode.js";
 
 //environment variables
-import { jwtAccessKey } from "../hiddenEnv.js";
-
+import { jwtAccessKey, defaultImageForUser } from "../hiddenEnv.js";
 
 const LoginController = async (req, res, next) => {
   try {
-    const { email, phone, password } = req.body;
+    const { phone, password } = req.body;
 
     //check the user is exist or not
-    const user = await Users.findOne(email ? { email } : {phone});
+    const user = await Users.findOne({phone});
    
     //if user does not exist
     if (!user) {
-      throw HttpError(404, "user does not exist , please register");
+      // Get the default image for user
+      const image = defaultImageForUser;
+      
+      // Create new user
+      const userData = { phone, password, image };
+      const newUser = await Users.create(userData);
+
+      // Create JWT access token for the newly registered user
+      const expiryDate = new Date(Date.now() + 10 * 24 * 60 * 60 * 1000); // 10 days
+      const accessToken = Jwt.sign({ user: newUser }, jwtAccessKey);
+
+      const { ...rest } = newUser._doc;
+      
+      return res
+        .cookie("accessToken", accessToken, {
+          httpOnly: true,
+          secure: NODE_ENV === "production",
+          sameSite: NODE_ENV === "production" ? "None" : "Lax",
+          expires: expiryDate,
+        })
+        .status(201)
+        .json({
+          ...rest,
+          message: "User registered and logged in successfully"
+        });
+    }
+
+    //if user banned
+    if (user.isBanned) {
+      throw HttpError(403, "you are banned , please contact to authority");
     }
 
     //check the given password match or not
@@ -32,11 +60,6 @@ const LoginController = async (req, res, next) => {
     //if password does not match throw error
     if (!isPasswordMatch) {
       throw HttpError(401, "passowrd is wrong");
-    }
-
-    //if user banned
-    if (user.isBanned) {
-      throw HttpError(403, "you are banned , please contact to authority");
     }
   
     //create a jwt access key
@@ -63,16 +86,13 @@ const LoginController = async (req, res, next) => {
 
 const LogoutController = async (req, res, next) => {
   try {
- 
-
+    
     //Clear access token with proper options
     res.clearCookie('accessToken', {
         httpOnly: true,
         secure: NODE_ENV === "production", // only secure in production
         sameSite: NODE_ENV === "production" ? "None" : "Lax", // for cross-site cookies in production
     });
-
- 
 
     //return successful response
     return SuccessResponse(res, {

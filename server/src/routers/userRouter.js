@@ -10,8 +10,6 @@ import { uploadUserImg } from "../middlewares/uploadFile.js";
 import {
   GetAllUsers,
   GetSingleUserByID,
-  RegisterProcess,
-  CompleteUserRegister,
   UpdateUserByID,
   BannedUserByID,
   UnBannedUserByID,
@@ -24,12 +22,8 @@ import {
 import {
   IsAdmin,
   IsLoggedIn,
-  IsLoggedOut,
 } from "../middlewares/authMiddleware.js";
 
-//import validation
-import { validateUserRegistration } from "../validation/userValidation.js";
-import RunValidation from "../validation/index.js";
 
 //make an express router
 const userRouter = new express.Router();
@@ -38,17 +32,6 @@ const userRouter = new express.Router();
 userRouter.get("/all-user", IsLoggedIn, IsAdmin, GetAllUsers);
 
 userRouter.get("/single-user/:id", IsLoggedIn, IsAdmin, GetSingleUserByID);
-
-userRouter.post(
-  "/register-process",
-  uploadUserImg.single("image"),
-  validateUserRegistration,
-  RunValidation,
-  IsLoggedOut,
-  RegisterProcess
-);
-
-userRouter.post("/complete-register", IsLoggedOut, CompleteUserRegister);
 
 userRouter.post("/forget-password", ForgetPasswordController);
 

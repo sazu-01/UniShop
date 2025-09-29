@@ -15,7 +15,6 @@ const userSchema = new Schema(
     email: {
       type: String,
       trim: true,
-      required: [true, "you have to give a phone number"],
       unique: true,
       validate: {
         validator: function (value) {
