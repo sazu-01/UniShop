@@ -2,12 +2,12 @@
 import Link from 'next/link';
 import "@/css/PopularCategories.css"
 import { Category } from '../types/SliceTypes';
-
+import Skeleton from '../components/Skeleton';
 // Server-side data fetching function
 async function getCategories(): Promise<Category[]> {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/all-category`, {
-            cache: "force-cache",
+           next: { revalidate: 3600 } //refresh in every 1 hour 
         });
 
         if (!res.ok) {
@@ -44,6 +44,23 @@ const getCategoryImage = (slug: string): string => {
 const AllCategories = async () => {
     const categories = await getCategories();
 
+ if (!categories) {
+    return (
+      <div id="single-product-page">
+        <div className="single-product">
+          <Skeleton width="45rem" height="30rem" className="skeleton-image" />
+          <div className="single-product-details">
+            <Skeleton width="60%" height="2.8rem" className="" />
+            <Skeleton width="40%" height="1.6rem" className="mt-5" />
+            <Skeleton width="50%" height="1.6rem" className="mt-5" />
+            <Skeleton width="30%" height="1.6rem" className="mt-5" />
+            <Skeleton width="75%" height="3rem" className="mt-5" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
     return (
         <div id='popular-categories'>
             <div className='popular-categories-content'>
@@ -54,6 +71,7 @@ const AllCategories = async () => {
                                 key={category._id}
                                 href={`/${category.slug}`}
                                 className='category'
+                                prefetch
                             >
                                 <img
                                     src={getCategoryImage(category.slug)}

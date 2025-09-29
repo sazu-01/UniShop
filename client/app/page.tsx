@@ -1,9 +1,12 @@
 
-
+import { Suspense } from "react";
 import FeaturedProduct from "./layouts/FeaturedProduct";
-import FlashSale from "./layouts/FlashSale"
-import HomeCarousel  from "./layouts/HomeCarousel";
+import FlashSale from "./layouts/FlashSale";
+import HomeCarousel from "./layouts/HomeCarousel";
 import PopularCategories from "./layouts/PopularCategories";
+import Skeleton from "./components/Skeleton";
+
+
 import { ProductType } from "./types/SliceTypes";
 
 interface MediaItem {
@@ -12,7 +15,7 @@ interface MediaItem {
 
 async function getProducts(): Promise<ProductType[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/products/all-product`, {
-    cache: "no-store", // ensures fresh data each request
+    next: {revalidate: 600}, // 5 min  
   });
   const data = await res.json();
   return data.payload.products;
@@ -20,24 +23,45 @@ async function getProducts(): Promise<ProductType[]> {
 
 async function getMedia() : Promise<MediaItem[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/media/all-media`,{
-    cache : "no-store"
+      next: {revalidate: 600}, //5 min 
   });
   const data = await res.json();
   return data.payload.allMedia;
 }
 
-export default async function Home() {
 
-  const products = await getProducts();
-  const media = await getMedia();
-
+export default function Home() {
   return (
     <>
-   <HomeCarousel media={media} /> 
-   <PopularCategories />
-   <FeaturedProduct products={products} />
-   <FlashSale products={products} />
-    </>
+      <Suspense fallback={<Skeleton />}>
+        <HomeCarouselWrapper />
+      </Suspense>
 
+      <PopularCategories />
+
+      <Suspense fallback={<Skeleton />}>
+        <FeaturedProductWrapper />
+      </Suspense>
+
+      <Suspense fallback={<Skeleton />}>
+        <FlashSaleWrapper />
+      </Suspense>
+    </>
   );
+}
+
+// Wrappers fetch their own data
+async function HomeCarouselWrapper() {
+  const media = await getMedia();
+  return <HomeCarousel media={media} />;
+}
+
+async function FeaturedProductWrapper() {
+  const products = await getProducts();
+  return <FeaturedProduct products={products} />;
+}
+
+async function FlashSaleWrapper() {
+  const products = await getProducts();
+  return <FlashSale products={products} />;
 }

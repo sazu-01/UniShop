@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 
 export const metadata : Metadata = {
-  title : "unishop user dashboard",
+  title : "Pacyfic user dashboard",
   description : "",
 }
 

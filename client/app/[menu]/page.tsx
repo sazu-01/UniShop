@@ -20,7 +20,7 @@ async function getCategoryProducts(categorySlug: string): Promise<ProductType[]>
     const allProducts: ProductType[] = allData.payload.products;
     
     // Filter products by category slug on server-side
-    return allProducts.filter((product) => product.category.slug === categorySlug);
+    return allProducts.filter((product) => product.category?.slug === categorySlug);
   }
   
   const data = await res.json();
