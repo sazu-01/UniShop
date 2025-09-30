@@ -37,7 +37,10 @@ const AddToCartButton: React.FC<demoType> = ({ data, productInCart, hasSize, sel
     <>
       {/*if the current singleproduct is aleready on cart render link if not then AddToCart component*/}
       {productInCart ?
-        <Link href={`/checkout/cart`}> <button className="add-to-cart" >GO TO CART</button> </Link>
+        <>
+          <Link href={`/checkout/cart`}> <button className="go-to-cart" >GO TO CART</button> </Link>
+          <Link className="whatsapp-btn" href="https://api.whatsapp.com/send?phone=8801600930467" target="blank"> <Image src="/whatsapp.png" alt="" width={30} height={30} /> Whatsapp us</Link>
+        </>
         :
         <>
           <button className="add-to-cart" onClick={AddProductToCart}>ADD TO CART</button>

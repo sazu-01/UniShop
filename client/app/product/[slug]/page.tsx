@@ -11,7 +11,7 @@ async function fetchProduct(slug: string): Promise<singleProductType | null> {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/products/${slug}`,
       {
-        cache: "no-store", // ensures fresh data each request
+         next: { revalidate: 3600 }, // refresh in 1 hour
       }
     );
     
@@ -96,3 +96,4 @@ export default async function ProductPage({
 
   return <ProductClient product={product} />;
 }
+

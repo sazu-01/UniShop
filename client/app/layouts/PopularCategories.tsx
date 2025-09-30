@@ -76,7 +76,7 @@ const PopularCategories = async () => {
                                     key={category._id}
                                     href={`/${category.slug}`}
                                     className='category'
-                                    prefetch
+                                    prefetch={true}
                                 >
                                     <img
                                         src={getCategoryImage(category.slug)}

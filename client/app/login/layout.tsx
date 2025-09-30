@@ -3,7 +3,6 @@
 
 //packages
 import { FormEvent, useState, useEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 //icons
@@ -162,21 +161,6 @@ const Login = () => {
             <button type="submit" className="sign-in-btn">
               {isLoading ? "Logging in..." : "Login"}
             </button>
-
-            <div className="or">
-              <div className="line"></div>
-              <div className="text">
-                <span>or</span>
-              </div>
-            </div>
-            <div className="mt-2 fw-semibold" style={{ fontSize: "1.6rem" }}>
-              {"Don't have an account? "}
-              <Link href="/register">
-                <button type="button" style={{ border: "none", background: "transparent", textDecoration: "underline", color: "#1E66CE", fontWeight: "600" }}>
-                  Register
-                </button>
-              </Link>
-            </div>
           </form>
         </div>
       </div>

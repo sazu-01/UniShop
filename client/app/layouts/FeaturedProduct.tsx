@@ -71,7 +71,7 @@ export default function FeaturedProduct({ products }: FeaturedProductProps) {
           return (
             <SwiperSlide key={index}>
               <div className="product">
-                <Link href={`/product/${slug}`} prefetch>
+                <Link href={`/product/${slug}`} prefetch={true}>
                   <div className="product-img">
                     <Image
                       src={

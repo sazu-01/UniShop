@@ -5,8 +5,6 @@ import FlashSale from "./layouts/FlashSale";
 import HomeCarousel from "./layouts/HomeCarousel";
 import PopularCategories from "./layouts/PopularCategories";
 import Skeleton from "./components/Skeleton";
-
-
 import { ProductType } from "./types/SliceTypes";
 
 interface MediaItem {
@@ -33,17 +31,17 @@ async function getMedia() : Promise<MediaItem[]> {
 export default function Home() {
   return (
     <>
-      <Suspense fallback={<Skeleton />}>
+      <Suspense fallback={<Skeleton width="100%" height="400px" className="container mt-5"  />}>
         <HomeCarouselWrapper />
       </Suspense>
 
       <PopularCategories />
 
-      <Suspense fallback={<Skeleton />}>
+      <Suspense fallback={<Skeleton width="100%" height="400px" className="container mb-5" />}>
         <FeaturedProductWrapper />
       </Suspense>
 
-      <Suspense fallback={<Skeleton />}>
+      <Suspense fallback={<Skeleton width="100%" height="400px" className="container mb-5" />}>
         <FlashSaleWrapper />
       </Suspense>
     </>
