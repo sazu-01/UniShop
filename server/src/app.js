@@ -19,6 +19,7 @@ import productRouter from "./routers/productRouter.js";
 import orderRouter from "./routers/orderRouter.js"
 import contentRouter from "./routers/menuRouter.js";
 import mediaRouter from "./routers/mediaRouter.js";
+import metaRouter from "./routers/metaRouter.js";
 //create an express application;
 const app = express();
 
@@ -44,6 +45,7 @@ app.use("/api/products",productRouter);
 app.use("/api/order",orderRouter);
 app.use("/api/media", mediaRouter);
 app.use("/api/menu", contentRouter);
+app.use("/api/meta",metaRouter);
 
 //home route
 app.get("/", function (req, res) {

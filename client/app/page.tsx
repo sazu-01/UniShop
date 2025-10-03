@@ -19,6 +19,8 @@ async function getProducts(): Promise<ProductType[]> {
   return data.payload.products;
 }
 
+
+
 async function getMedia() : Promise<MediaItem[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/media/all-media`,{
       next: {revalidate: 600}, //5 min 

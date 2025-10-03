@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { ResetCart } from "@/app/lib/features/cartSlice";
 import { useAppDispatch } from "@/app/lib/hook";
+import { v4 as uuidv4 } from "uuid";
 //hook
 import { useAppSelector } from "@/app/lib/hook";
 
@@ -26,6 +27,8 @@ type ShippingFormData = {
   delivery_charge: number;
   paymentMethod: "cod" | "bkash" | null;
 };
+
+
 
 const Shipping = () => {
   //extract cart state from redux store
@@ -79,7 +82,10 @@ const Shipping = () => {
   // Handle order confirmation
   const handleConfirmOrder = async (e: FormEvent) => {
     e.preventDefault();
-    if(cart.length < 1) return alert('please select product first')
+    if(cart.length < 1) return alert('please select product first');
+
+     const eventId = uuidv4(); // ✅ shared event ID for deduplication
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/create-order`, {
         method: "POST",
@@ -96,6 +102,31 @@ const Shipping = () => {
       const data = await res.json();
 
       if (data.success) {
+            // 2️⃣ Fire Meta Pixel (client event)
+
+        if (typeof window.fbq !== "undefined") {
+          window.fbq("track", "Purchase", {
+            currency: "BDT",
+            eventID: eventId,
+          });
+        }
+
+
+        // 3️⃣ Send Conversion API event to backend
+
+        await fetch("/api/meta/purchase", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            eventId,
+            email: formData.email,
+            phone: formData.number,
+            currency: "BDT",
+
+          }),
+
+        });
+        //Reset Cart 
         dispatch(ResetCart());
         setFormData({
           name: "",

@@ -42,6 +42,10 @@ const clientUrl = process.env.clientUrl;
 
 const NODE_ENV=process.env.NODE_ENV;
 
+const META_PIXEL_ID = process.env.META_PIXEL_ID;
+
+const META_ACCESS_TOKEN = process.env.META_ACCESS_TOKEN;
+
 export {
   serverPort,
   MongodbURL,
@@ -56,5 +60,7 @@ export {
   cloudeName,
   cloudeApiKey,
   cloudeApiSecret,
-  NODE_ENV
+  NODE_ENV,
+  META_PIXEL_ID,
+  META_ACCESS_TOKEN
 };
