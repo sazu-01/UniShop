@@ -67,7 +67,7 @@ export default function FeaturedProduct({ products }: FeaturedProductProps) {
         }}
       >
         {featuredProducts.map((pro: ProductType, index: number) => {
-          const { title, slug, images, salePrice, discountPrice } = pro;
+          const { title, slug, images, salePrice, discount, discountPrice } = pro;
           return (
             <SwiperSlide key={index}>
               <div className="product">
@@ -103,7 +103,7 @@ export default function FeaturedProduct({ products }: FeaturedProductProps) {
                     <p className="price">
                       TK. {discountPrice}{" "}
                       <span className="sale-price">
-                        <del>{salePrice}</del>
+                        <del>{discount > 0 && salePrice}</del>
                       </span>
                     </p>
                   </div>

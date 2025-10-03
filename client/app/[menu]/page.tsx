@@ -50,7 +50,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ menu:
       <div className="category-page-container">
         <div className="category-page-products">
           {products.map((product, index) => {
-            const { slug, images, title, salePrice, discountPrice, _id } = product;
+            const { slug, images, title, discount, salePrice, discountPrice, _id } = product;
             const placeholder = "/placeholder.jpg";
             
             return (
@@ -85,7 +85,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ menu:
                       {title.length > 40 ? title.slice(0, 40) + "..." : title}
                     </h3>
                   </Link>
-                  <p className="product-price">Tk. {discountPrice} <span className="sale-price"><del>{salePrice}</del></span> </p>
+                  <p className="product-price">Tk. {discountPrice} {discount > 0 && <span className="sale-price"><del>{salePrice}</del></span>} </p>
                 </div>
               </div>
             );

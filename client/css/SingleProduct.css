@@ -89,6 +89,10 @@
     font-weight: 500;
 }
 
+#single-product-page .single-product-details .sale-price{
+  font-size: 1.6rem;
+}
+
 #single-product-page .single-product-details .single-product-button{
   display: flex;
 }
