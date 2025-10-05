@@ -15,7 +15,6 @@ const userSchema = new Schema(
     email: {
       type: String,
       trim: true,
-      unique: true,
       validate: {
         validator: function (value) {
           return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
