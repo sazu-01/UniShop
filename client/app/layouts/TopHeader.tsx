@@ -6,8 +6,7 @@ import Link from "next/link";
 import "@/css/TopHeader.css";
 
 //icons
-import { IoIosMail, IoLogoWhatsapp } from "react-icons/io";
-
+import Image from "next/image";
 
 const TopHeader = () => {
 
@@ -17,26 +16,30 @@ const TopHeader = () => {
       <div className="topheader-content">
 
         <div className="responsive-logo">
-        <Link href={`/`}>PACYFIC</Link>
+          <a href={`/`}>PACYFIC</a>
         </div>
 
         <div className="topheader-left">
-
-          <div className="topheader-contact-item">
-            <IoLogoWhatsapp className="topheader-icon" />
-            <span>01600930467 (Whatsapp Message)</span>
+          <div>
+            <p className="text-white">Welcome to pacyfic</p>
           </div>
-
-          <div className="topheader-contact-item">
-            <IoIosMail className="topheader-icon" />
-            <span>unishop72@gmail.com</span>
-          </div>
-
         </div>
 
         <div className="topheader-right">
-          <Link href={`https://www.facebook.com/unishop.cloth`} target="blank">Track My Order</Link>
-          <Link href={`https://www.facebook.com/unishop.cloth`} target="blank">Need Help</Link>
+
+          <div className="topheader-contact-item">
+            <Link href={'https://api.whatsapp.com/send?phone=8801600930467'} target="blank">
+            <Image width={20} height={20} src='/whatsapp.png' alt="whatsapp" className="topheader-icon" />
+            <span>01600930467</span>
+            </Link>
+          </div>
+
+          <div className="topheader-contact-item">
+            <Link href={'https://m.me/659299587268782'} target="blank">
+            <Image src={'/messenger1.png'} width={23} height={23} alt="" /> 
+            <span>Message us</span>
+            </Link>
+          </div>
         </div>
 
       </div>

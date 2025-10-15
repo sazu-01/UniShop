@@ -38,17 +38,17 @@ export default function ProductClient({ product }: ProductClientProps) {
   }, [product, cart, selectedSize]);
 
 
-  const { _id, title, discountPrice, salePrice, category, images, suplr, size, specification, pId, ytLink, discount } =
+  const { _id, title, discountPrice, salePrice, category, images, suplr, size, specification, pId, discount } =
     product;
 
-  const hasSize = size && size.length > 0;
+  const hasSize = size && size.length > 0 && size !== null;
   const hasColor = images && images.length > 1 && images.some(img => img.color && img.color.trim() !== "");
 
 
-  const getEmbedLink = (link: string) => {
-    const match = link.match(/(?:youtu\.be\/|v=)([a-zA-Z0-9_-]{11})/);
-    return match ? `https://www.youtube.com/embed/${match[1]}?rel=0` : link;
-  };
+  // const getEmbedLink = (link: string) => {
+  //   const match = link.match(/(?:youtu\.be\/|v=)([a-zA-Z0-9_-]{11})/);
+  //   return match ? `https://www.youtube.com/embed/${match[1]}?rel=0` : link;
+  // };
 
 
   return (
@@ -76,7 +76,8 @@ export default function ProductClient({ product }: ProductClientProps) {
                 </p>
                 <div className="d-flex flex-row gap-2 flex-wrap">
                   {images.map((imgSet, index) => (
-                    <div
+                    <div 
+                      
                       key={index}
                       className={`color-image-option ${selectedColorIndex === index ? 'selected-color-image' : ''}`}
                       onClick={() => setSelectedColorIndex(index)}
@@ -153,6 +154,7 @@ export default function ProductClient({ product }: ProductClientProps) {
                   slug : product.slug,
                   images,
                   size,
+                  selectedColor: images[selectedColorIndex]?.color,
                 }}
               />
             </div>
@@ -163,7 +165,7 @@ export default function ProductClient({ product }: ProductClientProps) {
           <Specification specification={specification} />
         </div>
 
-        <div className="ratio ratio-16x9 mb-4">
+        {/* <div className="ratio ratio-16x9 mb-4">
           {ytLink && (
             <iframe
               src={getEmbedLink(ytLink)}
@@ -174,7 +176,7 @@ export default function ProductClient({ product }: ProductClientProps) {
               frameBorder="0"
             />
           )}
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -1,0 +1,81 @@
+
+#fixed-cart {
+  position: fixed;
+  bottom: 150px;
+  right: 10px;
+  background-color: #111;
+  color: #fff;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+#fixed-cart:hover {
+  background-color: #222;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.cart-icon {
+  font-size: 20px;
+}
+
+.responsive-cart-length {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: #ff3b30;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Bounce animation for the entire cart */
+@keyframes cart-bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.3) rotate(-10deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  75% {
+    transform: scale(1.25) rotate(-5deg);
+  }
+}
+
+/* Apply bounce animation when product is added */
+#fixed-cart.cart-bounce-animation {
+  animation: cart-bounce 0.5s ease-in-out;
+}
+
+/* Badge pulse animation */
+@keyframes badge-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* Badge pulses when cart is updated */
+#fixed-cart.cart-bounce-animation .responsive-cart-length {
+  animation: badge-pulse 0.5s ease-in-out;
+}

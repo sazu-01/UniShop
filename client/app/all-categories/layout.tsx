@@ -3,6 +3,7 @@ import Link from 'next/link';
 import "@/css/PopularCategories.css"
 import { Category } from '../types/SliceTypes';
 import Skeleton from '../components/Skeleton';
+import Image from 'next/image';
 // Server-side data fetching function
 async function getCategories(): Promise<Category[]> {
     try {
@@ -73,9 +74,12 @@ const AllCategories = async () => {
                                 className='category'
                                 prefetch
                             >
-                                <img
+                                <Image
                                     src={getCategoryImage(category.slug)}
                                     alt={category.name}
+                                    width={250}
+                                    height={250}
+                            
                                 />
                                 <p>{category.name}</p>
                             </Link>

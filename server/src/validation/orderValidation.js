@@ -9,8 +9,6 @@ export const validateOrder = [
 
     body("name").notEmpty().withMessage("please input your name"),
 
-    body("email").notEmpty().withMessage("please input your email"),
-
     body("number").notEmpty().withMessage("please input your active number"),
 
     body("city").notEmpty().withMessage("please select city"),

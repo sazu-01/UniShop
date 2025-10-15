@@ -20,27 +20,34 @@ import { cartItem } from '@/app/types/SliceTypes';
 const CartItem: React.FC<{ product: cartItem }> = ({ product }) => {
 
     //destructure the product properties
-    const { _id, images, title, discountPrice, productQuantity } = product;
+    const { _id, images, title, discountPrice, productQuantity, selectedColor } = product;
     
     const dispatch = useAppDispatch();
+
+    //finding the image matiching the selected color 
+    const selectedImageObj = images.find((img) => img.color === selectedColor);
+
+    // Use fallback if no matching color found
+    const displayImage = selectedImageObj?.url?.[0] || images?.[0]?.url?.[0] || "/fallback.png";
+
 
     //delete the product from cart
     const deleteItem = () => {
         dispatch(DeletToCart(_id));
     }
-
     
-
+   console.log(product);
+   
     return (
         <>
 
             <div id="cart-item">
                 {/*product image*/}
-                <Image src={images?.[0]?.url?.[0] || "/fallback.png"} alt="" width={500} height={500} />
+                <Image src={displayImage} alt="" width={500} height={500} />
                 <div className="product-details">
                     
                     {/*product title */}
-                    <Link className="title" href={``}><div>{title}</div></Link>
+                    <Link className="title" href={``}><div>{title} - {selectedColor}</div></Link>
 
                      {/*product delete buton */}
                     <div className="delete-item">

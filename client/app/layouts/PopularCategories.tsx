@@ -3,6 +3,7 @@ import Link from 'next/link';
 import "@/css/PopularCategories.css"
 import { Category } from '../types/SliceTypes';
 import Skeleton from '../components/Skeleton';
+import Image from 'next/image';
 
 // Server-side data fetching function
 async function getCategories(): Promise<Category[]> {
@@ -72,23 +73,24 @@ const PopularCategories = async () => {
                         {categories
                             .filter((category: Category) => category.popular)
                             .map((category: Category) => (
-                                <Link
+                                <a
                                     key={category._id}
                                     href={`/${category.slug}`}
                                     className='category'
-                                    prefetch={true}
                                 >
-                                    <img
+                                    <Image
                                         src={getCategoryImage(category.slug)}
                                         alt={category.name}
+                                        width={250}
+                                        height={250}
                                     />
                                     <p>{category.name}</p>
-                                </Link>
+                                </a>
                             ))
                         }
                     </div>
                 </div>
-                <Link href='/all-categories'>See All Categories</Link>
+                <Link href='/all-categories' prefetch={true} >See All Categories</Link>
             </div>
         </div>
 

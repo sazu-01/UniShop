@@ -17,7 +17,7 @@ const Images: React.FC<ImageProps>= ({images, selectedColor }) => {
 
   return (
     <div id='images'>
-      <div  className="container-fluid p-0" style={{ maxWidth: '100%', overflowX: 'auto' }}>
+      <div  className="container-fluid p-0 product-card" style={{ maxWidth: '100%', overflowX: 'auto' }}>
       {selectedSet.url.length > 0 && (
         <InnerImageZoom
           src={selectedSet.url[imageIndex]}

@@ -38,6 +38,7 @@ export interface cartItem {
     slug : any,
     images: [{color : string , url: string[]}],
     size : string[],
+    selectedColor: string,
   }
   
 export interface stateType {

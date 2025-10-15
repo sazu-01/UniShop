@@ -62,11 +62,21 @@ const TotalPayable: React.FC<TotalPayableProps> = ({
         <button className="promocode-btn">Apply Promocode</button>
 
         {pathname === "/checkout/cart" ?
-          <Link href={user !== null ? `/checkout/shipping` : `/login?redirect=/checkout/shipping`}  className="selcet-address-btn">
+          <Link href={user !== null ? `/checkout/shipping` : `/login?redirect=/checkout/shipping`}  className="selcet-address-btn desktop-only">
             Select Address
           </Link>
         : "" }
       </div>
+
+
+       {/* Mobile fixed button */}
+      {pathname === "/checkout/cart" && (
+        <div className="fixed-button-wrapper mobile-only">
+          <Link href={user !== null ? `/checkout/shipping` : `/login?redirect=/checkout/shipping`} className="selcet-address-btn-mobile">
+            Select Address
+          </Link>
+        </div> 
+      )}
     </>
   );
 };

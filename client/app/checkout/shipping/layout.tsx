@@ -82,9 +82,9 @@ const Shipping = () => {
   // Handle order confirmation
   const handleConfirmOrder = async (e: FormEvent) => {
     e.preventDefault();
-    if(cart.length < 1) return alert('please select product first');
+    if (cart.length < 1) return alert('please select product first');
 
-     const eventId = uuidv4(); // ✅ shared event ID for deduplication
+    const eventId = uuidv4(); // ✅ shared event ID for deduplication
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/create-order`, {
@@ -102,7 +102,7 @@ const Shipping = () => {
       const data = await res.json();
 
       if (data.success) {
-            // 2️⃣ Fire Meta Pixel (client event)
+        // 2️⃣ Fire Meta Pixel (client event)
 
         if (typeof window.fbq !== "undefined") {
           window.fbq("track", "Purchase", {
@@ -180,7 +180,7 @@ const Shipping = () => {
                 </div>
 
                 <div className="email-input">
-                  <label htmlFor="">Email Address</label>
+                  <label htmlFor="">Email Address (optional)</label>
                   <input
                     className=""
                     type="email"
@@ -188,7 +188,7 @@ const Shipping = () => {
                     placeholder="Your Email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    required
+
                   />
                 </div>
               </div>
@@ -207,7 +207,7 @@ const Shipping = () => {
                   />
                 </div>
                 <div className="alternative-number-input">
-                  <label htmlFor="">Alternative Number</label>
+                  <label htmlFor="">Alternative Number (optional)</label>
                   <input
                     type="number"
                     name="alternative_number"
@@ -300,7 +300,15 @@ const Shipping = () => {
           />
 
         </div>
-
+        <div className="fixed-confirm-button-wrapper mobile-only">
+          <button
+            type="submit"
+            form="shipping-form"
+            className="confirm-order-btn-mobile"
+          >
+            Confirm Order
+          </button>
+        </div>
 
       </div>
     </>

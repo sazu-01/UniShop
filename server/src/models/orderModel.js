@@ -14,7 +14,6 @@ const orderSchema = new Schema({
 
     email : {
      type : String,
-     required : true
     },
 
     number : {

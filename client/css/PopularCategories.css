@@ -135,8 +135,8 @@
   }
   
   #popular-categories .category img {
-    width: 100%;
-    height: 250px;
+    width: 100%!important;
+    height: 250px!important;
     max-width: 180px;
   }
   

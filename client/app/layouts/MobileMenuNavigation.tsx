@@ -58,7 +58,7 @@ const MobileMenuNavigation = () => {
 
       <Offcanvas show={show} onHide={handleClose} className="mobile-menu-offcanvas">
         <Offcanvas.Header closeButton={false}>
-          <Offcanvas.Title>unishop</Offcanvas.Title>
+          <Offcanvas.Title className="">Pacyfic</Offcanvas.Title>
           <MdOutlineClose onClick={handleClose} className="btn-close" />
         </Offcanvas.Header>
         <Offcanvas.Body>

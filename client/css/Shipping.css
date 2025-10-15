@@ -1,6 +1,4 @@
-
-
-  .shipping-page {
+.shipping-page {
     width: 100%;
     background-color: #FEFEFE;
 }
@@ -27,7 +25,7 @@
     margin: 0.5rem;
 }
 
-#shipping-form div input, 
+#shipping-form div input,
 #shipping-form div select {
     width: 100%;
     padding: 1rem;
@@ -45,8 +43,8 @@
     outline: none;
 }
 
-#shipping-form div > label, 
-#shipping-form div > div {
+#shipping-form div>label,
+#shipping-form div>div {
     display: block;
     font-size: 1.6rem;
     outline: none;
@@ -59,11 +57,11 @@
     flex-wrap: wrap;
 }
 
-.d-flex > div {
+.d-flex>div {
     flex: 1 1 300px;
 }
 
-.confirm-order-btn{
+.confirm-order-btn {
     display: flex;
     width: 100%;
     justify-content: center;
@@ -86,6 +84,15 @@
     text-decoration: none;
 }
 
+/* Mobile/Desktop visibility toggles */
+
+.mobile-only {
+    display: none;
+}
+
+.desktop-only {
+    display: flex;
+}
 
 @media (min-width: 1367px) {
     .shipping-page-inner {
@@ -106,7 +113,7 @@
         margin: 2rem 2rem;
         gap: 2rem;
     }
-    
+
     .payment-option {
         width: 100%;
     }
@@ -116,7 +123,11 @@
     .shipping-page-inner {
         margin: 2rem 1rem;
     }
-    
+
+    .confirm-order-btn{
+        display: none;
+    }
+
     #shipping-form div input,
     #shipping-form div select,
     #shipping-form div textarea {
@@ -128,8 +139,72 @@
     .form-row {
         grid-template-columns: 1fr;
     }
-    
+
     .payment-container {
         padding: 10px;
     }
+}
+
+
+
+/* Mobile fixed confirm button styles */
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+
+    .desktop-only {
+        display: none !important;
+    }
+
+
+    .fixed-confirm-button-wrapper {
+        position: fixed;
+        width: 100%;
+        bottom: 65px;
+        left: 0;
+        z-index: 1000;
+        height: 70px;
+        padding: 1rem 1.5rem;
+        background-color: #fff;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+
+    .confirm-order-btn-mobile {
+        display: flex;
+        width: 100%;
+        max-width: 500px;
+        justify-content: center;
+        align-items: center;
+        outline: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-family: inherit;
+        background: #081621;
+        transition: 150ms ease-in-out;
+        line-height: 1;
+        padding: 1rem 2rem;
+        color: #fff;
+        border: 1px solid var(--shop-bg-color);
+        height: auto;
+        font-size: 1.6rem;
+        border-radius: 8px;
+        text-decoration: none;
+    }
+
+    .confirm-order-btn-mobile:hover {
+        opacity: 0.9;
+    }
+
+    /* Add padding to shipping page to prevent overlap */
+    .shipping-page {
+        padding-bottom: 10rem;
+    }
+
 }

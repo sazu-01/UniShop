@@ -8,28 +8,29 @@ import Image from 'next/image';
 import "@/css/AdminOrderDashbaord.css"
 
 type Cart = {
- _id : string;
- discountPrice : number;
- productQuantity : number;
- title : string;
- slug : string;
- images : [{color: string, url: string[]}];
- quantity : string;
- selectedSize : string;
+  _id: string;
+  discountPrice: number;
+  productQuantity: number;
+  title: string;
+  slug: string;
+  images: [{ color: string, url: string[] }];
+  quantity: string;
+  selectedSize: string;
+  selectedColor: string;
 }
 
- type Order = {
-   _id : string;
-   cart : Cart[];
-   name : string;
-   email : string;
-   number : string;
-   city : string;
-   area : string;
-   details_address : string;
-   delivery_charge : string;
-   paymentMethod: string;
-   createdAt : string;
+type Order = {
+  _id: string;
+  cart: Cart[];
+  name: string;
+  email: string;
+  number: string;
+  city: string;
+  area: string;
+  details_address: string;
+  delivery_charge: string;
+  paymentMethod: string;
+  createdAt: string;
 }
 
 export default function OrdersLayout() {
@@ -37,11 +38,13 @@ export default function OrdersLayout() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
 
+
+
   const getAllOrder = async () => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/order/all-order`, {
-        method : "GET",
-        credentials : "include"
+        method: "GET",
+        credentials: "include"
       });
       const data = await res.json();
       if (data.success) {
@@ -62,8 +65,8 @@ export default function OrdersLayout() {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
 
-    const filtered = orders.filter(order => 
-      order.email.toLowerCase().includes(term) || 
+    const filtered = orders.filter(order =>
+      order.email.toLowerCase().includes(term) ||
       order.number.includes(term)
     );
     setFilteredOrders(filtered);
@@ -71,7 +74,7 @@ export default function OrdersLayout() {
 
   return (
 
-<div className="orders-container container-fluid py-4 px-3 px-md-4">
+    <div className="orders-container container-fluid py-4 px-3 px-md-4">
       {/* Search Section */}
       <div className="row g-4 mb-4">
         <div className="col-xl-6 col-lg-8 mx-auto">
@@ -123,19 +126,26 @@ export default function OrdersLayout() {
                           <tr key={item._id}>
                             <td>
                               <div className="product-image-wrapper">
-                                <Image
-                                  src={item.images[0].url[0]}
-                                  alt={item.title}
-                                  className="product-image img-fluid"
-                                  width={100}
-                                  height={100}
-                                />
+                                {(() => {
+                                  const selectedImage = item.images.find(img => img.color === item.selectedColor);
+                                  const displayImage = selectedImage?.url?.[0] || item.images[0].url[0] || "/fallback.png";
+
+                                  return (
+                                    <Image
+                                      src={displayImage}
+                                      alt={`${item.title} - ${item.selectedColor}`}
+                                      className="product-image img-fluid"
+                                      width={100}
+                                      height={100}
+                                    />
+                                  );
+                                })()}
                               </div>
                             </td>
                             <td>
-                              <Link href={`/product/${item.slug}`} className="product-title-mobile">{item.title}  {item.selectedSize && <span>({item.selectedSize})</span>}</Link>
+                              <Link href={`/product/${item.slug}`} className="product-title-mobile">{item.title} {item.selectedColor && <span>- {item.selectedColor}</span>} {item.selectedSize && <span>- ({item.selectedSize})</span>}</Link>
                             </td>
-                            <td className="text-end" style={{fontSize:"1.6rem"}}>TK. {item.discountPrice}</td>
+                            <td className="text-end" style={{ fontSize: "1.6rem" }}>TK. {item.discountPrice}</td>
                             <td className="text-end text-center">{item.productQuantity}</td>
                             <td className="text-end fw-bold">TK. {item.discountPrice * item.productQuantity}</td>
                           </tr>
@@ -159,7 +169,7 @@ export default function OrdersLayout() {
                         <div className="info-item">
                           <i className="bi bi-envelope"></i>
                           <span className="label">Email:</span>
-                          <span className="value">{order.email}</span>
+                          <span className="value">{order?.email}</span>
                         </div>
                         <div className="info-item">
                           <i className="bi bi-telephone"></i>
@@ -176,7 +186,7 @@ export default function OrdersLayout() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="col-lg-6">
                     <div className="info-card h-100">
                       <h6 className="info-title">Shipping Address</h6>
@@ -217,7 +227,7 @@ export default function OrdersLayout() {
                     <div className="summary-total">
                       <span>Total</span>
                       <span className="total-amount">
-                        TK. {order.cart.reduce((total, item) => 
+                        TK. {order.cart.reduce((total, item) =>
                           total + (item.discountPrice * item.productQuantity), 0) + parseInt(order.delivery_charge)}
                       </span>
                     </div>

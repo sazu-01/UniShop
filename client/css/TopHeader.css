@@ -24,7 +24,15 @@
 }
 
 .topheader-left div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding-right: 1.6rem;
+}
+
+.topheader-left div p{
+  margin-bottom: 0px;
+  font-weight: 500;
 }
 
 .topheader-left div span {
@@ -35,11 +43,6 @@
 
 .topheader-left div svg{
   color: #fff;
-}
-
-.topheader-contact-item {
-  display: flex;
-  align-items: center;
 }
 
 .topheader-icon {
@@ -57,10 +60,15 @@
   align-items: center;
 }
 
-.topheader-right a {
-  font-size: 1.3rem;
+.topheader-right .topheader-contact-item {
+  padding: 0rem 0rem 0rem 1rem;
+}
+
+.topheader-right .topheader-contact-item a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-decoration: none;
-  font-weight: 600;
   color: #fff;
   font-weight: 500;
   &:hover {
@@ -68,9 +76,9 @@
   }
 }
 
-.topheader-right a:first-child {
+/* .topheader-right a:first-child {
   padding-right: 1.6rem;
-}
+} */
 
 /* right part end*/
 
@@ -106,6 +114,10 @@
 @media (max-width: 768px) {
   .topheader-left {
     display: none;
+  }
+
+  .topheader-right .topheader-contact-item a span{
+    font-size: 1.4rem;
   }
 
   .responsive-logo {
